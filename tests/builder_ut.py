@@ -3,10 +3,13 @@
 
 
 import unittest
+import builder.parser as parser
 
 
 class builderUT(unittest.TestCase):
     def testNone(self):
         print "Empty test!"
 
-
+    def testParserInitialize(self):
+        parserObj = parser.ConfigParser()
+        self.assertNotEqual(parserObj, None, msg="Expected not None")
