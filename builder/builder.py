@@ -3,6 +3,7 @@
 
 import click
 import builderutils.parser as parser
+import builderutils.renderer as renderer
 
 @click.group()
 def cli():
@@ -13,7 +14,9 @@ def cli():
               help="Builder config", required=True)
 def create(configfile):
     print "create command!"
-    parserobj = parser.BuilderParser(configfile)
+    parserObj = parser.BuilderParser(configfile)
+    renderObj = renderer.Renderer()
+    renderObj.build_staging_environment(parserObj.parsedData)
 
 
 def main():

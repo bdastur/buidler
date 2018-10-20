@@ -12,8 +12,8 @@ class ConfigParser(object):
             print "Could not find %s" % configFile
             return
 
-        parsedYaml = yaml.safe_load(configFile)
-        print "parsed yaml: ", parsedYaml
+        self.parsedData = yaml.safe_load(configFile)
+        print "parsed yaml: ", self.parsedData
 
 
 class BuilderParser(object):
@@ -21,13 +21,12 @@ class BuilderParser(object):
         if not os.path.exists(configFile):
             print "Require a builder config file"
             return
-        parsedData, err = self.parse_builder_config(configFile)
+        self.parsedData, err = self.parse_builder_config(configFile)
         if err != 0:
             print "Failed to parse config %s" % configFile
             return
 
-        print "Parsed Data: ", parsedData
-
+        print "Parsed Data: ", self.parsedData
 
     def parse_builder_config(self, configFile):
         with open(configFile, 'r') as fHandle:
