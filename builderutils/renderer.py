@@ -3,6 +3,42 @@
 
 import os
 
+class FlaskRenderer(object):
+
+    def __init__(self):
+        pass
+
+    def setup_environment(self, renderRoot, renderObj):
+        ''' Setup Flask Environment
+
+        :type  argument:  data type
+        :param  argument:  description
+
+        :returns:
+        '''
+        renderProjectPath = os.path.join(renderRoot, renderObj['app_name'])
+        if not os.path.exists(renderProjectPath):
+            os.mkdir(renderProjectPath)
+
+        templatesDir = os.path.join(renderProjectPath, 'templates')
+        staticDir = os.path.join(renderProjectPath, 'static')
+        jsDir = os.path.join(staticDir, 'js')
+        cssDir = os.path.join(staticDir, 'css')
+
+        if not os.path.exists(templatesDir):
+            os.mkdir(templatesDir)
+
+        if not os.path.exists(staticDir):
+            os.mkdir(staticDir)
+
+        if not os.path.exists(jsDir):
+            os.mkdir(jsDir)
+
+        if not os.path.exists(cssDir):
+            os.mkdir(cssDir)
+
+
+
 
 class Renderer(object):
     def __init__(self):
@@ -20,9 +56,9 @@ class Renderer(object):
         if not os.path.exists(renderRoot):
             os.mkdir(renderRoot)
 
-        renderProjectPath = os.path.join(renderRoot, renderObj['app_name'])
-        if not os.path.exists(renderProjectPath):
-            os.mkdir(renderProjectPath)
+        if renderObj['app_type'] == 'flask':
+            flaskRenderer = FlaskRenderer()
+            flaskRenderer.setup_environment(renderRoot, renderObj)
 
 
     def render_j2_template(self, templateFile, searchPath,
