@@ -3,8 +3,8 @@
 
 import os
 
-class FlaskRenderer(object):
 
+class FlaskRenderer(object):
     def __init__(self):
         pass
 
@@ -16,7 +16,8 @@ class FlaskRenderer(object):
 
         :returns:
         '''
-        renderProjectPath = os.path.join(renderRoot, renderObj['app_name'])
+        renderProjectPath = os.path.join(renderRoot,
+                                         renderObj['user_config']['app_name'])
         if not os.path.exists(renderProjectPath):
             os.mkdir(renderProjectPath)
 
@@ -38,8 +39,6 @@ class FlaskRenderer(object):
             os.mkdir(cssDir)
 
 
-
-
 class Renderer(object):
     def __init__(self):
         pass
@@ -56,7 +55,7 @@ class Renderer(object):
         if not os.path.exists(renderRoot):
             os.mkdir(renderRoot)
 
-        if renderObj['app_type'] == 'flask':
+        if renderObj['user_config']['app_type'] == 'flask':
             flaskRenderer = FlaskRenderer()
             flaskRenderer.setup_environment(renderRoot, renderObj)
 
