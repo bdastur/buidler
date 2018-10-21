@@ -1,3 +1,15 @@
 name: "Basic Template definition"
 app_type: flask
 app_name: simple_application
+components:
+    index:
+        type: html
+        title: Simple html page.
+    app:
+        filename: app.py
+        routes:
+            - index:
+                methods: ["GET", "POST"]
+                render: index
+
+        

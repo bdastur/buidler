@@ -21,14 +21,18 @@ class BuilderParser(object):
         if not os.path.exists(configFile):
             print "Require a builder config file"
             return
-        self.parsedData, err = self.parse_builder_config(configFile)
+        self.parsedData = {}
+        self.parsedData['user_config'], err = self.parse_yaml_config(configFile)
         if err != 0:
             print "Failed to parse config %s" % configFile
             return
+        self.parsedData['html_template'], err = self.parse_html_template()
+        if err != 0:
+            print "Failed to parse html template %s" % configFile
 
         print "Parsed Data: ", self.parsedData
 
-    def parse_builder_config(self, configFile):
+    def parse_yaml_config(self, configFile):
         with open(configFile, 'r') as fHandle:
             try:
                 parsedData = yaml.safe_load(fHandle)
@@ -38,3 +42,33 @@ class BuilderParser(object):
                 return None, 1
 
         return parsedData, 0
+
+    def read_template_file(self, fileName):
+        ''' one line description
+
+        :type  argument:  data type
+        :param  argument:  description
+
+        :returns:
+        '''
+        templateRoot = "./templates/html"
+        filePath = os.path.join(templateRoot, fileName)
+        with open(filePath, 'r') as fHandle:
+            data = fHandle.read()
+        return data
+
+    def parse_html_template(self):
+        ''' Parse html template
+
+        :type  argument:  data type
+        :param  argument:  description
+
+        :returns:
+        '''
+        html_section = {}
+        html_section['doctype'] = self.read_template_file("doctype.j2")
+
+        html_section['head'] = self.read_template_file("html_head.j2")
+        html_section['body'] = self.read_template_file("html_body.j2")
+        html_section['scripts'] = self.read_template_file("html_scripts.j2")
+        return html_section, 0
