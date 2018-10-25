@@ -1,0 +1,5 @@
+@app.route("{{ route }}", methods=[{% for method in methods %}"{{ method }}", {% endfor %})
+def index():
+
+    return render_template("{{ view_filename }}")
+

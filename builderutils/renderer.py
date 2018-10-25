@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import jinja2
 
 
 class FlaskRenderer(object):
@@ -38,10 +39,13 @@ class FlaskRenderer(object):
         if not os.path.exists(cssDir):
             os.mkdir(cssDir)
 
+        return renderProjectPath
+
+
 
 class Renderer(object):
     def __init__(self):
-        pass
+        self.projectStagingDir = ""
 
     def build_staging_environment(self, renderObj):
         ''' Build a new staging path where code gets rendered.
@@ -57,7 +61,8 @@ class Renderer(object):
 
         if renderObj['user_config']['app_type'] == 'flask':
             flaskRenderer = FlaskRenderer()
-            flaskRenderer.setup_environment(renderRoot, renderObj)
+            self.projectStagingDir = flaskRenderer.setup_environment(
+                renderRoot, renderObj)
 
 
     def render_j2_template(self, templateFile, searchPath,
@@ -75,8 +80,90 @@ class Renderer(object):
 
         :returns:
         '''
-        pass
+        template_loader = jinja2.FileSystemLoader(searchpath=searchpath)
+        env = jinja2.Environment(loader=template_loader,
+                                 trim_blocks=True,
+                                 lstrip_blocks=True)
+        template = env.get_template(templatefile)
+        renderedData = template.render(renderObj)
 
+        return renderedData
+
+    def render_j2_template_string(self, templateString, renderObj):
+        ''' one line description
+
+        :type  argument:  data type
+        :param  argument:  description
+
+        :returns:
+        '''
+        env = jinja2.Environment(loader=jinja2.BaseLoader,
+                                 trim_blocks=True,
+                                 lstrip_blocks=True)
+        template = env.from_string(templateString)
+        renderedData = template.render(renderObj)
+        return renderedData
+
+    def build_html_documents(self, htmlTemplate, renderObj):
+        ''' one line description
+
+        :type  argument:  data type
+        :param  argument:  description
+
+        :returns:
+        '''
+        htmlComponents = renderObj['components']['html']
+        print "html components: ", htmlComponents
+
+        for viewName, htmlInfo in htmlComponents.items():
+            renderedData = ""
+            # Header
+            headerTemplate = htmlTemplate['header']
+            renderedData += self.render_j2_template_string(headerTemplate,
+                                                            htmlInfo)
+
+            # Head
+            headTemplate = htmlTemplate['head']
+            renderedData += self.render_j2_template_string(headTemplate,
+                                                            htmlInfo)
+
+            # Head End
+            renderedData += "</head>\n"
+
+            # Body
+            bodyTemplate = htmlTemplate['body']
+            print "Body template: ", bodyTemplate
+            renderedData += self.render_j2_template_string(bodyTemplate,
+                                                        htmlInfo)
+
+            # Body end
+            renderedData += "</body>\n"
+
+            # HTML End
+            renderedData += "</html>\n"
+            print "RenderedData: ", renderedData
+
+            # Create a html file
+            print renderObj['components']
+
+            fileName = htmlInfo.get('file_name', viewName + ".html")
+            print "File name to create: ", fileName
+
+            filePath = os.path.join(self.projectStagingDir, "templates")
+            filePath = os.path.join(filePath, fileName)
+            print "File path: ", filePath
+            with open(filePath, 'w') as fHandle:
+                fHandle.write(renderedData)
+
+    def build_flask_app(self, flaskTemplate, renderObj):
+        ''' one line description
+
+        :type  argument:  data type
+        :param  argument:  description
+
+        :returns:
+        '''
+        pass
 
 
 
