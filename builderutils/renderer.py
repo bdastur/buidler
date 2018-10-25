@@ -163,9 +163,49 @@ class Renderer(object):
 
         :returns:
         '''
-        pass
+        appInfo = renderObj['components']['app']
+        flaskRoutes = appInfo['routes']
 
+        print "app info: ", appInfo
+        print "flask Routes: ", flaskRoutes
 
+        renderedData = ""
+        # Header
+        flaskTmpl = flaskTemplate['header']
+        renderedData += self.render_j2_template_string(flaskTmpl,
+                                                       appInfo)
+
+        # Flask Imports
+        flaskTmpl = flaskTemplate['imports']
+        renderedData += self.render_j2_template_string(flaskTmpl,
+                                                       appInfo)
+
+        # Flask App initialization
+        flaskTmpl = flaskTemplate['app_init']
+        renderedData += self.render_j2_template_string(flaskTmpl,
+                                                       appInfo)
+
+        # Flask routes
+        for routeName, routeInfo in flaskRoutes.items():
+            print "routename: ", routeName, routeInfo
+            flaskTmpl = flaskTemplate['app_route']
+            renderedData += self.render_j2_template_string(flaskTmpl,
+                                                       routeInfo)
+
+        # Flask Run
+        flaskTmpl = flaskTemplate['app_run']
+        renderedData += self.render_j2_template_string(flaskTmpl,
+                                                       appInfo)
+        print renderedData
+
+        # Create a html file
+        fileName = "app.py"
+        print "File name to create: ", fileName
+
+        filePath = os.path.join(self.projectStagingDir, fileName)
+        print "File path: ", filePath
+        with open(filePath, 'w') as fHandle:
+            fHandle.write(renderedData)
 
 
 
