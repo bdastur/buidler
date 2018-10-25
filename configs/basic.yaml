@@ -12,9 +12,10 @@ components:
         port: 5000
         debug: True
         routes:
-            - index:
+            index:
+                uri: "/"
                 methods: ["GET", "POST"]
-                render: index
+                view_filename: 'index.html'
 
 
         

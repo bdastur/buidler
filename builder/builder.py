@@ -20,9 +20,10 @@ def create(configfile):
 
     userConfig = parserObj.parsedData['user_config']
     htmlTemplate = parserObj.parsedData['html_template']
+    flaskTemplate = parserObj.parsedData['flask_template']
 
     renderObj.build_html_documents(htmlTemplate, userConfig)
-
+    renderObj.build_flask_app(flaskTemplate, userConfig)
 
 def main():
     cli.add_command(create)

@@ -1,5 +1,4 @@
-@app.route("{{ route }}", methods=[{% for method in methods %}"{{ method }}", {% endfor %})
-def index():
-
+@app.route("{{ uri }}", methods=[{% for method in methods %}"{{ method }}"{%if not loop.last %},{% endif %}{%if loop.last %}]{% endif %}{% endfor %})
+def {{ route }}Handler():
     return render_template("{{ view_filename }}")
 
