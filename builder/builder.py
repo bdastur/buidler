@@ -18,6 +18,11 @@ def create(configfile):
     renderObj = renderer.Renderer()
     renderObj.build_staging_environment(parserObj.parsedData)
 
+    userConfig = parserObj.parsedData['user_config']
+    htmlTemplate = parserObj.parsedData['html_template']
+
+    renderObj.build_html_documents(htmlTemplate, userConfig)
+
 
 def main():
     cli.add_command(create)
