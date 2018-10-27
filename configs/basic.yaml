@@ -6,6 +6,15 @@ components:
         index:
             type: html
             title: Simple html page.
+            scripts:
+                - bootstrap:
+                    path: "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+                - testscript:
+                    path: "this is a test"
+            components:
+                basic: >
+                    This is a test string. As long as this is there 
+                    we are ok.
     app:
         filename: app.py
         hostname: '0.0.0.0'

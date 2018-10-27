@@ -1,5 +1,9 @@
 <body>
-  {% for script in scripts %}
-  <script src=script.path type="text/javascript"></script>
+  {{ components }}
+  {% for script in scripts -%}
+
+    {# Example of how to call a dict element part of a #}
+    {# list. #}
+    <script src={{ script[script.keys()[0]]['path'] }} type="text/javascript"></script>
   {% endfor %}
 
