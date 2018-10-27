@@ -152,6 +152,8 @@ class Renderer(object):
             filePath = os.path.join(self.projectStagingDir, "templates")
             filePath = os.path.join(filePath, fileName)
             print "File path: ", filePath
+            print "Rendeered data: ", renderedData
+
             with open(filePath, 'w') as fHandle:
                 fHandle.write(renderedData)
 
