@@ -84,7 +84,7 @@ class Renderer(object):
         env = jinja2.Environment(loader=template_loader,
                                  trim_blocks=True,
                                  lstrip_blocks=True)
-        template = env.get_template(templatefile)
+        template = env.get_template(templateFile)
         renderedData = template.render(renderObj)
 
         return renderedData
