@@ -5,19 +5,24 @@ import os
 import yaml
 
 
-class ConfigParser(object):
-    def __init__(self, configFile="./builder_conf.yaml"):
+# class ConfigParser(object):
+#     def __init__(self, configFile="./builder_conf.yaml"):
 
-        if not os.path.exists(configFile):
-            print "Could not find %s" % configFile
-            return
+#         if not os.path.exists(configFile):
+#             print "Could not find %s" % configFile
+#             return
 
-        self.parsedData = yaml.safe_load(configFile)
-        print "parsed yaml: ", self.parsedData
+#         self.parsedData = yaml.safe_load(configFile)
+#         print "parsed yaml: ", self.parsedData
 
 
 class BuilderParser(object):
-    def __init__(self, configFile):
+    def __init__(self, configFile, templateRoot="./templates"):
+        if configFile is None:
+            print "Required configFile cannot be None or Empty!"
+            return
+
+        print "Template root: %s" % templateRoot
         if not os.path.exists(configFile):
             print "Require a builder config file"
             return
@@ -26,11 +31,13 @@ class BuilderParser(object):
         if err != 0:
             print "Failed to parse config %s" % configFile
             return
-        self.parsedData['html_template'], err = self.parse_html_template()
+        self.parsedData['html_template'], err = self.parse_html_template(
+            templateRoot=templateRoot)
         if err != 0:
             print "Failed to parse html template %s" % configFile
 
-        self.parsedData['flask_template'], err = self.parse_flask_template()
+        self.parsedData['flask_template'], err = self.parse_flask_template(
+            templateRoot=templateRoot)
         if err != 0:
             print "Failed to parse flask template %s" % configFile
 
@@ -60,7 +67,7 @@ class BuilderParser(object):
             data = fHandle.read()
         return data
 
-    def parse_html_template(self):
+    def parse_html_template(self, templateRoot="./templates"):
         ''' Parse html template
 
         :type  argument:  data type
@@ -68,21 +75,21 @@ class BuilderParser(object):
 
         :returns:
         '''
-        templateRoot = "./templates/html"
+        htmlTemplateRoot = os.path.join(templateRoot, "html")
         html_section = {}
-        html_section['doctype'] = self.read_template_file(templateRoot,
+        html_section['doctype'] = self.read_template_file(htmlTemplateRoot,
                                                            "doctype.j2")
-        html_section['header'] = self.read_template_file(templateRoot,
+        html_section['header'] = self.read_template_file(htmlTemplateRoot,
                                                          "html_header.j2")
-        html_section['head'] = self.read_template_file(templateRoot,
+        html_section['head'] = self.read_template_file(htmlTemplateRoot,
                                                        "html_head.j2")
-        html_section['body'] = self.read_template_file(templateRoot,
+        html_section['body'] = self.read_template_file(htmlTemplateRoot,
                                                        "html_body.j2")
-        html_section['scripts'] = self.read_template_file(templateRoot,
+        html_section['scripts'] = self.read_template_file(htmlTemplateRoot,
                                                           "html_scripts.j2")
         return html_section, 0
 
-    def parse_flask_template(self):
+    def parse_flask_template(self, templateRoot="./templates"):
         ''' Parse flask templates
 
         :type  argument:  data type
@@ -90,17 +97,17 @@ class BuilderParser(object):
 
         :returns:
         '''
-        templateRoot = "./templates/flask"
+        flaskTemplateRoot = os.path.join(templateRoot, "flask")
         flask_section = {}
-        flask_section['header'] = self.read_template_file(templateRoot,
+        flask_section['header'] = self.read_template_file(flaskTemplateRoot,
                                                           "pyheader.j2")
-        flask_section['imports'] = self.read_template_file(templateRoot,
+        flask_section['imports'] = self.read_template_file(flaskTemplateRoot,
                                                            "pyimports.j2")
-        flask_section['app_init'] = self.read_template_file(templateRoot,
+        flask_section['app_init'] = self.read_template_file(flaskTemplateRoot,
                                                              "pyflask_init.j2")
-        flask_section['app_run'] = self.read_template_file(templateRoot,
+        flask_section['app_run'] = self.read_template_file(flaskTemplateRoot,
                                                              "pyflask_run.j2")
-        flask_section['app_route'] = self.read_template_file(templateRoot,
+        flask_section['app_route'] = self.read_template_file(flaskTemplateRoot,
                                                              "pyflask_route.j2")
 
         return flask_section, 0
