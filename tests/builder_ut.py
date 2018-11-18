@@ -6,10 +6,11 @@ import unittest
 import yaml
 import builderutils.parser as parser
 import builderutils.renderer as renderer
+import builderutils.flask_renderer as flask_renderer
 
 
 
-class builderUT(unittest.TestCase):
+class BuilderUT(unittest.TestCase):
     def getConfigObject(self, type='default'):
         testData = {}
         testData['default'] = {
@@ -22,7 +23,10 @@ class builderUT(unittest.TestCase):
                         "type": "html",
                         "title": "Simple page",
                         "components": {
-                            "basic": "A test string"
+                            "text":  {
+                                "type": "string",
+                                "data": "A test string"
+                            }
                         }
                     }
                 },
@@ -88,5 +92,24 @@ class builderUT(unittest.TestCase):
         renderObj.build_html_documents(htmlTemplate, userConfig)
         renderObj.build_flask_app(flaskTemplate, userConfig)
 
+    def testNewRenderHtml(self):
+        print "Test refactored renderer"
+
+        flaskRendererObj = flask_renderer.FlaskRenderer(None)
+        self.assertEqual(flaskRendererObj.initialized, False,
+                         "Expected initializedFalse")
+
+        # Crete a test config file
+        configFile = self.createConfigFile()
+        flaskRendererObj = flask_renderer.FlaskRenderer(configFile)
+
+        self.assertEqual(flaskRendererObj.initialized, False,
+                         "Exepcted initialized True")
+
+        flaskRendererObj = flask_renderer.FlaskRenderer(configFile,
+                                                        templateRoot="../templates")
+
+        self.assertEqual(flaskRendererObj.initialized, True,
+                         "Exepcted initialized True")
 
 

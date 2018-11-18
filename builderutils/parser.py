@@ -3,6 +3,7 @@
 
 import os
 import yaml
+import builderutils.logger as logger
 
 
 # class ConfigParser(object):
@@ -18,11 +19,16 @@ import yaml
 
 class BuilderParser(object):
     def __init__(self, configFile, templateRoot="./templates"):
+
+        # Initialize Logger
+        builderLogger = logger.BuilderLogger(name=__name__)
+        self.logger = builderLogger.logger
         if configFile is None:
-            print "Required configFile cannot be None or Empty!"
+            self.logger.error("Config file is None!")
             return
 
-        print "Template root: %s" % templateRoot
+        self.logger.debug("Template Root: %s" % templateRoot)
+
         if not os.path.exists(configFile):
             print "Require a builder config file"
             return
@@ -36,7 +42,6 @@ class BuilderParser(object):
         self.parsedData = {}
         self.parsedData['user_config'], err = self.parse_yaml_config(configFile)
         self.parsedData['user_config']['static_dir'] = staticDir
-
         if err != 0:
             print "Failed to parse config %s" % configFile
             return
