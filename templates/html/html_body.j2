@@ -1,6 +1,8 @@
 <body>
   <div class="container">
-  {{ components }}
+    {% for component in components %}
+        component: {{ component }} {{ components[component] }}
+    {% endfor %}
   </div>
   {% for script in scripts -%}
 

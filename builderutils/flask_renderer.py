@@ -4,11 +4,35 @@
 import os
 import shutil
 import jinja2
-
+import builderutils.logger as logger
+import builderutils.parser as parser
 
 class FlaskRenderer(object):
-    def __init__(self):
-        pass
+    def __init__(self, configFile, templateRoot="./templates"):
+        self.initialized = False
+        # Initialize logging
+        builderLogger = logger.BuilderLogger(name=__name__)
+        self.logger = builderLogger.logger
+
+        if configFile is None:
+            self.logger.error("Config file is None")
+            return
+
+        if not os.path.exists(configFile):
+            self.logger.error("Config file [%s] does not exists" % configFile)
+            return
+
+        if not os.path.exists(templateRoot):
+            self.logger.error("No flask templates at %s" % templateRoot)
+            return
+
+        # Parse our templates
+        self.parserObj = parser.BuilderParser(configFile,
+                                              templateRoot=templateRoot)
+
+        self.initialized = True
+
+
 
     def setup_environment(self, renderRoot, renderObj):
         ''' Setup Flask Environment
