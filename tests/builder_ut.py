@@ -25,6 +25,19 @@ class builderUT(unittest.TestCase):
                             "basic": "A test string"
                         }
                     }
+                },
+                "app": {
+                    "filename": "app.py",
+                    "hostname": "0.0.0.0",
+                    "port": 5002,
+                    "debug": True,
+                    "routes": {
+                        "index": {
+                            "uri": "/",
+                            "methods": ["GET"],
+                            "view_filename": "index.html"
+                        }
+                    }
                 }
             }
         }
@@ -70,7 +83,10 @@ class builderUT(unittest.TestCase):
 
         userConfig = parserObj.parsedData['user_config']
         htmlTemplate = parserObj.parsedData['html_template']
+        flaskTemplate = parserObj.parsedData['flask_template']
 
         renderObj.build_html_documents(htmlTemplate, userConfig)
+        renderObj.build_flask_app(flaskTemplate, userConfig)
+
 
 
