@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import shutil
 import jinja2
 
 
@@ -152,10 +153,35 @@ class Renderer(object):
             filePath = os.path.join(self.projectStagingDir, "templates")
             filePath = os.path.join(filePath, fileName)
             print "File path: ", filePath
-            print "Rendeered data: ", renderedData
+            print "Rendered data: ", renderedData
 
             with open(filePath, 'w') as fHandle:
                 fHandle.write(renderedData)
+
+            # Copy static resources
+            self.build_static_resources(renderObj)
+
+    def build_static_resources(self, renderObj):
+        ''' Static JS, CSS resource creation
+
+        :type  argument:  data type
+        :param  argument:  description
+
+        :returns:
+        '''
+        staticFilePath = os.path.join(self.projectStagingDir, "static")
+
+
+        # Copy CSS Resources
+        if os.path.exists(staticFilePath):
+            shutil.rmtree(staticFilePath)
+
+        try:
+            shutil.copytree(renderObj['static_dir'], staticFilePath)
+        except Exception as e:
+            print "Directory not copied. ", e
+
+
 
     def build_flask_app(self, flaskTemplate, renderObj):
         ''' one line description

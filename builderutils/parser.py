@@ -26,8 +26,17 @@ class BuilderParser(object):
         if not os.path.exists(configFile):
             print "Require a builder config file"
             return
+
+        # Get Static dir path
+        staticDir = os.path.join(os.path.dirname(templateRoot), "static")
+        if not os.path.exists(staticDir):
+            print "Static folder not found"
+            return
+
         self.parsedData = {}
         self.parsedData['user_config'], err = self.parse_yaml_config(configFile)
+        self.parsedData['user_config']['static_dir'] = staticDir
+
         if err != 0:
             print "Failed to parse config %s" % configFile
             return
