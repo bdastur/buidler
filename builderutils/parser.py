@@ -6,20 +6,11 @@ import yaml
 import builderutils.logger as logger
 
 
-# class ConfigParser(object):
-#     def __init__(self, configFile="./builder_conf.yaml"):
-
-#         if not os.path.exists(configFile):
-#             print "Could not find %s" % configFile
-#             return
-
-#         self.parsedData = yaml.safe_load(configFile)
-#         print "parsed yaml: ", self.parsedData
-
 
 class BuilderParser(object):
     def __init__(self, configFile, templateRoot="./templates"):
 
+        self.initialized = False
         # Initialize Logger
         builderLogger = logger.BuilderLogger(name=__name__)
         self.logger = builderLogger.logger
@@ -30,13 +21,15 @@ class BuilderParser(object):
         self.logger.debug("Template Root: %s" % templateRoot)
 
         if not os.path.exists(configFile):
-            print "Require a builder config file"
+            self.logger.error("Config file [%s] does not exist", configFile)
             return
 
         # Get Static dir path
         staticDir = os.path.join(os.path.dirname(templateRoot), "static")
         if not os.path.exists(staticDir):
             print "Static folder not found"
+            self.logger.error("Static templates [%s] not found",
+                              staticDir)
             return
 
         self.parsedData = {}
@@ -55,6 +48,9 @@ class BuilderParser(object):
         if err != 0:
             print "Failed to parse flask template %s" % configFile
 
+        self.initialized = True
+        self.logger.debug("Parser initialized. Parsed data: %s",
+                          self.parsedData)
         print "Parsed Data: ", self.parsedData
 
     def parse_yaml_config(self, configFile):
