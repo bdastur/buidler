@@ -10,10 +10,11 @@ import builderutils.parser as parser
 class FlaskRenderer(object):
     def __init__(self, configFile, templateRoot="./templates"):
         self.initialized = False
+        self.renderRoot = "/tmp/builder"
+
         # Initialize logging
         builderLogger = logger.BuilderLogger(name=__name__)
         self.logger = builderLogger.logger
-        self.renderer = Renderer()
 
         if configFile is None:
             self.logger.error("Config file is None")
@@ -74,7 +75,7 @@ class FlaskRenderer(object):
 
         :returns:
         '''
-        renderRoot = "/tmp/builder"
+        renderRoot = self.renderRoot
         if not os.path.exists(renderRoot):
             try:
                 os.mkdir(renderRoot)
@@ -115,7 +116,21 @@ class FlaskRenderer(object):
 
         :returns:
         '''
+        self.renderer = Renderer()
+
+        userConfig = self.parserObj.parsedData['user_config']
+        htmlTemplate = self.parserObj.parsedData['html_template']
+
+        self.htmlRenderer = HTMLRenderer(htmlTemplate,
+                                         userConfig, self.renderProjectPath,
+                                         self.renderRoot)
+
         self.renderFlaskPythonApplication()
+
+
+        self.htmlRenderer.buildHTMLDocument()
+
+
 
     def renderFlaskPythonApplication(self):
         flaskTemplate = self.parserObj.parsedData['flask_template']
@@ -169,35 +184,97 @@ class FlaskRenderer(object):
 
 class HTMLRenderer(object):
     def __init__(self, htmlTemplate, renderObject,
+                  renderProjectPath,
                  renderRoot="/tmp/builder"):
         self.htmlTemplate = htmlTemplate
         self.renderObj = renderObject
+        self.renderProjectpath = renderProjectPath
         self.renderRoot = renderRoot
+        self.renderer = Renderer()
 
     def buildHTMLDocument(self):
-        pass
-
-
-class Renderer(object):
-    def __init__(self):
-        self.projectStagingDir = ""
-
-    def build_staging_environment(self, renderObj):
-        ''' Build a new staging path where code gets rendered.
+        ''' Build HTML documents
 
         :type  argument:  data type
         :param  argument:  description
 
         :returns:
         '''
-        renderRoot = "/tmp/builder"
-        if not os.path.exists(renderRoot):
-            os.mkdir(renderRoot)
+        htmlTemplate = self.htmlTemplate
+        htmlComponents = self.renderObj['components']['html']
+        print "html components: ", htmlComponents
+        for viewName, htmlInfo in htmlComponents.items():
+            renderedData = ""
+            # Header
+            headerTemplate = htmlTemplate['header']
+            renderedData += self.renderer.render_j2_template_string(headerTemplate,
+                                                            htmlInfo)
 
-        if renderObj['user_config']['app_type'] == 'flask':
-            flaskRenderer = FlaskRenderer()
-            self.projectStagingDir = flaskRenderer.setup_environment(
-                renderRoot, renderObj)
+            # Head
+            headTemplate = htmlTemplate['head']
+            renderedData += self.renderer.render_j2_template_string(headTemplate,
+                                                            htmlInfo)
+
+            # Head End
+            renderedData += "</head>\n"
+
+            # Body
+            bodyTemplate = htmlTemplate['body']
+            print "Body template: ", bodyTemplate
+            renderedData += self.renderer.render_j2_template_string(bodyTemplate,
+                                                        htmlInfo)
+
+            # We need to go through and add components here
+            for component, componentInfo in htmlInfo['components'].items():
+                print "Component >>> ", component
+                renderedData += self.renderer.renderHtmlComponent(componentInfo)
+
+            # Body end
+            renderedData += "</body>\n"
+
+            # HTML End
+            renderedData += "</html>\n"
+            print "RenderedData: ", renderedData
+
+            # Create a html file
+
+            fileName = htmlInfo.get('file_name', viewName + ".html")
+            print "File name to create: ", fileName
+
+            filePath = os.path.join(self.renderProjectpath, "templates")
+            filePath = os.path.join(filePath, fileName)
+            print "File path: ", filePath
+            print "Rendered data: ", renderedData
+
+            with open(filePath, 'w') as fHandle:
+                fHandle.write(renderedData)
+
+            # Copy static resources
+            self.build_static_resources(self.renderObj)
+
+
+    def build_static_resources(self, renderObj):
+        ''' Static JS, CSS resource creation
+
+        :type  argument:  data type
+        :param  argument:  description
+
+        :returns:
+        '''
+        staticFilePath = os.path.join(self.renderProjectpath, "static")
+
+        # Copy CSS Resources
+        if os.path.exists(staticFilePath):
+            shutil.rmtree(staticFilePath)
+
+        try:
+            shutil.copytree(renderObj['static_dir'], staticFilePath)
+        except Exception as e:
+            print "Directory not copied. ", e
+
+class Renderer(object):
+    def __init__(self):
+        self.projectStagingDir = ""
 
 
     def render_j2_template(self, templateFile, searchPath,
