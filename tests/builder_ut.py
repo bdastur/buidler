@@ -111,5 +111,6 @@ class BuilderUT(unittest.TestCase):
 
         self.assertEqual(flaskRendererObj.initialized, True,
                          "Exepcted initialized True")
+        flaskRendererObj.renderFlaskApplication()
 
 
