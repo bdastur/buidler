@@ -115,6 +115,9 @@ class FlaskRenderer(object):
 
         :returns:
         '''
+        self.renderFlaskPythonApplication()
+
+    def renderFlaskPythonApplication(self):
         flaskTemplate = self.parserObj.parsedData['flask_template']
         renderObj = self.parserObj.parsedData['user_config']
 
