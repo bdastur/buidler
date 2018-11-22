@@ -23,7 +23,7 @@ class BuilderUT(unittest.TestCase):
                         "type": "html",
                         "title": "Simple page",
                         "components": {
-                            "text":  {
+                            "simpletext":  {
                                 "type": "string",
                                 "data": "A test string"
                             }
@@ -91,6 +91,36 @@ class BuilderUT(unittest.TestCase):
 
         renderObj.build_html_documents(htmlTemplate, userConfig)
         renderObj.build_flask_app(flaskTemplate, userConfig)
+
+    def testRenderer(self):
+        print "Test Renderer"
+        # Crete a test config file
+        configFile = self.createConfigFile()
+
+        renderObj = renderer.Renderer()
+        flaskRendererObj = flask_renderer.FlaskRenderer(configFile,
+                                                        templateRoot="../templates")
+        self.assertEqual(flaskRendererObj.initialized, True)
+
+        userConfig = flaskRendererObj.getUserConfig()
+        htmlTemplate = flaskRendererObj.getHTMLTemplate()
+
+        print "user config: %s" % userConfig
+
+        htmlComponents = userConfig['components']['html']
+
+        for viewName, htmlInfo in htmlComponents.items():
+            bodyTemplate = htmlTemplate['body']
+            renderedData = renderObj.render_j2_template_string(
+                bodyTemplate, htmlInfo)
+            print "Rendered data: ", renderedData
+
+            scriptsTemplate = htmlTemplate['scripts']
+            renderedData = renderObj.render_j2_template_string(
+                scriptsTemplate, htmlInfo)
+            print "Rendered data: ", renderedData
+
+
 
     def testNewRenderHtml(self):
         print "Test refactored renderer"
