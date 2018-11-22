@@ -79,12 +79,22 @@ class HTMLRenderer(object):
                                                         htmlInfo)
 
             # We need to go through and add components here
-            for component, componentInfo in htmlInfo['components'].items():
-                print "Component >>> ", component
-                renderedData += self.renderHtmlComponent(componentInfo)
+            # for component, componentInfo in htmlInfo['components'].items():
+            #     print "Component >>> ", component
+            #     componentInfo['id'] = component
+            #     renderedData += self.renderHtmlComponent(componentInfo)
 
+            # Add scripts
+            scriptTemplate = htmlTemplate['scripts']
+            print "Scripts: ", scriptTemplate
+            renderedData += self.renderer.render_j2_template_string(
+                scriptTemplate, htmlInfo)
+
+            print "BRD: :::: here add body end."
             # Body end
+            renderedData += "test"
             renderedData += "</body>\n"
+            print "BRDLLLL    RenderedData: ", renderedData
 
             # HTML End
             renderedData += "</html>\n"

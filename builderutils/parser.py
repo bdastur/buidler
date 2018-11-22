@@ -51,7 +51,6 @@ class BuilderParser(object):
         self.initialized = True
         self.logger.debug("Parser initialized. Parsed data: %s",
                           self.parsedData)
-        print "Parsed Data: ", self.parsedData
 
     def parse_yaml_config(self, configFile):
         with open(configFile, 'r') as fHandle:
@@ -126,3 +125,13 @@ class BuilderParser(object):
                                                              "pyflask_route.j2")
 
         return flask_section, 0
+
+    def getUserConfig(self):
+        return self.parsedData['user_config']
+
+    def getFlaskTemplate(self):
+        return self.parsedData['flask_template']
+
+    def getHTMLTemplate(self):
+        return self.parsedData['html_template']
+
