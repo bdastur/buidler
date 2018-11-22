@@ -32,10 +32,10 @@ class HTMLRenderer(object):
         self.logger.debug("Render Component: %s", componentInfo['type'])
         renderedComponent = ''
         if componentInfo['type'] == "string":
-            renderedComponent += "<p>"
-            renderedComponent += componentInfo['data']
-            renderedComponent += "</p>"
-            renderedComponent += "\n"
+            # renderedComponent += "<p>"
+            # renderedComponent += componentInfo['data']
+            # renderedComponent += "</p>"
+            # renderedComponent += "\n"
 
             # Component template
             textComponent = self.htmlTemplate['text_component']
@@ -74,31 +74,30 @@ class HTMLRenderer(object):
 
             # Body
             bodyTemplate = htmlTemplate['body']
-            print "Body template: ", bodyTemplate
             renderedData += self.renderer.render_j2_template_string(bodyTemplate,
                                                         htmlInfo)
 
+            # Add a container
+            renderedData += '<div class="container"> \n'
+
             # We need to go through and add components here
-            # for component, componentInfo in htmlInfo['components'].items():
-            #     print "Component >>> ", component
-            #     componentInfo['id'] = component
-            #     renderedData += self.renderHtmlComponent(componentInfo)
+            for component, componentInfo in htmlInfo['components'].items():
+                componentInfo['id'] = component
+                renderedData += self.renderHtmlComponent(componentInfo)
+
+            # End Container Div
+            renderedData += "</div> \n"
 
             # Add scripts
             scriptTemplate = htmlTemplate['scripts']
-            print "Scripts: ", scriptTemplate
             renderedData += self.renderer.render_j2_template_string(
                 scriptTemplate, htmlInfo)
 
-            print "BRD: :::: here add body end."
             # Body end
-            renderedData += "test"
             renderedData += "</body>\n"
-            print "BRDLLLL    RenderedData: ", renderedData
 
             # HTML End
             renderedData += "</html>\n"
-            print "RenderedData: ", renderedData
 
             # Create a html file
 
