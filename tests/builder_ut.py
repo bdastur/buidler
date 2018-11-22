@@ -24,7 +24,7 @@ class BuilderUT(unittest.TestCase):
                         "title": "Simple page",
                         "components": {
                             "text":  {
-                                "type": "New string",
+                                "type": "string",
                                 "data": "A test string"
                             }
                         }

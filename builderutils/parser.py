@@ -97,6 +97,11 @@ class BuilderParser(object):
                                                        "html_body.j2")
         html_section['scripts'] = self.read_template_file(htmlTemplateRoot,
                                                           "html_scripts.j2")
+        # Add component templates
+        html_section['text_component'] = self.read_template_file(
+            htmlTemplateRoot, "component_text.j2")
+
+
         return html_section, 0
 
     def parse_flask_template(self, templateRoot="./templates"):
