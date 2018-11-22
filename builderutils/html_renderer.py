@@ -3,6 +3,7 @@
 
 import os
 import shutil
+import builderutils.logger as logger
 import builderutils.renderer as renderer
 
 
@@ -10,6 +11,10 @@ class HTMLRenderer(object):
     def __init__(self, htmlTemplate, renderObject,
                   renderProjectPath,
                  renderRoot="/tmp/builder"):
+        # Initialize logging
+        builderLogger = logger.BuilderLogger(name=__name__)
+        self.logger = builderLogger.logger
+
         self.htmlTemplate = htmlTemplate
         self.renderObj = renderObject
         self.renderProjectpath = renderProjectPath
@@ -24,6 +29,7 @@ class HTMLRenderer(object):
 
         :returns:
         '''
+        self.logger.debug("Render Component: %s", componentInfo['type'])
         renderedComponent = ''
         if componentInfo['type'] == "string":
             renderedComponent += "<p>"
@@ -31,6 +37,12 @@ class HTMLRenderer(object):
             renderedComponent += "</p>"
             renderedComponent += "\n"
 
+            # Component template
+            textComponent = self.htmlTemplate['text_component']
+            renderedComponent += self.renderer.render_j2_template_string(
+                textComponent, componentInfo)
+
+        self.logger.debug("Rendered component: %s", renderedComponent)
         return renderedComponent
 
     def buildHTMLDocument(self):
@@ -43,7 +55,8 @@ class HTMLRenderer(object):
         '''
         htmlTemplate = self.htmlTemplate
         htmlComponents = self.renderObj['components']['html']
-        print "html components: ", htmlComponents
+        self.logger.debug("HTML Components: %s ", htmlComponents)
+
         for viewName, htmlInfo in htmlComponents.items():
             renderedData = ""
             # Header
@@ -92,7 +105,6 @@ class HTMLRenderer(object):
 
             # Copy static resources
             self.buildStaticResources(self.renderObj)
-
 
     def buildStaticResources(self, renderObj):
         ''' Static JS, CSS resource creation
