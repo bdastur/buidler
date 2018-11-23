@@ -21,6 +21,27 @@ class HTMLRenderer(object):
         self.renderRoot = renderRoot
         self.renderer = renderer.Renderer()
 
+    def renderText(self, componentInfo):
+        textComponent = self.htmlTemplate['text_component']
+        renderedComponent = self.renderer.render_j2_template_string(
+            textComponent, componentInfo)
+
+        return renderedComponent
+
+    def renderButton(self, componentInfo):
+        ''' Render the entities needed for a button
+
+        :type  componentInfo:  dict
+        :param componentInfo:  A definition of a button type from user config
+
+        :returns: rendered string
+        '''
+        buttonComponent = self.htmlTemplate['button_component']
+        renderedComponent = self.renderer.render_j2_template_string(
+            buttonComponent, componentInfo)
+
+        return renderedComponent
+
     def renderHtmlComponent(self, componentInfo):
         ''' Render HTML components
 
@@ -32,15 +53,10 @@ class HTMLRenderer(object):
         self.logger.debug("Render Component: %s", componentInfo['type'])
         renderedComponent = ''
         if componentInfo['type'] == "string":
-            # renderedComponent += "<p>"
-            # renderedComponent += componentInfo['data']
-            # renderedComponent += "</p>"
-            # renderedComponent += "\n"
-
             # Component template
-            textComponent = self.htmlTemplate['text_component']
-            renderedComponent += self.renderer.render_j2_template_string(
-                textComponent, componentInfo)
+            renderedComponent += self.renderText(componentInfo)
+        elif componentInfo['type'] == "button":
+            renderedComponent += self.renderButton(componentInfo)
 
         self.logger.debug("Rendered component: %s", renderedComponent)
         return renderedComponent

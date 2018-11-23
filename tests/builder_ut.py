@@ -25,7 +25,12 @@ class BuilderUT(unittest.TestCase):
                         "components": {
                             "simpletext":  {
                                 "type": "string",
-                                "data": "A test string <b>Bold here</b>"
+                                "data": "A test string <b>Bold here</b> \
+                                <code>This is code</code>"
+                            },
+                            "simplebutton": {
+                                "type": "button",
+                                "name": "submit"
                             }
                         }
                     }
