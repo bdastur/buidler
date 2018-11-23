@@ -42,11 +42,19 @@ class BuilderParser(object):
             templateRoot=templateRoot)
         if err != 0:
             print "Failed to parse html template %s" % configFile
+            return
 
         self.parsedData['flask_template'], err = self.parse_flask_template(
             templateRoot=templateRoot)
         if err != 0:
             print "Failed to parse flask template %s" % configFile
+            return
+
+        self.parsedData['js_template'], err = self.parseJSTemplates(
+            templateRoot=templateRoot)
+        if err != 0:
+            print "Failed to parse js template %s" % configFile
+            return
 
         self.initialized = True
         self.logger.debug("Parser initialized. Parsed data: %s",
@@ -100,8 +108,25 @@ class BuilderParser(object):
         html_section['text_component'] = self.read_template_file(
             htmlTemplateRoot, "component_text.j2")
 
+        html_section['button_component'] = self.read_template_file(
+            htmlTemplateRoot, "component_button.j2")
 
         return html_section, 0
+
+    def parseJSTemplates(self, templateRoot="./templates"):
+        ''' parse JS templates
+
+        :type  templateRoot: string
+        :param  templateRoot:  Path to the templates
+
+        :returns:
+        '''
+        jsTemplateRoot = os.path.join(templateRoot, "js")
+        js_section = {}
+        js_section['event_handler'] = self.read_template_file(
+            jsTemplateRoot, "eventhandler.js.j2")
+
+        return js_section, 0
 
     def parse_flask_template(self, templateRoot="./templates"):
         ''' Parse flask templates
@@ -134,4 +159,7 @@ class BuilderParser(object):
 
     def getHTMLTemplate(self):
         return self.parsedData['html_template']
+
+    def getJSTemplate(self):
+        return self.parsedData['js_template']
 

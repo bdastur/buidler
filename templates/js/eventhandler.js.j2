@@ -1,0 +1,20 @@
+/* Event handler for {{ type }}: {{ name }} */
+function {{id }}_handler(type, name) {
+    msg = "Event from " + name + " of type " + type
+    console.log(msg)
+    if (type == "button") {
+        console.log(msg)
+        var myButton = $("#{{ id }}")
+
+
+    } else if (type == "textarea") {
+        console.log("This is a textarea")
+        var x = document.getElementById(name).value;
+        console.log(x)
+        var id = "#" + name
+        var myobj = $("#mytextarea")
+        var myval = myobj.value
+        console.log(myval)
+    }
+
+}

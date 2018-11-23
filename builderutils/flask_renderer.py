@@ -8,6 +8,7 @@ import builderutils.logger as logger
 import builderutils.parser as parser
 import builderutils.renderer as renderer
 import builderutils.html_renderer as html_renderer
+import builderutils.js_renderer as js_renderer
 
 
 class FlaskRenderer(object):
@@ -52,6 +53,9 @@ class FlaskRenderer(object):
 
     def getHTMLTemplate(self):
         return self.parserObj.getHTMLTemplate()
+
+    def getJSTemplate():
+        return self.parserObj.getJSTemplate()
 
     def setupStagingEnvironment(self):
         ''' Createe a staging environment
@@ -130,19 +134,23 @@ class FlaskRenderer(object):
         '''
         self.renderer = renderer.Renderer()
 
-        userConfig = self.parserObj.parsedData['user_config']
-        htmlTemplate = self.parserObj.parsedData['html_template']
+        userConfig = self.parserObj.getUserConfig()
+        htmlTemplate = self.parserObj.getHTMLTemplate()
+        jsTemplate = self.parserObj.getJSTemplate()
 
         self.htmlRenderer = html_renderer.HTMLRenderer(
             htmlTemplate, userConfig, self.renderProjectPath, self.renderRoot)
 
+        self.jsRenderer = js_renderer.JSRenderer(
+            htmlTemplate, jsTemplate, userConfig,
+            self.renderProjectPath, self.renderRoot)
         self.renderFlaskPythonApplication()
-
         self.htmlRenderer.buildHTMLDocument()
+        self.jsRenderer.renderJSComponents()
 
     def renderFlaskPythonApplication(self):
-        flaskTemplate = self.parserObj.parsedData['flask_template']
-        renderObj = self.parserObj.parsedData['user_config']
+        flaskTemplate = self.parserObj.getFlaskTemplate()
+        renderObj = self.parserObj.getUserConfig()
 
         appInfo = renderObj['components']['app']
         flaskRoutes = appInfo['routes']
