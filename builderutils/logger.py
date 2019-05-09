@@ -46,7 +46,7 @@ class BuilderLogger(object):
                             datefmt='%m-%d-%y %H:%M',
                             filename=logFile,
                             filemode='a')
-
+        
         # Define a stream handler for critical errors.
         console = logging.StreamHandler()
         console.setLevel(logging.ERROR)
