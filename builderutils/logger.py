@@ -35,8 +35,8 @@ class BuilderLogger(object):
 
         # Check if logfile exists
         if not os.path.exists(os.path.dirname(logFile)):
-            print "Cannot initialize logger. Path [%s] does not exist" % \
-            (os.path.dirname(logFile))
+            print("Cannot initialize logger. Path [%s] does not exist" % \
+            (os.path.dirname(logFile)))
             return
 
         formatStr = '[%(asctime)s %(levelname)5s' \
@@ -46,7 +46,7 @@ class BuilderLogger(object):
                             datefmt='%m-%d-%y %H:%M',
                             filename=logFile,
                             filemode='a')
-        
+
         # Define a stream handler for critical errors.
         console = logging.StreamHandler()
         console.setLevel(logging.ERROR)
@@ -60,7 +60,7 @@ class BuilderLogger(object):
         logging.getLogger(name).addHandler(console)
         self.logger = logging.getLogger(name)
         BuilderLogger.logger = self.logger
-        print "Builder Logger initialized"
+        print ("Builder Logger initialized")
 
 
 

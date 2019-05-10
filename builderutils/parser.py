@@ -27,7 +27,7 @@ class BuilderParser(object):
         # Get Static dir path
         staticDir = os.path.join(os.path.dirname(templateRoot), "static")
         if not os.path.exists(staticDir):
-            print "Static folder not found"
+            print("Static folder not found")
             self.logger.error("Static templates [%s] not found",
                               staticDir)
             return
@@ -36,24 +36,24 @@ class BuilderParser(object):
         self.parsedData['user_config'], err = self.parse_yaml_config(configFile)
         self.parsedData['user_config']['static_dir'] = staticDir
         if err != 0:
-            print "Failed to parse config %s" % configFile
+            print("Failed to parse config %s" % configFile)
             return
         self.parsedData['html_template'], err = self.parse_html_template(
             templateRoot=templateRoot)
         if err != 0:
-            print "Failed to parse html template %s" % configFile
+            print ("Failed to parse html template %s" % configFile)
             return
 
         self.parsedData['flask_template'], err = self.parse_flask_template(
             templateRoot=templateRoot)
         if err != 0:
-            print "Failed to parse flask template %s" % configFile
+            print ("Failed to parse flask template %s" % configFile)
             return
 
         self.parsedData['js_template'], err = self.parseJSTemplates(
             templateRoot=templateRoot)
         if err != 0:
-            print "Failed to parse js template %s" % configFile
+            print ("Failed to parse js template %s" % configFile)
             return
 
         self.initialized = True
@@ -65,8 +65,8 @@ class BuilderParser(object):
             try:
                 parsedData = yaml.safe_load(fHandle)
             except yaml.YAMLError as error:
-                print "Failed to parse builde cofig %s [%s]" % \
-                (configFile, error)
+                print ("Failed to parse builde cofig %s [%s]" % \
+                (configFile, error))
                 return None, 1
 
         return parsedData, 0
