@@ -13,7 +13,7 @@ def cli():
 @click.option("--configfile", type=click.Path(),
               help="Builder config", required=True)
 def create(configfile):
-    print "create command!"
+    print("create command!")
     parserObj = parser.BuilderParser(configfile)
     renderObj = renderer.Renderer()
     renderObj.build_staging_environment(parserObj.parsedData)
