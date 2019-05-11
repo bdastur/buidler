@@ -23,7 +23,7 @@ class BuilderUT(unittest.TestCase):
                         "type": "html",
                         "title": "Simple page",
                         "components": {
-                            "simpletext":  {
+                            "simpletext": {
                                 "type": "string",
                                 "data": "A test string <b>Bold here</b> \
                                 <code>This is code</code>"
