@@ -62,10 +62,10 @@ class BuilderUT(unittest.TestCase):
         return testConfigFile
 
     def testNone(self):
-        print "Empty test!"
+        print("Empty test!")
 
     def testParserInitialize(self):
-        print "Parser Initialize test"
+        print("Parser Initialize test")
 
         # Valid keys
         dataKeys = ['flask_template', 'user_config', 'html_template']
@@ -78,7 +78,7 @@ class BuilderUT(unittest.TestCase):
                          dataKeys, msg="Unexpected keys!")
 
     def testRenderHtml(self):
-        print "Test basic Rendering."
+        print("Test basic Rendering.")
 
         # Create a test config file
         configFile = self.createConfigFile()
@@ -98,7 +98,7 @@ class BuilderUT(unittest.TestCase):
         renderObj.build_flask_app(flaskTemplate, userConfig)
 
     def testRenderer(self):
-        print "Test Renderer"
+        print("Test Renderer")
         # Crete a test config file
         configFile = self.createConfigFile()
 
@@ -110,7 +110,7 @@ class BuilderUT(unittest.TestCase):
         userConfig = flaskRendererObj.getUserConfig()
         htmlTemplate = flaskRendererObj.getHTMLTemplate()
 
-        print "user config: %s" % userConfig
+        print("user config: %s" % userConfig)
 
         htmlComponents = userConfig['components']['html']
 
@@ -118,17 +118,17 @@ class BuilderUT(unittest.TestCase):
             bodyTemplate = htmlTemplate['body']
             renderedData = renderObj.render_j2_template_string(
                 bodyTemplate, htmlInfo)
-            print "Rendered data: ", renderedData
+            print("Rendered data: ", renderedData)
 
             scriptsTemplate = htmlTemplate['scripts']
             renderedData = renderObj.render_j2_template_string(
                 scriptsTemplate, htmlInfo)
-            print "Rendered data: ", renderedData
+            print("Rendered data: ", renderedData)
 
 
 
     def testNewRenderHtml(self):
-        print "Test refactored renderer"
+        print("Test refactored renderer")
 
         flaskRendererObj = flask_renderer.FlaskRenderer(None)
         self.assertEqual(flaskRendererObj.initialized, False,

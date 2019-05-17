@@ -6,6 +6,51 @@ import yaml
 import builderutils.logger as logger
 
 
+class ConfigParser(object):
+    def __init__(self, configFile, templateRoot="./templates"):
+        pLogger = logger.BuilderLogger(name=__name__)
+        self.logger = pLogger.logger
+        self.logger.info("Initialize Config Parser!")
+        if configFile is None:
+            self.logger.error("Config File is not valid")
+            return
+        if not os.path.exists(configFile):
+            self.logger.error("ConfigFile %s not found", configFile)
+            return
+        self.parsedData = {}
+        self.parsedData['user_config'], err = self.parse_yaml_config(configFile)
+
+    def __repr__(self):
+        userData = self.parsedData['user_config']
+        app_name = userData['app_name']
+        app_type = userData['app_type']
+
+        print("app name: ", app_name)
+        print("app type: ", app_type)
+
+        repr_string = "User Configuration: \n" + \
+            "   Application name: {0} \n Application type: {1} \n".format(app_name, app_type)
+
+        repr_string = repr_string + \
+            "   Components: \n"
+        for componentName in userData['components']:
+            component = userData['components'][componentName]
+            repr_string += "      Component: {0} \n      Location: Row: {1}, Col: {2}, Size: {3} \n".format(componentName, component['loc']['row'], \
+                    component['loc']['column'], component['loc']['column_size'])
+
+        return str(repr_string)
+
+    def parse_yaml_config(self, configFile):
+        with open(configFile, 'r') as fHandle:
+            try:
+                parsedData = yaml.safe_load(fHandle)
+            except yaml.YAMLError as error:
+                print ("Failed to parse builde cofig %s [%s]" % \
+                (configFile, error))
+                return None, 1
+
+        return parsedData, 0
+
 
 class BuilderParser(object):
     def __init__(self, configFile, templateRoot="./templates"):

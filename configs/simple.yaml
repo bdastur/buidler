@@ -1,0 +1,14 @@
+name: "Basic Template definition"
+app_type: flask
+app_name: simple_application
+components:
+    box1:
+        loc: (1, 1, 12),
+        type: string
+    box2:
+        loc: (2, 1, 12)
+        type: string
+
+
+
+
