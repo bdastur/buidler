@@ -17,6 +17,8 @@ setup(
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
+        'Programming language :: Python :: 3',
+        'Programming language :: Python :: 3.6',
         'Intended Audience :: Developers',
         'License :: Apache Software License',
         'Topic :: Software Development :: Libraries',

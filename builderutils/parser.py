@@ -3,22 +3,48 @@
 
 import os
 import yaml
+import yamale
 import builderutils.logger as logger
 
 
 class ConfigParser(object):
-    def __init__(self, configFile, templateRoot="./templates"):
+    BUILDER_CONFIG = "/etc/builder/builder.yaml"
+
+    def __init__(self, configFile):
         pLogger = logger.BuilderLogger(name=__name__)
         self.logger = pLogger.logger
         self.logger.info("Initialize Config Parser!")
+        self.validated = False
+
+        # Parse builder config
+        self.builderConfig = {}
+        self.builderConfig, err = self.parse_yaml_config(ConfigParser.BUILDER_CONFIG)
+        if err != 0:
+            self.logger.error("Failed to parse builder config {0}".format(ConfigParser.BUILDER_CONFIG))
+            return
+
+        self.schema = self.builderConfig.get('schema', None)
+        if self.schema is None:
+            self.logger.error("Require schema to be defined in builder config {0}".\
+                format(ConfigParser.BUILDER_CONFIG))
+            return
+
+        # Validate input
         if configFile is None:
             self.logger.error("Config File is not valid")
             return
         if not os.path.exists(configFile):
             self.logger.error("ConfigFile %s not found", configFile)
             return
+
+        if not os.path.exists(self.schema):
+            self.logger.error("Schema %s not found", self.schema)
+            return
+
+
         self.parsedData = {}
         self.parsedData['user_config'], err = self.parse_yaml_config(configFile)
+        self.validated = True
 
     def __repr__(self):
         userData = self.parsedData['user_config']
@@ -28,6 +54,7 @@ class ConfigParser(object):
         print("app name: ", app_name)
         print("app type: ", app_type)
 
+
         repr_string = "User Configuration: \n" + \
             "   Application name: {0} \n Application type: {1} \n".format(app_name, app_type)
 
@@ -35,7 +62,8 @@ class ConfigParser(object):
             "   Components: \n"
         for componentName in userData['components']:
             component = userData['components'][componentName]
-            repr_string += "      Component: {0} \n      Location: Row: {1}, Col: {2}, Size: {3} \n".format(componentName, component['loc']['row'], \
+            repr_string += "      Component: {0} \n      Location: Row: {1}, Col: {2}, Size: {3} \n" \
+                .format(componentName, component['loc']['row'], \
                     component['loc']['column'], component['loc']['column_size'])
 
         return str(repr_string)
@@ -50,6 +78,8 @@ class ConfigParser(object):
                 return None, 1
 
         return parsedData, 0
+
+
 
 
 class BuilderParser(object):

@@ -4,6 +4,7 @@
 
 import yaml
 import unittest
+import yamale
 import builderutils.parser as parser
 
 
@@ -20,11 +21,11 @@ class TestDataHelper(object):
             "app_name": "simple_application",
             "components": {
                 "box1": {
-                    "loc": { "row": 0, "column": 0, "column_size": 12},
+                    "loc": {"row": 0, "column": 0, "column_size": 12},
                     "type": "string"
                 },
                 "box2": {
-                    "loc": { "row": 1, "column": 0, "column_size": 12},
+                    "loc": {"row": 1, "column": 0, "column_size": 12},
                     "type": "string"
                 }
             }
@@ -44,5 +45,14 @@ class ParserUt(unittest.TestCase):
         testData = TestDataHelper()
 
         pobj = parser.ConfigParser(testData.testConfigFile)
+        self.assertTrue(pobj.validated is True,
+                        "Parser utils not initialized successfully!")
         print("Pobj: ", pobj)
+
+    def test_yamale_basic(self):
+        schema = yamale.make_schema("../configs/schema.yaml")
+        data = TestDataHelper()
+        data = yamale.make_data("/tmp/testdata.yaml", parser='ruamel')
+        yamale.validate(schema, data)
+
 
