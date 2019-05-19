@@ -4,6 +4,7 @@
 import click
 import builderutils.parser as parser
 import builderutils.renderer as renderer
+import builderutils.dom as dom
 
 
 @click.group()
@@ -15,16 +16,22 @@ def cli():
 @click.option("--configfile", type=click.Path(), help="Builder config", required=True)
 def create(configfile):
     print("create command!")
-    parserObj = parser.BuilderParser(configfile)
-    renderObj = renderer.Renderer()
-    renderObj.build_staging_environment(parserObj.parsedData)
+    parserObj = parser.ConfigParser(configfile)
+    print("Parser Obj: ", parserObj)
+    domObj = dom.DomManager(parserObj)
+    domObj.buildDomTree()
+    dom.DomManager.parseDomTree(dom.SAMPLE_DOM)
 
-    userConfig = parserObj.parsedData["user_config"]
-    htmlTemplate = parserObj.parsedData["html_template"]
-    flaskTemplate = parserObj.parsedData["flask_template"]
+    # parserObj = parser.BuilderParser(configfile)
+    # renderObj = renderer.Renderer()
+    # renderObj.build_staging_environment(parserObj.parsedData)
 
-    renderObj.build_html_documents(htmlTemplate, userConfig)
-    renderObj.build_flask_app(flaskTemplate, userConfig)
+    # userConfig = parserObj.parsedData["user_config"]
+    # htmlTemplate = parserObj.parsedData["html_template"]
+    # flaskTemplate = parserObj.parsedData["flask_template"]
+
+    # renderObj.build_html_documents(htmlTemplate, userConfig)
+    # renderObj.build_flask_app(flaskTemplate, userConfig)
 
 
 def main():
