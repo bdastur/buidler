@@ -3,11 +3,17 @@ app_type: flask
 app_name: simple_application
 components:
     box1:
-        loc: (1, 1, 12),
+        loc:
+            row: 0
+            column: 0
+            column_size: 12
         type: string
     box2:
-        loc: (2, 1, 12)
-        type: string
+        loc:
+            row: 1
+            column: 0
+            column_size: 3
+        type: strings
 
 
 

@@ -49,6 +49,7 @@ class ConfigParser(object):
         self.parsedData = {}
         self.parsedData["user_config"], err = self.parse_yaml_config(configFile)
         self.validated = True
+        self.logger.info("Parser Initialized!")
 
     def __repr__(self):
         userData = self.parsedData["user_config"]
