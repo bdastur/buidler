@@ -12,9 +12,41 @@
 	// 	],
 	// 	"description": "Log output to console"
 	// }
+"BS Stylesheet link": {
+ "prefix": "bs-stylesheets",
+ "body": [
+	 "<!-- bs-stylesheets -->",
+	 "<meta charset='utf-8'>"
+     "<meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>",
+     "",
+     "<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm' crossorigin='anonymous'>",
+	 "<script src='https://cdnjs.cloudflare.com/ajax/libs/holder/2.3.2/holder.min.js'",
+	 " type='text/javascript'></script>",
+     "<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>",
+     "<link href='https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'",
+     " rel='stylesheet'",
+     " integrity='sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN'",
+	 " crossorigin='anonymous'>",
+	 "<!-- bs-stylesheets end -->"
+ ],
+ "description": "Bootstrap style sheets"
+},
+"BS Javascript sources": {
+	"prefix": "bs-src",
+	"body": [
+		"<!-- bs-src -->",
+	    "<script src='https://code.jquery.com/jquery-3.2.1.slim.min.js' integrity='sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN' crossorigin='anonymous'></script>",
+        "<script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js' integrity='sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q' crossorigin='anonymous'></script>",
+		"<script src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js' integrity='sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl' crossorigin='anonymous'></script>",
+		"<!-- bs-src end -->",
+	],
+	"description": "Bootstrap javascript sources"
+}
+
 "HTML Comment": {
 	"prefix": "hcomment",
 	"body": [
+		"<!-- hcomment -->",
 		"<!-- $1","-->"
 	],
 	"description": "Html comment"
@@ -22,63 +54,78 @@
 "BS Alert": {
 	"prefix": "bs-alert",
 	"body": [
+		"<!-- bs-alert -->",
 		"<div class='alert alert-${1:primary|secondary|success|danger|warning|info|light|dark}' role='alert'>",
 		"    ${2:Alert message!}",
-		"</div>"
+		"</div>",
+		"<!-- bs-alert end -->",
 	],
 	"description": "Bootstrap Alert"
 },
 "BS Dismissable Alert": {
 	"prefix": "bs-alert-dismissible",
 	"body": [
+		"<!-- bs-alert-dismissible -->",
 		"<div class='alert alert-${1:primary|secondary|success|danger|warning|info|light|dark} alert-dismissible fade show' role='alert'>",
 		"    ${2:Alert message!}",
 		"    <button type='button' class='close' data-dismiss='alert' ari-label='Close'>",
 		"        <span aria-hidden='true'>&times;</span",
 		"    </button>",
-		"</div>"
+		"</div>",
+		"<!-- bs-alert-dismissible end -->",
 	],
 	"description": "Bootstrap Alert"
 },
 "BS Alert Link": {
 	"prefix": "bs-alert-link",
 	"body": [
-		"<a href='${1:#}' class='alert-link'>${2:Example link}</a>"
+		"<!-- bs-alert-link -->",
+		"<a href='${1:#}' class='alert-link'>${2:Example link}</a>",
+		"<!--  bs-alert-link end-->",
 	],
 	"description": "Bootstrap Alert Link"
 },
 "BS Alert Heading": {
 	"prefix": "bs-alert-heading",
 	"body": [
-		"<h${1:4} class='alert-heading'>${2:Alert Heading Message}</h>"
+		"<!--  bs-alert-heading-->",
+		"<h${1:4} class='alert-heading'>${2:Alert Heading Message}</h>",
+		"<!-- bs-alert-heading end -->",
 	],
 	"description": "Bootstrap Alert Heading"
 },
 "BS Badge": {
 	"prefix": "bs-badge",
 	"body": [
-		"<span class='badge badge-${1:primary|secondary|success|danger|warning|info|light|dark} ${2:badge-pill}'>${3:Badge text}</span>"
+		"<!-- bs-badge -->",
+		"<span class='badge badge-${1:primary|secondary|success|danger|warning|info|light|dark} ${2:badge-pill}'>${3:Badge text}</span>",
+		"<!-- bs-badge end -->",
 	],
 	"description": "Bootstrap Badge"
 },
 "BS Badge Link": {
 	"prefix": "bs-badge-link",
 	"body": [
-		"<a href='${1:#}' class='badge badge-${2:primary|secondary|success|danger|warning|info|light|dark} ${3:badge-pill}'>${4:Badge text}</a>"
+		"<!-- bs-badge-link -->",
+		"<a href='${1:#}' class='badge badge-${2:primary|secondary|success|danger|warning|info|light|dark} ${3:badge-pill}'>${4:Badge text}</a>",
+		"<!-- bs-badge-link end -->",
 	],
 	"description": "Bootstrap Badge link"
 },
 "BS Button": {
 	"prefix": "bs-button",
 	"body": [
+		"<!-- bs-button -->",
 		"<button type='button' class='btn btn-${1:outline-}${2:primary|secondary|success|danger|warning|info|light|dark}",
-		" ${3:btn-lg} ${4:disabled} ${5:btn-block}'>${6:submit}</button>"
+		" ${3:btn-lg} ${4:disabled} ${5:btn-block}'>${6:submit}</button>",
+		"<!-- bs-button end -->",
 	],
 	"description": "Bootstrap Button"
 },
 "BS Card": {
 	"prefix": "bs-card",
 	"body": [
+		"<!-- bs-card -->",
 		"<div class='card ${1:text-center|text-right}' style='width: ${2:18rem}'>",
 		"    ${3:<div class='card-header'>Header</div>}",
 		"    ${4:<img class='card-img-top' src='...'' alt='Card image cap'>}",
@@ -89,13 +136,15 @@
 		"        ${8:<a href='#'' class='card-link'>Card link</a>}",
 		"        ${9:<div class='card-footer text-muted'>Footer</div>}",
 		"    </div>",
-		"</div>"
+		"</div>",
+		"<!-- bs-card end -->",
 	],
 	"description": "Bootstrap card"
 },
 "BS Card Listgroup": {
 	"prefix": "bs-card-listgroup",
 	"body": [
+		"<!-- bs-card-listgroup -->",
 		"<div class='card ${1:text-center|text-right}' style='width: ${2:18rem}'>",
 		"    ${3:<div class='card-header'>Header</div>}",
 		"    ${4:<img class='card-img-top' src='...'' alt='Card image cap'>}",
@@ -111,40 +160,48 @@
 		"    <div class='card-body'>",
 		"        ${9:<div class='card-footer text-muted'>Footer</div>}",
 		"    </div>",
-		"</div>"
+		"</div>",
+		"<!-- bs-card-listgroup end -->",
 	],
 	"description": "Bootstrap card listgroup"
 },
 "BS Card group": {
 	"prefix": "bs-card-group",
 	"body": [
+		"<!-- bs-card-group -->",
 		"<div class='card-group'>",
 		"    ${1:bs-card}",
-		"</div>"
+		"</div>",
+		"<!-- bs-card-group end -->",
 	],
 	"description": "Bootstrap card group"
 },
 "BS Card deck": {
 	"prefix": "bs-card-deck",
 	"body": [
+		"<!-- bs-card-deck -->",
 		"<div class='card-deck'>",
 		"    ${1:bs-card}",
-		"</div>"
+		"</div>",
+		"<!-- bs-card-deck end -->",
 	],
 	"description": "Bootstrap card deck"
 },
 "BS Card Columns": {
 	"prefix": "bs-card-columns",
 	"body": [
+		"<!-- bs-card-columns -->",
 		"<div class='card-columns'>",
 		"    ${1:bs-card}",
-		"</div>"
+		"</div>",
+		"<!-- bs-card-columns end -->",
 	],
 	"description": "Bootstrap card columns"
 },
 "BS Carousel": {
 	"prefix": "bs-carousel",
 	"body": [
+		"<!-- bs-carousel -->",
 		"<div id='${1:carouselID}' class='carousel slide'",
 		" data-interval='${2:5000}' data-ride='carousel'>",
 		"    <div class='carousel-inner'>",
@@ -154,56 +211,66 @@
 		"        </div>",
 		"    ${5:<div class='carousel-item'>${6:item}</div>}",
 		"    </div>",
-		"</div>"
+		"</div>",
+		"<!-- bs-carousel end -->",
 	],
 	"description": "Bootstrap carousel"
 },
 "BS collapse href": {
 	"prefix": "bs-collapse-href",
 	"body": [
+		"<!-- bs-collapse-href -->",
 		"<a class='btn btn-${1:primary}' data-toggle='collapse'",
 		 "href='${2:#cardID}' role='button'",
 		 "aria-expanded='false' aria-controls='collapseExample'> ",
-		 "${3:Link with href}</a>"
+		 "${3:Link with href}</a>",
+		 "<!-- bs-collapse-href end -->",
 	],
     "description": "Bootstrap collapse - using a link with href attributes"
 },
 "BS collapse cardbody": {
 	"prefix": "bs-collapse-cardbody",
 	"body": [
+		"<!-- bs-collapse-cardbody -->",
 		"<div class='collapse ${1:multi-collapse}' id='${2:cardID}'>",
 		"    <div class='card card-body'>",
 		"        ${3:card content}",
 		"    </div>",
-		"</div>"
+		"</div>",
+		"<!-- bs-collapse-cardbody end -->",
 	],
 	"description": "Bootstrap collapse -  card body"
 },
 "BS collapse button": {
 	"prefix": "bs-collapse-button",
 	"body": [
+		"<!-- bs-collapse-button -->",
 		"<button class='btn btn-${1:primary} buttonoverride' type='buttton'",
 		"data-toggle='collapse' data-target='#${2:cardID}' aria-expanded:'${3:false}'",
 		"aria-controls='${4:cardID}'>",
 		"${5:Button wiith data target}",
-		"</button>"
+		"</button>",
+		"<!-- bs-collapse-button end -->",
 	],
 	"description": "Bootstrap collapse - using a button"
 },
 "BS collapse Multi-target button": {
-	"prefix": "bs-collapse-multi-target button",
+	"prefix": "bs-collapse-multi-target-button",
 	"body": [
+		"<!-- bs-collapse-multi-target-button -->",
 		"<button class='btn btn-${1:primary}' type='button' ",
 		" data-toggle='collapse' data-target='.multi-collapse' ",
 		" aria-expanded='false' aria-controls='${2:card-1-id} ${3:card-2-id}'>",
 		" ${4:Toggle both elements}",
-		"</button>"
+		"</button>",
+		"<!-- bs-collapse-multi-target-button end -->",
 	],
 	"description": "Bootstrap collapse - multi target button"
 },
 "BS accordian": {
 	"prefix": "bs-accordian",
 	"body": [
+		"<!-- bs-accordian -->",
 		"<div id='${1:accordion-id}'>",
 		"  <div class='card'>",
 		"    <div class='card-header' id='${2:heading-id}'>",
@@ -221,13 +288,15 @@
 		"      </div>",
 		"    </div>",
 		"  </div>",
-		"</div>"
+		"</div>",
+		"<!-- bs-accordian end -->",
 	],
 	"description": "Bootstrap accordian"
 },
 "BS accordian card": {
 	"prefix": "bs-accordian-card",
 	"body": [
+		"<!-- bs-accordian-card -->",
 		"  <div class='card'>",
 		"    <div class='card-header' id='${1:heading-id}'>",
 		"      <h5 class='mb-0'>",
@@ -243,7 +312,8 @@
 		"         ${6:card body content}",
 		"      </div>",
 		"    </div>",
-		"  </div>"
+		"  </div>",
+		"<!-- bs-accordian-card end -->",
 	],
 	"description": "Bootstrap accordian card"
 },
@@ -251,6 +321,7 @@
 "BS accordian tablist": {
 	"prefix": "bs-accordian-tablist",
 	"body": [
+		"<!-- bs-accordian-tablist -->",
 		"<div id='accordian' role='tablist'>",
 		"    <div class='card'>",
 		"        <div class='card-header' role='tab' id='${1:headingOne}'>",
@@ -268,7 +339,8 @@
 		"            </div>",
 		"        </div>",
 		"    </div>",
-		"</div>"
+		"</div>",
+		"<!-- bs-accordian-tablist end -->",
 
 	],
 	"description": "Bootstrap collapse - tablist"
@@ -276,6 +348,7 @@
 "BS accordian tablist card": {
 	"prefix": "bs-accordian-tablist-card",
 	"body": [
+		"<!-- bs-accordian-tablist-card -->",
 		"    <div class='card'>",
 		"        <div class='card-header' role='tab' id='${1:headingOne}'>",
 		"            <h5 class='mb-0'>",
@@ -292,26 +365,29 @@
 		"            </div>",
 		"        </div>",
 		"    </div>",
-
+		"<!-- bs-accordian-tablist-card end -->",
 	],
 	"description": "Bootstrap collapse - tablist card"
 },
-"BS custom navbar 1": {
-	"prefix": "bs-navbar-custom1",
+"Custom navbar 1": {
+	"prefix": "navbar-custom1",
 	"body": [
+		"<!-- navbar-custom1 -->",
 		"<!-- You need font awesome, and custom.css files -->",
 		"<div class='custom-navbar-1'>",
         "    <a class='custom-active' href='#'><i class='fa fa-fw fa-home'></i> Home</a>",
         "    <a href='#'><i class='fa fa-fw fa-envelope'></i> Contact</a>",
         "    <a href='#'><i class='fa fa-fw fa-user'></i> Login</a>",
         "    <a href='#'><i class='fa fa-fw fa-search'></i> Search</a>",
-        "</div>"
+		"</div>",
+		"<!-- navbar-custom1 end -->",
 	],
 	"description": "Bootstrap custom navbar 1"
 },
 "BS NavBar ": {
 	"prefix": "bs-navbar",
 	"body": [
+		"<!-- bs-navbar -->",
 		"<nav class='navbar navbar-expand-lg ${1:navbar-dark bg-dark} ${2:navbar-light bg-light}",
 		" ${3:fixed-top} ${4:stick-top}'>",
 		"       <a class='navbar-brand' href='#'>",
@@ -357,9 +433,12 @@
 		"                <i class='fa fa-fw fa-search'></i>Search</button>",
 		"			  </form>",
 		"       </div>",
-		"       </nav>"
+		"       </nav>",
+		"<!-- bs-navbar end -->",
 	],
 	"description": "Bootstrap collapse - tablist card"
 },
+
+
 
 }
