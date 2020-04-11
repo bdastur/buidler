@@ -89,6 +89,12 @@ class ConfigParser(object):
         return parsedData, 0
 
 
+class TemplateParser(object):
+    def __init__(self):
+        pass
+
+
+
 class BuilderParser(object):
     def __init__(self, configFile, templateRoot="./templates"):
 
