@@ -438,7 +438,16 @@
 	],
 	"description": "Bootstrap collapse - tablist card"
 },
-
-
+"Custom menu-icon": {
+	"prefix": "custom-menu-icon",
+	"body": [
+		"<!-- custom-menu-icon -->",
+		"<div class='custom-menu-icon ${1:bg-color-black}'></div>",
+        "<div class='custom-menu-icon ${1:bg-color-black}'></div>",
+        "<div class='custom-menu-icon ${1:bg-color-black}'></div>",
+		"<!-- custom-menu-icon end -->",
+	],
+	"description": "custom menu icon"
+},
 
 }
