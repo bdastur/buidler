@@ -1,0 +1,49 @@
+/*
+ * Custom  tabs.
+ */
+
+/* Style the tab */
+.custom-tab-1 {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+  }
+
+  /* Style the buttons that are used to open the tab content */
+  .custom-tab-1 button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+  }
+
+  /* Change background color of buttons on hover */
+  .custom-tab-1 button:hover {
+    background-color: #ddd;
+  }
+
+  /* Create an active/current tablink class */
+  .custom-tab-1 button.active {
+    background-color: #ccc;
+  }
+
+  /* Style the tab content */
+  .custom-tab-1-tabcontent1 {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+  }
+
+  .custom-tab-1-tabcontent1 {
+    animation: fadeEffect 1s; /* Fading effect takes 1 second */
+  }
+
+  /* Go from zero to full opacity */
+  @keyframes fadeEffect {
+    from {opacity: 0;}
+    to {opacity: 1;}
+  }

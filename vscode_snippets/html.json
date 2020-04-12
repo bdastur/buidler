@@ -449,5 +449,31 @@
 	],
 	"description": "custom menu icon"
 },
+"Custom tab1": {
+	"prefix": "custom-tab-1",
+	"body": [
+		"<!-- custom-tab-1 -->",
+		"<div class='custom-tab-1'>",
+        "    <button class='${1:tabHeadingClass}' onclick=\"openTab(event, '${1:tabHeadingClass}', '${2:tabContentClass}','${3:tabContentId1}')\">${6:TabHeading1}</button>",
+        "    <button class='${1:tabHeadingClass}' onclick=\"openTab(event, '${1:tabHeadingClass}', '${2:tabContentClass}', '${4:tabContentId2}')\">${7:TabHeading2}</button>",
+        "    <button class='${1:tabHeadingClass}' onclick=\"openTab(event, '${1:tabHeadingClass}', '${2:tabContentClass}', '${5:tabContentId3}')\">${8:TabHeading3}</button>",
+        "</div>",
+		"<!-- custom-tab-1 end -->",
+	],
+	"description": "custom tabs"
+},
+"Custom tab - tab content": {
+    "prefix": "custom-tab-1-tabcontent-1",
+    "body": [
+        "<!-- custom-tab-1-tabcontent-1 -->",
+        "<div id='${1:tabContentId1}' class='custom-tab-1-tabcontent1 ${2:tabContentClass}'>",
+        "    ${3:<h3>Tab Contet heading</h3>}",
+        "    ${4:<p>Tab content data..</p>}",
+        "</div>",
+        "<!-- custom-tab-1-tabcontent-1 end -->",
+    ],
+    "description": "custom tabs tab content"
+},
+
 
 }
