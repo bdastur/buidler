@@ -13,6 +13,8 @@
          integrity='sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN'
          crossorigin='anonymous'>
         <!-- bs-stylesheets end -->
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static',
+              filename="css/navbars.css") }}">
     </head>
     <body>
         Nav bars
@@ -65,7 +67,27 @@
                </div>
                </nav>
         <!-- bs-navbar end -->
-
+        <br><br>
+        <!-- navbar-custom1 -->
+        <!-- You need font awesome, and custom.css files -->
+        <div class='custom-navbar-1'>
+            <a href='#'>
+            <div class="custom-menu-icon"></div>
+            <div class="custom-menu-icon"></div>
+            <div class="custom-menu-icon"></div></a>
+            <a class='custom-active' href='#'><i class='fa fa-fw fa-home'></i> Home</a>
+            <a href='#'><i class='fa fa-fw fa-envelope'></i> Contact</a>
+            <a href='#'><i class='fa fa-fw fa-user'></i> Login</a>
+            <a href='#'><i class='fa fa-fw fa-search'></i> Search</a>
+        </div>
+        <!-- navbar-custom1 end -->
+        <br><br>
+        <p>Menu icon</p>
+        <!-- custom-menu-icon -->
+        <div class='custom-menu-icon bg-color-black'></div>
+        <div class='custom-menu-icon bg-color-black'></div>
+        <div class='custom-menu-icon bg-color-black'></div>
+        <!-- custom-menu-icon end -->
 
 
 
