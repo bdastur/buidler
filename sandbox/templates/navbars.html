@@ -14,7 +14,11 @@
          crossorigin='anonymous'>
         <!-- bs-stylesheets end -->
         <link rel="stylesheet" type="text/css" href="{{ url_for('static',
+              filename="css/shared.css") }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static',
               filename="css/navbars.css") }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static',
+              filename="css/tabs.css") }}">
     </head>
     <body>
         Nav bars
@@ -89,6 +93,55 @@
         <div class='custom-menu-icon bg-color-black'></div>
         <!-- custom-menu-icon end -->
 
+        <br><br>
+        <!-- Tab links -->
+        <div class="custom-tab-1">
+            <button class="tablinks" onclick="openTab(event, 'tablinks', 'tabcontent','London')">London</button>
+            <button class="tablinks" onclick="openTab(event, 'tablinks', 'tabcontent', 'Paris')">Paris</button>
+            <button class="tablinks" onclick="openTab(event, 'tablinks', 'tabcontent', 'Tokyo')">Tokyo</button>
+          </div>
+
+        <!-- Tab content -->
+        <div id="London" class="custom-tab-1-tabcontent1 tabcontent">
+            <h3>London</h3>
+            <p>London is the capital city of England.</p>
+        </div>
+
+        <div id="Paris" class="custom-tab-1-tabcontent1 tabcontent">
+            <h3>Paris</h3>
+            <p>Paris is the capital of France.</p>
+        </div>
+
+        <div id="Tokyo" class="custom-tab-1-tabcontent1 tabcontent">
+            <h3>Tokyo</h3>
+            <p>Tokyo is the capital of Japan.</p>
+        </div>
+        <br>
+        <!-- custom-tab-1 -->
+        <div class='custom-tab-1'>
+            <button class='th1' onclick="openTab(event, 'th1', 'tcc1','id1')">Tab 1</button>
+            <button class='th1' onclick="openTab(event, 'th1', 'tcc1', 'id2')">Tab 2</button>
+            <button class='th1' onclick="openTab(event, 'th1', 'tcc1', 'id3')">Tab 3</button>
+        </div>
+        <!-- custom-tab-1 end -->
+        <!-- custom-tab-1-tabcontent-1 -->
+        <div id='id1' class='custom-tab-1-tabcontent1 tcc1'>
+            <h3>Heading</h3>
+            <p>Tab content data..</p>
+        </div>
+        <!-- custom-tab-1-tabcontent-1 end -->
+        <!-- custom-tab-1-tabcontent-1 -->
+        <div id='id2' class='custom-tab-1-tabcontent1 tcc1'>
+            <h3>Tab Contet heading</h3>
+            <p>Tab content data..</p>
+        </div>
+        <!-- custom-tab-1-tabcontent-1 end -->
+        <!-- custom-tab-1-tabcontent-1 -->
+        <div id='id3' class='custom-tab-1-tabcontent1 tcc1'>
+            <h3>Tab Contet heading</h3>
+            <p>Tab content data..</p>
+        </div>
+        <!-- custom-tab-1-tabcontent-1 end -->
 
 
         <!-- bs-src -->
@@ -96,5 +149,8 @@
         <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js' integrity='sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q' crossorigin='anonymous'></script>
         <script src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js' integrity='sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl' crossorigin='anonymous'></script>
         <!-- bs-src end -->
+        <script type='text/javascript'
+           src="{{ url_for('static', filename='js/builder/components.js') }}"></script>
+
         </body>
 </html>
