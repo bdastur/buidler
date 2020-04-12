@@ -12,7 +12,7 @@
 	// 	],
 	// 	"description": "Log output to console"
 	// }
-"BS Stylesheet link": {
+"BS Stylesheets": {
  "prefix": "bs-stylesheets",
  "body": [
 	 "<!-- bs-stylesheets -->",
@@ -41,7 +41,24 @@
 		"<!-- bs-src end -->",
 	],
 	"description": "Bootstrap javascript sources"
+},
+"Custom stylesheets": {
+	"prefix": "custom-stylesheets",
+	"body": [
+		"<!-- custom-stylesheets -->",
+        "<link rel='stylesheet' type='text/css' href=\"{{ url_for('static',",
+		"    filename='css/shared.css') }}\">",
+		"<link rel='stylesheet' type='text/css' href=\"{{ url_for('static',",
+        "    filename='css/layouts.css') }}\">",
+        "<link rel='stylesheet' type='text/css' href=\"{{ url_for('static',",
+        "    filename='css/navbars.css') }}\">",
+        "<link rel='stylesheet' type='text/css' href=\"{{ url_for('static',",
+		"    filename='css/tabs.css') }}\">",
+		"<!-- custom-stylesheets end -->",
+	],
+	"description": "Custom stylesheet sources"
 }
+
 
 "HTML Comment": {
 	"prefix": "hcomment",
