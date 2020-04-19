@@ -5,8 +5,6 @@
         <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
 
         <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm' crossorigin='anonymous'>
-        <script src='https://cdnjs.cloudflare.com/ajax/libs/holder/2.3.2/holder.min.js'
-         type='text/javascript'></script>
         <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
         <link href='https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'
          rel='stylesheet'
@@ -23,22 +21,46 @@
         <link rel='stylesheet' type='text/css' href="{{ url_for('static',
             filename='css/tabs.css') }}">
         <!-- custom-stylesheets end -->
+
     </head>
     <body>
-        This is a test
-        <br><br>
-        <div class="grid-container-1">
-            <div class="grid-element-1">
-                Element 1
-            </div>
-            <div class="grid-element-1">
-                Element 2
-            </div>
-            <div class="grid-element-1">
-                Element 3
-            </div>
+        <div class="wrapper">
+            <div class="one">One</div>
+            <div class="two">Two</div>
+            <div class="three colored">Three</div>
+            <div class="four colored">Four</div>
+            <div class="five colored">Five</div>
+            <div class="six colored">Six</div>
         </div>
-
+        <br>
+        <div class="grid-layout-1 c3">
+            <div class="gelem c1c4 r1r2 colored">One</div>
+            <div class="gelem c1c2 r2r4 colored">Two</div>
+            <div class="gelem c2c4 r2r4 colored">Three</div>
+        </div>
+        <br>
+        <br>
+        <div class="grid-layout-1 c3">
+            <div class="gelem c1c4 r1r2 colored">One</div>
+            <div class="gelem c1c2 r2r3 colored">Two</div>
+            <div class="gelem c2c4 r2r3 colored">Three</div>
+            <div class="gelem c1c4 r3r4 colored">Four</div>
+        </div>
+        <br>
+        <br>
+        <div class="grid-layout-1 c3">
+            <div class="gelem  colored">One</div>
+            <div class="gelem colored">Two</div>
+            <div class="gelem colored">Three</div>
+            <div class="gelem colored">Four</div>
+            <div class="gelem colored">Five</div>
+            <div class="gelem colored">Six</div>
+            <div class="gelem colored">Seven</div>
+            <div class="gelem colored">Eight</div>
+            <div class="gelem colored">Nine</div>
+        </div>
+        <br>
+        <br>
 
 
         <!-- bs-src -->
@@ -46,6 +68,9 @@
         <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js' integrity='sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q' crossorigin='anonymous'></script>
         <script src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js' integrity='sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl' crossorigin='anonymous'></script>
         <!-- bs-src end -->
+        <script type='text/javascript'
+        src="{{ url_for('static', filename='js/builder/components.js') }}"></script>
+
     </body>
 
 
