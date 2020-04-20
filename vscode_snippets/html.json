@@ -455,6 +455,50 @@
 	],
 	"description": "Bootstrap collapse - tablist card"
 },
+"Bootstrap table": {
+	"prefix": "bs-table",
+	"body": [
+		"<!-- bs-table -->",
+		"<table class='table ${1: table-dark} ${2:table-striped} ",
+		" ${3:table-bordered} ${4:table-hover} ${5:table-sm}'>",
+		"    <thead class='${6: thead-dark|thead-light}'>",
+		"        <tr>",
+		"            <th scope='col'>#</th>",
+		"            <th scope='col'>First</th>",
+		"            <th scope='col'>Last</th>",
+		"        </tr>",
+		"    </thead>",
+		"    ${7:<caption>Caption</caption}",
+		"    <tbody>",
+		"        <tr ${8:class='table-${9:primary|secondary|success|danger}}'>",
+		"            <th scope='row'>1</th>",
+		"            <td>Mark</td>",
+		"            <td>Otto</td>",
+		"        </tr>",
+		"        <tr>",
+		"            <th scope='row'>2</th>",
+		"            <td>Joe</td>",
+		"            <td>Pechie</td>",
+		"        </tr>",
+		"    </tbody>",
+		"</table>",
+		"<!-- bs-table end -->",
+	],
+	"description": "Bootstrap table row"
+},
+"Bootstrap table row": {
+	"prefix": "bs-table-row",
+	"body": [
+		"<!-- bs-table-row -->",
+		"<tr ${8:class='table-${9:primary|secondary|success|danger}}'>",
+		"    <th scope='row'>1</th>",
+		"    <td>Mark</td>",
+		"    <td>Otto</td>",
+		"</tr>",
+		"<!-- bs-table-row end -->",
+	],
+	"description": "Bootstrap table row"
+},
 "Custom menu-icon": {
 	"prefix": "custom-menu-icon",
 	"body": [

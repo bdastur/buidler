@@ -24,6 +24,10 @@ def handle_layouts():
     return render_template('layouts.html')
 
 
+@app.route("/tables")
+def handle_tables():
+    return render_template('tables.html')
+
 def main():
     app.run(host='127.0.0.1', port=5005, debug=True)
 
