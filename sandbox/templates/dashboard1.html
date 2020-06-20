@@ -1,0 +1,132 @@
+<html>
+    <head>
+        <!-- bs-stylesheets -->
+        <meta charset='utf-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>
+
+        <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' integrity='sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm' crossorigin='anonymous'>
+        <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+        <link href='https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'
+         rel='stylesheet'
+         integrity='sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN'
+         crossorigin='anonymous'>
+        <!-- bs-stylesheets end -->
+        <!-- custom-stylesheets -->
+        <link rel='stylesheet' type='text/css' href="{{ url_for('static',
+            filename='css/shared.css') }}">
+        <link rel='stylesheet' type='text/css' href="{{ url_for('static',
+            filename='css/layouts.css') }}">
+        <link rel='stylesheet' type='text/css' href="{{ url_for('static',
+            filename='css/navbars.css') }}">
+        <link rel='stylesheet' type='text/css' href="{{ url_for('static',
+            filename='css/tabs.css') }}">
+        <link rel='stylesheet' type='text/css' href="{{ url_for('static',
+            filename='css/cards.css') }}">
+        <link rel='stylesheet' type='text/css' href="{{ url_for('static',
+            filename='css/custom.css') }}">
+        <!-- custom-stylesheets end -->
+
+    </head>
+    <body>
+        <!-- navbar-custom1 -->
+        <!-- You need font awesome, and custom.css files -->
+        <div class='custom-navbar-1'>
+            <a class='custom-active' href='#'><i class='fa fa-fw fa-home'></i> Home</a>
+            <a href='#'><i class='fa fa-fw fa-envelope'></i> Contact</a>
+            <a href='#'><i class='fa fa-fw fa-user'></i> Login</a>
+            <a href='#'><i class='fa fa-fw fa-search'></i> Search</a>
+        </div>
+        <!-- navbar-custom1 end -->
+
+        <!-- custom-grid-layout-1 -->
+        <div class='grid-layout-1 c4 gap-5px'>
+            <div class="gelem c1c5 r1r2 colored-lite">Cost Optimization</div>
+            <div id="cost-ec2" class='gelem  r2r3 colored-lite '>
+                <!-- bs-card -->
+                <div class='card text-center noborder colored-lite' style='width: 20rem'>
+                    <div class='card-body'>
+                        <h3 class="display-5">2,323$ Monthly</h3>
+                        <h6 class='card-subtitle mb-2 text-muted'>
+                            Trusted Advisor. Underutilized EC2 Instances
+                        </h6>
+                        Details
+                        <a href='#'' class='card-link'>summary</a>
+                    </div>
+                </div>
+                <!-- bs-card end -->
+            </div>
+            <div id="cost-ebs" class='gelem  r2r3 colored-lite '>
+                <!-- bs-card -->
+                <div class='card text-center noborder colored-lite' style='width: 20rem'>
+                    <div class='card-body'>
+                        <h4 class="display-4">20%</h4>
+                        <h6 class='card-subtitle mb-2 text-muted'>
+                            Rate of return
+                        </h6>
+                        Details
+                        <a href='#'' class='card-link'>summary</a>
+                    </div>
+                </div>
+                <!-- bs-card end -->
+                <div>
+                    
+                </div>
+                
+            </div>
+            <div id="cost-efs" class='gelem  r2r3 colored-lite '>
+                <!-- bs-card -->
+                <div class='card text-center' >
+                    <div class='card-header custom-font-1 noborder'>EFS Cost</div>
+                    <div class='card-body'>
+                        <h5 class='card-title'>238.4$ monthly</h5>
+                        <h6 class='card-subtitle mb-2 text-muted'>Card subtitle</h6>
+                        card-content
+                        <a href='#'' class='card-link'>Card link</a>
+                        <div class='card-footer text-muted'>Footer</div>
+                    </div>
+                </div>
+                <!-- bs-card end -->
+            </div>
+            <div id="cost-rds" class='gelem  r2r3 colored-lite '>
+                <div class='custom-card'>
+                    <div class="custom-card-header custom-font-1">
+                        Header
+                    </div>
+                    <div class="custom-card-body">
+                        <h5 class="custom-card-title">Card title</h5>
+                        <h6 class="custom-card-subtitle">Custom Card subtitle</h6>
+                    </div>
+                </div>
+            </div>
+
+            <div class='gelem  c1c2 r3r5 colored-lite '>Two</div>
+            <div class='gelem c2c4 r3r5 colored-lite '>
+                <div class='custom-card'>
+                    <div class="custom-card-header custom-font-1">
+                        IAM Security
+                    </div>
+                    <div class="custom-card-body">
+                        <h5 class="custom-card-title">
+                            Password Strength: Good<br>
+                            Password Expiry: 90 days
+                        </h5>
+                        <h6 class="custom-card-subtitle">Custom Card subtitle</h6>
+                    </div>
+                </div>
+            </div>
+       </div>
+       <!-- custom-grid-layout-1 end -->
+
+
+        <!-- bs-src -->
+        <script src='https://code.jquery.com/jquery-3.2.1.slim.min.js' integrity='sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN' crossorigin='anonymous'></script>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js' integrity='sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q' crossorigin='anonymous'></script>
+        <script src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js' integrity='sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl' crossorigin='anonymous'></script>
+        <!-- bs-src end -->
+        <script type='text/javascript'
+        src="{{ url_for('static', filename='js/builder/components.js') }}"></script>
+
+    </body>
+
+
+</html>
