@@ -28,6 +28,11 @@ def handle_layouts():
 def handle_tables():
     return render_template('tables.html')
 
+@app.route("/dashboard1")
+def handle_sample_dashboard():
+    return render_template("dashboard1.html")
+
+
 def main():
     app.run(host='127.0.0.1', port=5005, debug=True)
 
