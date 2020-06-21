@@ -1,0 +1,43 @@
+.noborder {
+    border: none;
+}
+
+.custom-font-1 {
+	font-size: x-large;
+	font-weight: 300;
+	background-color: rgba(160, 193, 148, 1);
+}
+
+.custom-card {
+	text-align: center;
+    font-variant: normal;
+    font-family: 'Roboto', sans-serif;
+}
+
+.custom-card-header {
+	border-radius: 6px 6px 0px 0px;
+	background-color: rgba(228, 188, 173, 1);
+}
+
+.custom-card-body {
+    padding: 6px;
+    margin: 5px;
+}
+
+.custom-card-title {
+	padding-bottom: 5px;
+	font-family: 'Roboto', sans-serif;
+    font-size: 30px;
+    color: #292b25;
+}
+
+.custom-card-subtitle {
+	text-decoration: underline;
+	color: #292b25;
+    opacity: 0.8;
+}
+
+.text-muted{
+    opacity: 0.5;
+}
+
