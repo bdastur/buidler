@@ -10,6 +10,7 @@
 
 /*
  * grid-layout c3 for 3 columns.
+ * Usage "class: grid-layout-1 c3"
  */
 .grid-layout-1.c3 {
     grid-template-columns: repeat(3, 1fr);
@@ -17,6 +18,7 @@
 
 /*
  * grid-layout c4 for 4 columns.
+ * Usage "class: grid-layout-1 c4"
  */
  .grid-layout-1.c4 {
     grid-template-columns: repeat(4, 1fr);
@@ -63,7 +65,7 @@
 }
 
 .gelem.c3c4 {
-    grid-column: 3 / 4;
+    grid-column: 3;
 }
 
 .gelem.c3c5 {
