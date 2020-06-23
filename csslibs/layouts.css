@@ -4,7 +4,7 @@
  */
  .grid-layout-1 {
     display: grid;
-    grid-auto-rows: minmax(50px, auto);
+    grid-auto-rows: minmax(20px, auto);
     grid-gap: 5px;
 }
 
@@ -24,6 +24,10 @@
     grid-template-columns: repeat(4, 1fr);
 }
 
+/*
+* grid-layout no gap.
+* Usage "class grid-layout-1 gap-none
+*/
 .grid-layout-1.gap-none {
     grid-gap: 0px;
 }
@@ -35,6 +39,7 @@
 .grid-layout-1.gap-10px {
     grid-gap: 10px;
 }
+
 
 .gelem.c1c2 {
     grid-column: 1;
@@ -96,14 +101,8 @@
     grid-row: 3;
 }
 
-.bordered {
-    border: 2px solid black;
+.fixed-row-height {
+	height: 100px;
 }
 
-.colored {
-    background-color: rgba(248, 175, 39, 0.50);
-}
 
-.colored-lite {
-    background-color: rgb(229,255,247, 0.9);
-}

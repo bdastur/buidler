@@ -28,6 +28,10 @@ def handle_layouts():
 def handle_tables():
     return render_template('tables.html')
 
+@app.route("/cards")
+def handle_cards():
+    return render_template('cards.html')
+
 @app.route("/dashboard1")
 def handle_sample_dashboard():
     return render_template("dashboard1.html")
