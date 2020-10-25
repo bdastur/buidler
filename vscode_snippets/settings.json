@@ -1,0 +1,11 @@
+{
+    "editor.tabCompletion": true,
+    "editor.snippetSuggestions": "top",
+    "editor.cursorStyle": "block",
+    "[markdown]": {
+        "editor.quickSuggestions": true
+    },
+    "[yaml]": {
+        "editor.quickSuggestions": true
+    }
+}
