@@ -36,6 +36,9 @@ def handle_cards():
 def handle_sample_dashboard():
     return render_template("dashboard1.html")
 
+@app.route("/forms")
+def handle_forms():
+    return render_template("forms.html")
 
 def main():
     app.run(host='127.0.0.1', port=5005, debug=True)
