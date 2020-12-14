@@ -41,6 +41,12 @@ function openTab(evt, tabHeadingClass, tabContentClass, tabContentId) {
  *
  * 2. Render a React Component:
  *   ReactDOM.render(element, container[, callback])
+ * 
+ * Other lifecycle methods:
+ *   componentDidMount() method runs after the component 
+ *   output has been rendered to the DOM. 
+ * 
+ * 
 ***************************************************/
 
 
@@ -49,157 +55,173 @@ function openTab(evt, tabHeadingClass, tabContentClass, tabContentId) {
  * Jumbotron:
  * 
  * 
- * 
- * 
  */
-new_set_style = () => {
-    let header_style = {
-        color: this.props.style.color,
-        backgroundColor: "DodgerBlue",
-        padding: "10px",
-        fontFamily: "Arial"
-    };
-
-    return(header_style);
-
-}
-class Jumbotron1 extends React.Component {
+class Jumbotron extends React.Component {
     constructor (props) {
         super(props); 
+        this.state = {
+          data: "Sample",
+          color: "black",
+          fontFamily: "Sans Serif"
+        };
+
+        this.style_overrides = [
+          "color", "backgroundColor", "fontFamily"
+        ];
     }
 
-    set_style () {
+    componentDidMount () {
+        console.log("componentDidMount");
+        this.setState({data: this.props.text});
+    }
+
+    componentWillMount () {
+        console.log("componentWillUnmount");
+    }
+
+    set_style (prop_style) {
+        //Set default style
         let header_style = {
-            color: this.props.style.color,
-            backgroundColor: "DodgerBlue",
+            color: "black",
+            backgroundColor: "White",
             padding: "10px",
             fontFamily: "Sans Serif"
         };
+        //Overrides.
+        for (let idx in this.style_overrides) {
+          let override = this.style_overrides[idx];
+          if (override in prop_style) {
+            console.log("Override: " + override);
+            header_style[override] = prop_style[override];
+          }
+        }
         return(header_style);
+    }
+
+    set_id (props) {
+        let id = "jumbo-" + Math.ceil(Math.random() * 100000);
+        if (this.props.hasOwnProperty("id") && this.props.id != undefined) {
+            console.log("Id is specified, set it "  + this.props.id);
+            id = props.id;
+        }
+        return(id);
+    }
+
+    clickHandler = (event, data) => {
+      console.log("clicked " + event.target.value);
+      let rand_str = "Random: " + Math.ceil(Math.random() * 100000);
+      this.setState({data: "Clicked " + rand_str});
     }
     
     render () {
-        const header_style = this.set_style();
-        let element_type = "h1";
+        console.log("Jumbotron, render!");
+        const header_style = this.set_style(this.props.style);
+
+        let id = this.set_id(this.props);
+
         let props = {
+          id: id,
           style: header_style
+        };
+
+        if ("class" in this.props) {
+          props['class'] = this.props.class;
         }
-        if (this.props.element_type == "display") {
-            props['class'] = "display-1"
-            element_type = "h1"
-        }
+        props['onClick'] = this.clickHandler;
+
         let elem =  React.createElement(
-            element_type, props, "Name: ",  this.props.text);
+            this.props.element_type, props, "Name: ",  this.state.data);
 
         return(elem);
     }
 }
 
-create_jumbotron1 = (element_type) => {
+
+create_jumbotron = (user_input, container) => {
+    const valid_elements = ["h1", "h2", "h3", "h4", "h5", "h6"];
+    const valid_class = ["display-1", "display-2", "display-3", 
+                   "display-4", "display-5", "display-6"];
+
+    if (! valid_elements.includes(user_input.element_type)) {
+        console.log("Pass valid h elements");
+        return; 
+    }
+
+    if (! valid_class.includes(user_input.class)) {
+      console.log("Pass valid class elements");
+      return
+    }
+
+    /*
+     * Set default props.
+     */
     let jtprops = {
-        element_type: "display",
-        text: "jslib: This is a prop text! new jumbotron",
+        id: user_input.id,
+        element_type: user_input.element_type,
+        class: user_input.display,
+        text: user_input.text,
         style: {
-            color: "yellow"
+            color: "black",
+            fontFamily: "Times New Roman",
+            backgroundColor: "#d6edd5"
         }
     }  
 
-    let jt = React.createElement(Jumbotron1, jtprops, null);
-    ReactDOM.render(jt, document.getElementById("jt"));
-
+    let jt = React.createElement(Jumbotron, jtprops, null);
+    ReactDOM.render(jt, container);
 }
 
-create_jumbotron1();
 
-
-
-class Jumbotron extends React.Component {
-  constructor (props) {
-      super(props);
-      this.state = { name: 'Testing'};
-  }
-
-  clickHandler = () => {
-      console.log("Clicked!");
-      this.setState({name: "Clicked!"});
-  }
-
-  render () {
-      const header_style = {
-          color: this.props.style.color,
-          backgroundColor: "DodgerBlue",
-          padding: "10px",
-          fontFamily: "Arial"
-      }
-      let props = {
-          style: header_style,
-          onClick: this.clickHandler
-      }
-      if ("class" in this.props) {
-          props['class'] = this.props.class;
-      }
-
-      let elem =  React.createElement(
-          "h1", props, "Name: ",  this.props.text);
-
-      return elem
-  }
-}
-
+/*
+ * Category: Content
+ * Table
+ */
 class Card extends React.Component {
-  constructor (props) {
-      super(props);
-  }
+    constructor (props) {
+        super(props);
+    }
 
-  render () {
-      const header_style = {
-          color: this.props.style.color,
-          backgroundColor: "DodgerBlue",
-          padding: "10px",
-          fontFamily: "Arial"
-      }
+    render () {
+        let jtprops = {
+            element_type: "h3",
+            class: "display-3",
+            text: "Testing -1",
+            style: {
+                color: "black",
+                fontFamily: "Times New Roman",
+                backgroundColor: "#d6edd5"
+            }
+        }  
+        let jt1 = React.createElement(Jumbotron, jtprops, null);
 
-      let jumbo = React.createElement(Jumbotron, this.props, null);
-      let elem =  React.createElement(
-          "div", {style: header_style, onClick: this.clickHandler}, jumbo);
+        jtprops['id'] = "jt122";
+        jtprops['text'] = "Testing2";
+        let jt2 = React.createElement(Jumbotron, jtprops, null);
+      
+        let props = {
+            id: "card-div"
+        };
+        let div = React.createElement(
+          "div", props, jt1, jt2);
+        
+        return (div);
+    }
 
-
-      return elem
-  }
+}
+  
+create_card = () => {
+  let tb = React.createElement(Card, null, null);
+  ReactDOM.render(tb, document.getElementById("table1"));
 }
 
-let  card_prop = {
-  text: "Card data",
-  style: {
-      color: "white"
-  }
-}
-let card1 = React.createElement(Card, card_prop, null);
-ReactDOM.render(card1, document.getElementById("card"));
 
-let props = {
-  text: "jslib: This is a prop text!",
-  style: {
-      color: "yellow"
-  }
-}
 
-let jumbotron = React.createElement(Jumbotron, props, null);
-ReactDOM.render(jumbotron, document.getElementById("root"));
 
-function create_element(elem) {
-  console.log("Create elementt!");
-  let newp = {
-      text: "jslib: This is a new prop!",
-      style: {
-          color: "red"
-      }
-  }
-  let new_jumbotron = React.createElement(eval(elem), newp, null);
-  ReactDOM.render(new_jumbotron, document.getElementById("root2"));
-}
+// function create_element(elem) {
+//   let new_jumbotron = React.createElement(eval(elem), newp, null);
+//   ReactDOM.render(new_jumbotron, document.getElementById("root2"));
+// }
 
-create_element("Jumbotron");
 
 /*
  * Grid Layout.
@@ -239,7 +261,7 @@ class Grid extends React.Component {
           class: "gelem  c1c4  r1r2  colored"
       }
 
-      let jumbotron = React.createElement(Jumbotron, 
+      let jumbotron = React.createElement(Jumbotron3, 
           jumbo_props, null);
       let gelem1 = React.createElement(
           "div", {class: "gelem  c1c4  r1r2  colored" }, "One");
