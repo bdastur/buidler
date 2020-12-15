@@ -60,13 +60,13 @@ class Jumbotron extends React.Component {
     constructor (props) {
         super(props); 
         this.state = {
-          data: "Sample",
-          color: "black",
-          fontFamily: "Sans Serif"
+            data: "Sample",
+            color: "black",
+            fontFamily: "Sans Serif"
         };
 
         this.style_overrides = [
-          "color", "backgroundColor", "fontFamily"
+            "color", "backgroundColor", "fontFamily"
         ];
     }
 
@@ -175,42 +175,84 @@ create_jumbotron = (user_input, container) => {
 /*
  * Category: Content
  * Table
+ * A Table has the following sub components:
+ *   . Table Header thead
+ *     . header row
+ *   . Table Body
+ *     . Table rows
  */
-class Card extends React.Component {
+class Table extends React.Component {
     constructor (props) {
         super(props);
+        this.state = {
+            data: {}
+        };
+    }
+    componentDidMount () {
+        console.log("componentDidMount");
+        this.setState({data: this.props.data});
+        console.log(this.state.data);
+        console.log("end -- componentDidMount");
+    }
+
+    componentWillMount () {
+        console.log("Table - componentWillmount");
+        this.setState({data: this.props.data});
+        console.log(this.state.data);
+        console.log("end -- componentWillMount");
     }
 
     render () {
-        let jtprops = {
-            element_type: "h3",
-            class: "display-3",
-            text: "Testing -1",
-            style: {
-                color: "black",
-                fontFamily: "Times New Roman",
-                backgroundColor: "#d6edd5"
+        console.log("Table - render");
+        // Table Header
+        let columns = this.state.data.headers;
+        //let columns = this.props.data.headers;
+        let scope = "col";
+        let th_list = [];
+        for (let idx in columns) {
+            let obj = React.createElement(
+                "th", {scope: scope, id: idx }, columns[idx]);
+            th_list.push(obj);
+        }
+        let tr = React.createElement("tr", null, th_list);
+        let thead = React.createElement("thead", null, tr)
+
+        // Table Body.
+        //let data = this.props.data.rows;
+        let data = this.state.data.rows;
+        let tr_list = [];
+        for (let row_idx in data) {
+            let th_ro = React.createElement("th", null, row_idx);
+            let cols = [];
+            for (let col_idx in data[row_idx]) {
+                cols.push(React.createElement(
+                    "td", null, data[row_idx][col_idx]));  
             }
-        }  
-        let jt1 = React.createElement(Jumbotron, jtprops, null);
-
-        jtprops['id'] = "jt122";
-        jtprops['text'] = "Testing2";
-        let jt2 = React.createElement(Jumbotron, jtprops, null);
-      
-        let props = {
-            id: "card-div"
-        };
-        let div = React.createElement(
-          "div", props, jt1, jt2);
+            let obj = React.createElement("tr", null, th_ro, cols);
+            tr_list.push(obj);
+        }
+        let tbody = React.createElement("tbody", null, tr_list)
         
-        return (div);
+        // Table
+        let table = React.createElement(
+          "table", {class: "table table-bordered"}, thead, tbody);
+        return (table);
     }
-
 }
+
   
-create_card = () => {
-  let tb = React.createElement(Card, null, null);
+create_table = () => {
+  let table_props = {
+      data: {
+          headers: ["#", "First", "Last", "Hanndle"],
+          rows: [
+              ["Larry", "Bird", "@bird"],
+              ["Justin", "Donahue", "@donahue"],
+              ["John", "Johnson", "@jj"]
+          ]
+      }
+  }
+  let tb = React.createElement(Table, table_props, null);
   ReactDOM.render(tb, document.getElementById("table1"));
 }
 
