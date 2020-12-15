@@ -13,7 +13,7 @@ user_input['class'] = "display-2";
 container = document.getElementById("test2");
 create_jumbotron(user_input, container);
 
-create_card();
+create_table();
 
 
 // test_text = () => {
