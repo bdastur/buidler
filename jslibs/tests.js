@@ -15,6 +15,13 @@ create_jumbotron(user_input, container);
 
 create_table();
 
+let form = React.createElement(Form, null, null);
+ReactDOM.render(form, document.getElementById("form"));
+
+
+let signup = React.createElement(Signup, null, null);
+ReactDOM.render(signup, document.getElementById("signup"));
+
 
 // test_text = () => {
 //     let user_input = {

@@ -202,6 +202,11 @@ class Table extends React.Component {
         console.log("end -- componentWillMount");
     }
 
+    update_state = (data) => {
+        alert("Submitted")
+        console.log(data);
+    }
+
     render () {
         console.log("Table - render");
         // Table Header
@@ -256,13 +261,159 @@ create_table = () => {
   ReactDOM.render(tb, document.getElementById("table1"));
 }
 
+class Form extends React.Component {
+    constructor (props) {
+        super(props);
+    }
 
+    submitForm = (event, value) => {
+        alert("Submitted")
+        console.log(value);
+    }
+
+    render () {
+        let props = {
+            data: {
+                headers: ["#", "First", "Last", "Hanndle"],
+                rows: [
+                    ["Larry", "Bird", "@bird"],
+                    ["Justin", "Donahue", "@donahue"],
+                     ["John", "Johnson", "@jj"]
+                ]
+            }  
+        }
+        let table = React.createElement(Table, props, null);
+        let button = React.createElement(
+            "button", {onClick: this.submitForm}, "Submit");
+        let div = React.createElement("div", null, table, button);
+        return(div);
+    }
+}
 
 
 // function create_element(elem) {
 //   let new_jumbotron = React.createElement(eval(elem), newp, null);
 //   ReactDOM.render(new_jumbotron, document.getElementById("root2"));
 // }
+
+
+class FormGroup extends React.Component {
+  constructor (props) {
+    super(props);
+  }
+
+  fg_email_props = {
+    label: "Email address",
+    type: "email",
+    placeholder: "Email address",
+    small_text: "We will never share your email with anyone"
+  }
+
+  set_style (props) {
+    let fg_props = {
+      label: props.label,
+      type: props.type,
+      placeholder: props.placeholder,
+      small_text: props.small_text
+    }
+    return (fg_props);    
+  }
+
+  onChangeHandler = (event) => {
+    console.log("Value: " + event.target.value);
+    let data = {
+      type: this.props.type,
+      value: event.target.value
+    }
+    this.props.callback(data);
+  }
+
+  render () {
+    let fg_props = this.set_style(this.props);
+
+    let email_label = React.createElement(
+      "label", null, fg_props.label);
+
+    let email_input = React.createElement(
+      "input", 
+      {type: fg_props.type , 
+       onChange: this.onChangeHandler,
+       class: "form-control", 
+       placeholder: fg_props.placeholder},
+      null);
+    let email_small = React.createElement(
+      "small",
+      {class: "form-text text-muted"},
+      fg_props.small_text);
+
+    let div_email = React.createElement(
+      "div", {class: "form-group"}, email_label, email_input, email_small);
+    
+    return (div_email);
+  }
+}
+
+/*
+ * Category: Form
+ * Component: Signup
+ * 
+ * 
+ */
+class Signup extends React.Component {
+  constructor (props) {
+    super(props);
+    this.state = {
+      email: "dummy",
+      password: ""
+    }
+  }
+
+
+  formGroupCallback = (data) => {
+    console.log("Callback Invoked!");
+    if (data.type == "email") {
+      this.setState({email: data.value});
+    } else {
+      this.setState({password: data.value});
+    }
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    console.log("Handle Submit:  " + JSON.stringify(this.state));
+    alert("Submit " + JSON.stringify(this.state));
+    console.log("Handle Submit!");
+  }
+
+  render () {
+    let fg_email_props = {
+      label: "Email address",
+      type: "email",
+      placeholder: "Email address",
+      small_text: "We will never share your email with anyone",
+      callback: this.formGroupCallback
+    }
+    let fg_email = React.createElement(FormGroup, fg_email_props, null);
+
+    let fg_password_props = {
+      label: "Password",
+      type: "password",
+      placeholder: "password (min 8 chars)",
+      small_text: "",
+      callback: this.formGroupCallback
+    }
+    let fg_password = React.createElement(FormGroup, fg_password_props, null);
+    
+    let submit_button = React.createElement(
+      "button", {type: "submit", value: "Submit", class: "btn btn-primary"}, "Submit");
+
+    let form = React.createElement(
+      "form", {onSubmit: this.handleSubmit}, fg_email, fg_password, submit_button)
+    return (form);
+  }
+}
+
+
 
 
 /*
