@@ -28,37 +28,37 @@ function openTab(evt, tabHeadingClass, tabContentClass, tabContentId) {
  *
  * This library will use the core ReactJS APIs and not rely
  * on the JSX.
- * Each JSX element is just syntactic sugar for calling 
+ * Each JSX element is just syntactic sugar for calling
  *
  * Tow main APIs:
  * 1. Create a new component/element:
- *   React.createElement(component, props, ...children). 
- *  
- * So, anything you can do with JSX can also be done with just 
+ *   React.createElement(component, props, ...children).
+ *
+ * So, anything you can do with JSX can also be done with just
  *  plain JavaScript.
  *
  * https://reactjs.org/docs/react-api.html#createelement
  *
  * 2. Render a React Component:
  *   ReactDOM.render(element, container[, callback])
- * 
+ *
  * Other lifecycle methods:
- *   componentDidMount() method runs after the component 
- *   output has been rendered to the DOM. 
- * 
- * 
+ *   componentDidMount() method runs after the component
+ *   output has been rendered to the DOM.
+ *
+ *
 ***************************************************/
 
 
 /*
  * Category Content.
  * Jumbotron:
- * 
- * 
+ *
+ *
  */
 class Jumbotron extends React.Component {
     constructor (props) {
-        super(props); 
+        super(props);
         this.state = {
             data: "Sample",
             color: "black",
@@ -112,7 +112,7 @@ class Jumbotron extends React.Component {
       let rand_str = "Random: " + Math.ceil(Math.random() * 100000);
       this.setState({data: "Clicked " + rand_str});
     }
-    
+
     render () {
         console.log("Jumbotron, render!");
         const header_style = this.set_style(this.props.style);
@@ -139,12 +139,12 @@ class Jumbotron extends React.Component {
 
 create_jumbotron = (user_input, container) => {
     const valid_elements = ["h1", "h2", "h3", "h4", "h5", "h6"];
-    const valid_class = ["display-1", "display-2", "display-3", 
+    const valid_class = ["display-1", "display-2", "display-3",
                    "display-4", "display-5", "display-6"];
 
     if (! valid_elements.includes(user_input.element_type)) {
         console.log("Pass valid h elements");
-        return; 
+        return;
     }
 
     if (! valid_class.includes(user_input.class)) {
@@ -165,7 +165,7 @@ create_jumbotron = (user_input, container) => {
             fontFamily: "Times New Roman",
             backgroundColor: "#d6edd5"
         }
-    }  
+    }
 
     let jt = React.createElement(Jumbotron, jtprops, null);
     ReactDOM.render(jt, container);
@@ -231,13 +231,13 @@ class Table extends React.Component {
             let cols = [];
             for (let col_idx in data[row_idx]) {
                 cols.push(React.createElement(
-                    "td", null, data[row_idx][col_idx]));  
+                    "td", null, data[row_idx][col_idx]));
             }
             let obj = React.createElement("tr", null, th_ro, cols);
             tr_list.push(obj);
         }
         let tbody = React.createElement("tbody", null, tr_list)
-        
+
         // Table
         let table = React.createElement(
           "table", {class: "table table-bordered"}, thead, tbody);
@@ -245,7 +245,7 @@ class Table extends React.Component {
     }
 }
 
-  
+
 create_table = () => {
   let table_props = {
       data: {
@@ -280,7 +280,7 @@ class Form extends React.Component {
                     ["Justin", "Donahue", "@donahue"],
                      ["John", "Johnson", "@jj"]
                 ]
-            }  
+            }
         }
         let table = React.createElement(Table, props, null);
         let button = React.createElement(
@@ -316,7 +316,7 @@ class FormGroup extends React.Component {
       placeholder: props.placeholder,
       small_text: props.small_text
     }
-    return (fg_props);    
+    return (fg_props);
   }
 
   onChangeHandler = (event) => {
@@ -335,10 +335,10 @@ class FormGroup extends React.Component {
       "label", null, fg_props.label);
 
     let email_input = React.createElement(
-      "input", 
-      {type: fg_props.type , 
+      "input",
+      {type: fg_props.type ,
        onChange: this.onChangeHandler,
-       class: "form-control", 
+       class: "form-control",
        placeholder: fg_props.placeholder},
       null);
     let email_small = React.createElement(
@@ -348,7 +348,7 @@ class FormGroup extends React.Component {
 
     let div_email = React.createElement(
       "div", {class: "form-group"}, email_label, email_input, email_small);
-    
+
     return (div_email);
   }
 }
@@ -356,8 +356,8 @@ class FormGroup extends React.Component {
 /*
  * Category: Form
  * Component: Signup
- * 
- * 
+ *
+ *
  */
 class Signup extends React.Component {
   constructor (props) {
@@ -366,6 +366,28 @@ class Signup extends React.Component {
       email: "dummy",
       password: ""
     }
+  }
+
+  ajax_success_handler(data, status, xhr)
+  {
+    let curdate = new Date()
+    let lastupdated_string = curdate.toDateString() + " " +
+                         curdate.toTimeString()
+
+    let timeStamp = Math.floor(Date.now() / 1000);
+    let lastUpdatedTimestamp = timeStamp;
+
+    console.log("Ajax Success Handler: ", curdate.toDateString(),
+                "TIME: ", curdate.toTimeString());
+    console.log(JSON.stringify(data));
+    console.log(status);
+  }
+
+  ajax_error_handler(jqXHR, textStatus, errorThrown)
+  {
+    console.log("Ajax Error Handler: ", textStatus, "Error: ", errorThrown);
+    console.log("Date: ", Date.now());
+
   }
 
 
@@ -383,6 +405,12 @@ class Signup extends React.Component {
     console.log("Handle Submit:  " + JSON.stringify(this.state));
     alert("Submit " + JSON.stringify(this.state));
     console.log("Handle Submit!");
+    let url = "/signup"
+    ajaxCall(url,
+            this.ajax_success_handler,
+            this.ajax_error_handler,
+            this.state,
+            "POST");
   }
 
   render () {
@@ -403,7 +431,7 @@ class Signup extends React.Component {
       callback: this.formGroupCallback
     }
     let fg_password = React.createElement(FormGroup, fg_password_props, null);
-    
+
     let submit_button = React.createElement(
       "button", {type: "submit", value: "Submit", class: "btn btn-primary"}, "Submit");
 
@@ -423,14 +451,14 @@ class Signup extends React.Component {
  * {
  *     columns: <no of columns>
  * }
- * 
+ *
  */
 
 class Grid extends React.Component {
     constructor (props) {
         super(props);
     }
-  
+
     set_style (columns) {
         let grid_template_columns = "repeat(" + columns + ", 1fr)";
 
@@ -439,7 +467,7 @@ class Grid extends React.Component {
             gridAutoRows: 'minmax(20px, auto)',
             gridGap: '5px',
             gridTemplateColumns: grid_template_columns
-        };  
+        };
 
         return (grid_style);
     }
@@ -454,7 +482,7 @@ class Grid extends React.Component {
           class: "gelem  c1c4  r1r2  colored"
       }
 
-      let jumbotron = React.createElement(Jumbotron3, 
+      let jumbotron = React.createElement(Jumbotron3,
           jumbo_props, null);
       let gelem1 = React.createElement(
           "div", {class: "gelem  c1c4  r1r2  colored" }, "One");
