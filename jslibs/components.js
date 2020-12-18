@@ -513,12 +513,12 @@ class Grid extends React.Component {
   render () {
     let jumbo_props = {
       id: "test-1",
-      element_type: "h2",
-      class: "display-2 gelem  c1c4  r1r2  colored",
-      text: "Sample header",
+      element_type: "h3",
+      class: "display-3 gelem  c1c4  r1r2  colored",
+      text: "Signup now!!",
       style: {
           color: "black",
-          fontFamily: "Times New Roman",
+          fontFamily: "Roboto, sans-serif",
           backgroundColor: "#d6edd5"
       }
     }
@@ -528,7 +528,7 @@ class Grid extends React.Component {
       // let gelem1 = React.createElement(
       //     "div", {class: "gelem  c1c4  r1r2  colored" }, "One");
       let gelem2 = React.createElement(
-          "div", {class: "gelem  c1c2 r2r4 colored" }, "two");
+          "div", {class: "gelem  c1c2 r2r4 " }, "Signup to try");
 
       let signup_props = {
         class: "gelem c2c4 r2r4"
