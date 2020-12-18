@@ -54,7 +54,16 @@ function openTab(evt, tabHeadingClass, tabContentClass, tabContentId) {
  * Category Content.
  * Jumbotron:
  *
- *
+ * PROPS Definitions:
+ *  id:  <DOM ID>
+ *  element_type: ["h1".. "h6"]
+ *  class:  [Add "display-1".. "display-6" for BS4 display header]
+ *  text: "This is the text to display"
+ *  style:
+ *    color: Font color
+ *    fontFamily: 
+ *    backgroundColor
+ * 
  */
 class Jumbotron extends React.Component {
     constructor (props) {
@@ -75,9 +84,9 @@ class Jumbotron extends React.Component {
         this.setState({data: this.props.text});
     }
 
-    componentWillMount () {
-        console.log("componentWillUnmount");
-    }
+    // componentWillMount () {
+    //     console.log("componentWillUnmount");
+    // }
 
     set_style (prop_style) {
         //Set default style
@@ -130,7 +139,7 @@ class Jumbotron extends React.Component {
         props['onClick'] = this.clickHandler;
 
         let elem =  React.createElement(
-            this.props.element_type, props, "Name: ",  this.state.data);
+            this.props.element_type, props, this.state.data);
 
         return(elem);
     }
@@ -300,6 +309,9 @@ class Form extends React.Component {
 class FormGroup extends React.Component {
   constructor (props) {
     super(props);
+    this.state = {
+        help_text: ""
+    }
   }
 
   fg_email_props = {
@@ -319,17 +331,31 @@ class FormGroup extends React.Component {
     return (fg_props);
   }
 
+
   onChangeHandler = (event) => {
     console.log("Value: " + event.target.value);
     let data = {
       type: this.props.type,
       value: event.target.value
     }
+    if (this.props.type == "password") {
+      if (event.target.value.length < 8) {
+        this.setState({help_text: "Password Does not Meet Standards"});
+      } else {
+        this.setState({help_text: "Password Meets Standards"});
+      }
+
+    }
     this.props.callback(data);
   }
 
   render () {
     let fg_props = this.set_style(this.props);
+
+    let help_text = this.state.help_text;
+    if (fg_props.small_text != "") {
+        help_text = fg_props.small_text;
+    }
 
     let email_label = React.createElement(
       "label", null, fg_props.label);
@@ -344,7 +370,7 @@ class FormGroup extends React.Component {
     let email_small = React.createElement(
       "small",
       {class: "form-text text-muted"},
-      fg_props.small_text);
+       help_text);
 
     let div_email = React.createElement(
       "div", {class: "form-group"}, email_label, email_input, email_small);
@@ -435,8 +461,16 @@ class Signup extends React.Component {
     let submit_button = React.createElement(
       "button", {type: "submit", value: "Submit", class: "btn btn-primary"}, "Submit");
 
+    let form_props = {
+      onSubmit: this.handleSubmit
+    }
+    if ("class" in this.props) {
+      form_props['class'] = this.props.class;
+    }
+     
+
     let form = React.createElement(
-      "form", {onSubmit: this.handleSubmit}, fg_email, fg_password, submit_button)
+      "form", form_props, fg_email, fg_password, submit_button)
     return (form);
   }
 }
@@ -477,25 +511,37 @@ class Grid extends React.Component {
     }
 
   render () {
-      let jumbo_props = {
-          style: this.props.style,
-          class: "gelem  c1c4  r1r2  colored"
+    let jumbo_props = {
+      id: "test-1",
+      element_type: "h2",
+      class: "display-2 gelem  c1c4  r1r2  colored",
+      text: "Sample header",
+      style: {
+          color: "black",
+          fontFamily: "Times New Roman",
+          backgroundColor: "#d6edd5"
       }
+    }
 
-      let jumbotron = React.createElement(Jumbotron3,
+      let jumbotron = React.createElement(Jumbotron,
           jumbo_props, null);
-      let gelem1 = React.createElement(
-          "div", {class: "gelem  c1c4  r1r2  colored" }, "One");
+      // let gelem1 = React.createElement(
+      //     "div", {class: "gelem  c1c4  r1r2  colored" }, "One");
       let gelem2 = React.createElement(
           "div", {class: "gelem  c1c2 r2r4 colored" }, "two");
-      let gelem3 = React.createElement(
-          "div", {class: "gelem c2c4 r2r4 colored" }, "three");
+
+      let signup_props = {
+        class: "gelem c2c4 r2r4"
+      };
+      let signup = React.createElement(Signup, signup_props, null);          
+      // let gelem3 = React.createElement(
+      //     "div", {class: "gelem c2c4 r2r4 colored" }, "three");
 
       let grid_style = this.set_style(this.props.columns);
 
       console.log(grid_style);
       let elem = React.createElement(
-          "div", {style: grid_style}, "main grid", jumbotron, gelem2, gelem3);
+          "div", {style: grid_style}, jumbotron, gelem2, signup);
 
           return elem
   }
