@@ -1,41 +1,15 @@
-/*
- * openTab
- * openTab API is used in conjunction with custom tabs.
-*/
-function openTab(evt, tabHeadingClass, tabContentClass, tabContentId) {
-    // Declare all variables
-    var i, tabcontent, tablinks;
-
-    // Get all elements with class="tabcontent" and hide them
-    tabcontent = document.getElementsByClassName(tabContentClass);
-    for (i = 0; i < tabcontent.length; i++) {
-      tabcontent[i].style.display = "none";
-    }
-
-    // Get all elements with class="tablinks" and remove the class "active"
-    tablinks = document.getElementsByClassName(tabHeadingClass);
-    for (i = 0; i < tablinks.length; i++) {
-      tablinks[i].className = tablinks[i].className.replace(" active", "");
-    }
-
-    // Show the current tab, and add an "active" class to the button that opened the tab
-    document.getElementById(tabContentId).style.display = "block";
-    evt.currentTarget.className += " active";
-  }
 
 /**************************************************
  * ReactJS Components:
  *
  * This library will use the core ReactJS APIs and not rely
- * on the JSX.
- * Each JSX element is just syntactic sugar for calling
+ * on the JSX. Each JSX element is just syntactic sugar for calling
  *
  * Tow main APIs:
  * 1. Create a new component/element:
  *   React.createElement(component, props, ...children).
  *
- * So, anything you can do with JSX can also be done with just
- *  plain JavaScript.
+ * So, anything you can do with JSX can also be done with just plain JavaScript.
  *
  * https://reactjs.org/docs/react-api.html#createelement
  *
@@ -46,7 +20,41 @@ function openTab(evt, tabHeadingClass, tabContentClass, tabContentId) {
  *   componentDidMount() method runs after the component
  *   output has been rendered to the DOM.
  *
- *
+ *  Lifecycle:
+ *  ------------------------------------------------------------------------
+ *  MOUNTING:
+ *  ---------------------------
+ *  These methods are called in the following order when an instancce of the
+ *  component is created.
+ *  | constructor()
+ *  | static getDerivedStateFromProps()
+ *  | render()
+ *  v componentDidMount()
+ * 
+ *  UPDATING:
+ *  ----------------------------
+ *  | static getDerivedStateFromProps()
+ *  | shouldComponentUpdate() : Default behavior render  
+ *  | render()
+ *  | getSnapshotBeforeUpdate()
+ *  v componentDidUpdate()
+ * 
+ *  UNMOUNTING
+ * -------------------------------
+ *  componentWillUnmount()
+ * 
+ * 
+ *  Guidelines:
+ *  -----------
+ *  - All Components should handle the following props:
+ *   common:
+ *   - id       : DOM ID
+ *   - class    : CSS Class
+ *   - style    : Object that can define additional styles.
+ * 
+ *   - callback : A callback for communicatig with parent component
+ *   - Additional props specific to component
+ * 
 ***************************************************/
 
 
@@ -88,7 +96,7 @@ class Jumbotron extends React.Component {
     //     console.log("componentWillUnmount");
     // }
 
-    set_style (prop_style) {
+    setStyle (prop_style) {
         //Set default style
         let header_style = {
             color: "black",
@@ -124,7 +132,7 @@ class Jumbotron extends React.Component {
 
     render () {
         console.log("Jumbotron, render!");
-        const header_style = this.set_style(this.props.style);
+        const header_style = this.setStyle(this.props.style);
 
         let id = this.set_id(this.props);
 
@@ -204,17 +212,10 @@ class Table extends React.Component {
         console.log("end -- componentDidMount");
     }
 
-    componentWillMount () {
-        console.log("Table - componentWillmount");
-        this.setState({data: this.props.data});
-        console.log(this.state.data);
-        console.log("end -- componentWillMount");
-    }
-
-    update_state = (data) => {
-        alert("Submitted")
-        console.log(data);
-    }
+    // update_state = (data) => {
+    //     alert("Submitted")
+    //     console.log(data);
+    // }
 
     render () {
         console.log("Table - render");
