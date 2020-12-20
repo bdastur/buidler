@@ -23,6 +23,10 @@ let signup = React.createElement(Signup, null, null);
 ReactDOM.render(signup, document.getElementById("signup"));
 
 
+let card = React.createElement(Card, null, null);
+ReactDOM.render(card, document.getElementById("card1"));
+
+
 // test_text = () => {
 //     let user_input = {
 //         element_type: "h3",

@@ -1,5 +1,5 @@
 
-/**************************************************
+/**********************************************************************
  * ReactJS Components:
  *
  * This library will use the core ReactJS APIs and not rely
@@ -20,6 +20,7 @@
  *   componentDidMount() method runs after the component
  *   output has been rendered to the DOM.
  *
+ * =========================================================================
  *  Lifecycle:
  *  ------------------------------------------------------------------------
  *  MOUNTING:
@@ -43,9 +44,12 @@
  * -------------------------------
  *  componentWillUnmount()
  * 
- * 
+ * =========================================================================
  *  Guidelines:
- *  -----------
+ *  ------------------------------------------------------------------------
+ * 
+ *  PROPS:
+ * ----------------------------------------------------------
  *  - All Components should handle the following props:
  *   common:
  *   - id       : DOM ID
@@ -55,7 +59,16 @@
  *   - callback : A callback for communicatig with parent component
  *   - Additional props specific to component
  * 
-***************************************************/
+ *  NAMING CONVENTIONS:
+ * ------------------------------------------------------------
+ *  - Use Camelcase for variables, functions, class
+ *  - Event handlers: <event>Handler()
+ *  - Callback handlers: <component name>Callback()
+ * 
+ *  NOTES:
+ * - A parent can add additional css classes to the childs class.
+ * 
+***************************************************************************/
 
 
 /*
@@ -91,10 +104,6 @@ class Jumbotron extends React.Component {
         console.log("componentDidMount");
         this.setState({data: this.props.text});
     }
-
-    // componentWillMount () {
-    //     console.log("componentWillUnmount");
-    // }
 
     setStyle (prop_style) {
         //Set default style
@@ -211,11 +220,6 @@ class Table extends React.Component {
         console.log(this.state.data);
         console.log("end -- componentDidMount");
     }
-
-    // update_state = (data) => {
-    //     alert("Submitted")
-    //     console.log(data);
-    // }
 
     render () {
         console.log("Table - render");
@@ -478,8 +482,66 @@ class Signup extends React.Component {
 
 
 
+/*
+ * Category: Container.
+ * Component: Card
+ * 
+ * 
+ */
+class Card extends React.Component {
+  constructor (props) {
+    super(props);
+  }
+
+  setStyle (props) {
+    let cardStyle = {
+      width: "22rem",
+      boxShadow: "5px 10px #c1d1bc"
+    };
+    return (cardStyle)
+  }
+  
+  render () {
+    console.log("Card - render");
+    let cardStyle = this.setStyle(this.props);
+    
+    let jumboProps = {
+      id: "j1",
+      element_type: "h4",
+      class: "display-4",
+      text: "Card Header",
+      style: {
+        color: "black",
+        fontFamily: "Roboto, sans-serif",
+        backgroundColor: "#fffff"
+      }
+    };
+
+    let hCardTitle = React.createElement("h5", {class: "card-title"}, "Card Title");
+    let jumboCardTitle = React.createElement(Jumbotron,jumboProps, null);
+
+    let signup_props = {
+      class: "gelem c2c4 r2r4"
+    };
+    let signup = React.createElement(Signup, signup_props, null); 
+
+    let divCardBody = React.createElement(
+      "div", {class: "card-body"}, hCardTitle, signup, "Card Body");
+
+    let divCard = React.createElement(
+      "div", {class: "card", style: cardStyle}, jumboCardTitle, divCardBody);
+    
+    return (divCard);
+  }
+}
+
+
+
+
 
 /*
+ * Category: Containner.
+ * Component: Grid
  * Grid Layout.
  * This is a encompassing component.
  * Available props:
@@ -494,13 +556,14 @@ class Grid extends React.Component {
         super(props);
     }
 
-    set_style (columns) {
+    setStyle (columns) {
         let grid_template_columns = "repeat(" + columns + ", 1fr)";
 
         let grid_style = {
             display: 'grid',
             gridAutoRows: 'minmax(20px, auto)',
             gridGap: '5px',
+            boxShadow: "5px 10px #c1d1bc",
             gridTemplateColumns: grid_template_columns
         };
 
@@ -538,7 +601,7 @@ class Grid extends React.Component {
       // let gelem3 = React.createElement(
       //     "div", {class: "gelem c2c4 r2r4 colored" }, "three");
 
-      let grid_style = this.set_style(this.props.columns);
+      let grid_style = this.setStyle(this.props.columns);
 
       console.log(grid_style);
       let elem = React.createElement(
