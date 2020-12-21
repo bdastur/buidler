@@ -89,6 +89,7 @@
 class Jumbotron extends React.Component {
     constructor (props) {
         super(props);
+        console.log("Jumbotron - Constructor invoked!");
         this.state = {
             data: "Sample",
             color: "black",
@@ -101,8 +102,12 @@ class Jumbotron extends React.Component {
     }
 
     componentDidMount () {
-        console.log("componentDidMount");
+        console.log("componentDidMount. Text: " + this.props.text);
         this.setState({data: this.props.text});
+        //if (this.props.text != undefined) {
+          //this.setState({data: this.props.text});
+        //}
+        
     }
 
     setStyle (prop_style) {
@@ -114,88 +119,93 @@ class Jumbotron extends React.Component {
             fontFamily: "Sans Serif"
         };
         //Overrides.
-        for (let idx in this.style_overrides) {
-          let override = this.style_overrides[idx];
-          if (override in prop_style) {
-            console.log("Override: " + override);
-            header_style[override] = prop_style[override];
+        if (prop_style != undefined) {
+          for (let idx in this.style_overrides) {
+            let override = this.style_overrides[idx];
+            if (override in prop_style) {
+              header_style[override] = prop_style[override];
+            }
           }
         }
         return(header_style);
     }
 
-    set_id (props) {
-        let id = "jumbo-" + Math.ceil(Math.random() * 100000);
-        if (this.props.hasOwnProperty("id") && this.props.id != undefined) {
-            console.log("Id is specified, set it "  + this.props.id);
-            id = props.id;
-        }
-        return(id);
+    setProps () {
+      let props = {}
+      props['id'] = "jumbo-" + Math.ceil(Math.random() * 100000);
+      
+      if (this.props.hasOwnProperty("id") && this.props.id != undefined) {
+        props['id'] = this.props.id;
+      }
+      props['element_type'] = "h2";
+      if (this.props.hasOwnProperty("element_type") && this.props.element_type != undefined) {
+        props['element_type'] = this.props.element_type;
+      }
+      props['class'] = "display-2";
+      if (this.props.hasOwnProperty("class") && this.props.class != undefined) {
+        props['class'] = this.props.class;
+      }
+      props['text'] = "No text";
+      if (this.props.hasOwnProperty("text") && this.props.text != undefined) {
+        props['text'] = this.props.text;
+      }
+      return props;
     }
 
     clickHandler = (event, data) => {
       console.log("clicked " + event.target.value);
-      let rand_str = "Random: " + Math.ceil(Math.random() * 100000);
-      this.setState({data: "Clicked " + rand_str});
     }
 
     render () {
-        console.log("Jumbotron, render!");
+        console.log("Jumbotron - render: " + JSON.stringify(this.state));
         const header_style = this.setStyle(this.props.style);
+        let props = this.setProps();
 
-        let id = this.set_id(this.props);
-
-        let props = {
-          id: id,
-          style: header_style
-        };
-
-        if ("class" in this.props) {
-          props['class'] = this.props.class;
-        }
+        props['style'] = header_style;
         props['onClick'] = this.clickHandler;
+        console.log("State: " + this.state.data);
 
         let elem =  React.createElement(
-            this.props.element_type, props, this.state.data);
+            props.element_type, props, props.text);
 
         return(elem);
     }
 }
 
 
-create_jumbotron = (user_input, container) => {
-    const valid_elements = ["h1", "h2", "h3", "h4", "h5", "h6"];
-    const valid_class = ["display-1", "display-2", "display-3",
-                   "display-4", "display-5", "display-6"];
+// create_jumbotron = (user_input, container) => {
+//     const valid_elements = ["h1", "h2", "h3", "h4", "h5", "h6"];
+//     const valid_class = ["display-1", "display-2", "display-3",
+//                    "display-4", "display-5", "display-6"];
 
-    if (! valid_elements.includes(user_input.element_type)) {
-        console.log("Pass valid h elements");
-        return;
-    }
+//     if (! valid_elements.includes(user_input.element_type)) {
+//         console.log("Pass valid h elements");
+//         return;
+//     }
 
-    if (! valid_class.includes(user_input.class)) {
-      console.log("Pass valid class elements");
-      return
-    }
+//     if (! valid_class.includes(user_input.class)) {
+//       console.log("Pass valid class elements");
+//       return
+//     }
 
-    /*
-     * Set default props.
-     */
-    let jtprops = {
-        id: user_input.id,
-        element_type: user_input.element_type,
-        class: user_input.display,
-        text: user_input.text,
-        style: {
-            color: "black",
-            fontFamily: "Times New Roman",
-            backgroundColor: "#d6edd5"
-        }
-    }
+//     /*
+//      * Set default props.
+//      */
+//     let jtprops = {
+//         id: user_input.id,
+//         element_type: user_input.element_type,
+//         class: user_input.display,
+//         text: user_input.text,
+//         style: {
+//             color: "black",
+//             fontFamily: "Times New Roman",
+//             backgroundColor: "#d6edd5"
+//         }
+//     }
 
-    let jt = React.createElement(Jumbotron, jtprops, null);
-    ReactDOM.render(jt, container);
-}
+//     let jt = React.createElement(Jumbotron, jtprops, null);
+//     ReactDOM.render(jt, container);
+// }
 
 
 /*

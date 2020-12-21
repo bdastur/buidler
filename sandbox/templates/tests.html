@@ -29,13 +29,51 @@
     </head>
     <body id="main">
         <div class="container-fluid">
-            <!-- custom-grid-layout-1 -->
-            <div class='grid-layout-1 c3 gap-5px'>
-                <div class='gelem  c1c4  r1r2  colored'>One this</div>
-                <div class='gelem  c1c2 r2r4 colored'>Two</div>
-                 <div class='gelem c2c4 r2r4 colored'>Three</div>
+            <div class="grid-layout-1 c6">
+                <div class="gelem ">
+                    <!-- bs-button -->
+                    <button type='button' class='btn btn-dark btn-lg' onclick="InvokeTest('jt1')">
+                        Jumbotron - 1</button>
+                    <!-- bs-button end -->
+                </div>
+                <div class="gelem ">
+                    <!-- bs-button -->
+                    <button type='button' class='btn btn-dark btn-lg' onclick="InvokeTest('jt2')">
+                        Jumbotron - 2</button>
+                    <!-- bs-button end -->
+                </div>
+                <div class="gelem ">
+                    <!-- bs-button -->
+                    <button type='button' class='btn btn-dark btn-lg' onclick="InvokeTest('jt3')">
+                        Jumbotron - 3</button>
+                    <!-- bs-button end -->
+                </div>
+                <div class="gelem ">Four</div>
+                <div class="gelem ">Five</div>
+                <div class="gelem ">Six</div>
+                <div class="gelem ">Seven</div>
+                <div class="gelem ">Eight</div>
+                <div class="gelem ">Nine</div>
+                <div class="gelem ">Ten</div>
+                <div class="gelem ">Eleven</div>
+                <div class="gelem ">Twelve</div>
+                <div class="gelem ">Thirteen</div>
+                <div class="gelem ">Fourteen</div>
+                <div class="gelem ">Fifteen</div>
+                <div class="gelem ">
+                    <!-- bs-button -->
+                    <button type='button' class='btn btn-dark btn-lg' onclick="ResetTest()">
+                        Reset</button>
+                    <!-- bs-button end -->
+                </div>
             </div>
-            <!-- custom-grid-layout-1 end -->
+            <br><br>
+
+            <div class="bordered" id="testinfo"></div>
+            <br>
+            <div class="bordered" id="testsetup"></div>
+
+
             <h1>ComponentJS tests</h1>
             <div id="test1"></div>
             <div id="test2"></div>
