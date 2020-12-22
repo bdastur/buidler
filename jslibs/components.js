@@ -289,6 +289,7 @@ class Form extends React.Component {
  *  PROPS:
  *   label: <label text>
  *   type:  <input type>
+ *   class: "form-control-lg", "form-control-sm" (Default always added "form-control")
  *   placeholder: The placeholder text for input
  *   small_text: The helper text underneath the input.
  * 
@@ -304,17 +305,26 @@ class FormGroup extends React.Component {
   }
 
   setProps (props) {
+    
     let fgProps = {
       label: props.label,
       type: props.type,
       placeholder: props.placeholder,
       small_text: props.small_text
     }
+
+    fgProps['class'] = "form-control ";
+    if (this.props.hasOwnProperty("class") && this.props.class != undefined) {
+      fgProps['class'] +=  props.class;
+    }
+
     return (fgProps);
   }
 
   onChangeHandler = (event) => {
     console.log("Value: " + event.target.value);
+
+    console.log("file: " + event.target.input);
     let data = {
       type: this.props.type,
       value: event.target.value
@@ -333,7 +343,7 @@ class FormGroup extends React.Component {
 
     let input = React.createElement("input", {type: fgProps.type ,
                                     onChange: this.onChangeHandler, 
-                                    class: "form-control",
+                                    class: fgProps.class,
                                     placeholder: fgProps.placeholder},
                                     null);
 
@@ -348,6 +358,98 @@ class FormGroup extends React.Component {
     return (divFg);
   }
 }
+
+
+/*
+ * Category: Content
+ * Component: Select FormGroup.
+ * 
+ * A FormGroup has the following elements:
+ *  - A label (describing what the input should be)
+ *  - A Select field.
+ *  - A help text
+ * 
+ *  PROPS:
+ *   label: <label text>
+ *   type:  <input type>
+ *   class: "form-control-lg", "form-control-sm" (Default always added "form-control")
+ *   placeholder: The placeholder text for input
+ *   small_text: The helper text underneath the input.
+ * 
+ * NOTE: 
+ * This is a generic component, so it should not have specifics of
+ * what data the caller uses. All specific logic should be set
+ * in the parent.
+ */
+
+class SelectFormGroup extends React.Component {
+  constructor (props) {
+    super(props);
+  }
+
+  setProps (props) {
+    
+    let fgProps = {
+      label: props.label,
+      type: props.type,
+      placeholder: props.placeholder,
+      small_text: props.small_text,
+      options: props.select_options
+    }
+
+    fgProps['class'] = "form-control ";
+    if (this.props.hasOwnProperty("class") && this.props.class != undefined) {
+      fgProps['class'] +=  props.class;
+    }
+
+    return (fgProps);
+  }
+
+  onChangeHandler = (event) => {
+    console.log("Value: " + event.target.value);
+
+    console.log("file: " + event.target.input);
+    let data = {
+      type: this.props.type,
+      value: event.target.value
+    }
+  
+    // Invoke the provided callback.
+    this.props.callback(data);
+  }
+
+  render () {
+    let fgProps = this.setProps(this.props);
+
+    let label = React.createElement("label", 
+                                    null, 
+                                    fgProps.label);
+    
+    let x = 0
+    let options = [];
+    for (x in fgProps.options) {
+      options.push(React.createElement("option", {key: x}, fgProps.options[x]));
+    }
+
+    let select = React.createElement("select", {type: fgProps.type ,
+                                    onChange: this.onChangeHandler, 
+                                    class: fgProps.class,
+                                    placeholder: fgProps.placeholder},
+                                    options);
+
+    let small = React.createElement("small",
+                                   {class: "form-text text-muted"},
+                                   fgProps.small_text);
+
+    let divFg = React.createElement("div", 
+                                    {class: "form-group"}, 
+                                    label, select, small);
+
+    return (divFg);
+  }
+}
+
+
 
 /*
  * Category: Form
