@@ -72,8 +72,9 @@
 
 
 /*
- * Category Content.
- * Jumbotron:
+ * Category:  Content.
+ * Component: Jumbotron
+ * State: Stateless.
  *
  * PROPS Definitions:
  *  id:  <DOM ID>
@@ -104,10 +105,6 @@ class Jumbotron extends React.Component {
     componentDidMount () {
         console.log("componentDidMount. Text: " + this.props.text);
         this.setState({data: this.props.text});
-        //if (this.props.text != undefined) {
-          //this.setState({data: this.props.text});
-        //}
-        
     }
 
     setStyle (prop_style) {
@@ -172,40 +169,6 @@ class Jumbotron extends React.Component {
     }
 }
 
-
-// create_jumbotron = (user_input, container) => {
-//     const valid_elements = ["h1", "h2", "h3", "h4", "h5", "h6"];
-//     const valid_class = ["display-1", "display-2", "display-3",
-//                    "display-4", "display-5", "display-6"];
-
-//     if (! valid_elements.includes(user_input.element_type)) {
-//         console.log("Pass valid h elements");
-//         return;
-//     }
-
-//     if (! valid_class.includes(user_input.class)) {
-//       console.log("Pass valid class elements");
-//       return
-//     }
-
-//     /*
-//      * Set default props.
-//      */
-//     let jtprops = {
-//         id: user_input.id,
-//         element_type: user_input.element_type,
-//         class: user_input.display,
-//         text: user_input.text,
-//         style: {
-//             color: "black",
-//             fontFamily: "Times New Roman",
-//             backgroundColor: "#d6edd5"
-//         }
-//     }
-
-//     let jt = React.createElement(Jumbotron, jtprops, null);
-//     ReactDOM.render(jt, container);
-// }
 
 
 /*
@@ -314,38 +277,41 @@ class Form extends React.Component {
     }
 }
 
-
-// function create_element(elem) {
-//   let new_jumbotron = React.createElement(eval(elem), newp, null);
-//   ReactDOM.render(new_jumbotron, document.getElementById("root2"));
-// }
-
+/*
+ * Category: Content
+ * Component: FormGroup.
+ * 
+ * A FormGroup has the following elements:
+ *  - A label (describing what the input should be)
+ *  - An input field.
+ *  - A help text
+ * 
+ *  PROPS:
+ *   label: <label text>
+ *   type:  <input type>
+ *   placeholder: The placeholder text for input
+ *   small_text: The helper text underneath the input.
+ * 
+ * NOTE: 
+ * This is a generic component, so it should not have specifics of
+ * what data the caller uses. All specific logic should be set
+ * in the parent.
+ */
 
 class FormGroup extends React.Component {
   constructor (props) {
     super(props);
-    this.state = {
-        help_text: ""
-    }
   }
 
-  fg_email_props = {
-    label: "Email address",
-    type: "email",
-    placeholder: "Email address",
-    small_text: "We will never share your email with anyone"
-  }
-
-  set_style (props) {
-    let fg_props = {
+  setProps (props) {
+    let fgProps = {
       label: props.label,
       type: props.type,
       placeholder: props.placeholder,
       small_text: props.small_text
     }
-    return (fg_props);
+    return (fgProps);
   }
-
 
   onChangeHandler = (event) => {
     console.log("Value: " + event.target.value);
@@ -353,44 +319,33 @@ class FormGroup extends React.Component {
       type: this.props.type,
       value: event.target.value
     }
-    if (this.props.type == "password") {
-      if (event.target.value.length < 8) {
-        this.setState({help_text: "Password Does not Meet Standards"});
-      } else {
-        this.setState({help_text: "Password Meets Standards"});
-      }
-
-    }
+  
+    // Invoke the provided callback.
     this.props.callback(data);
   }
 
   render () {
-    let fg_props = this.set_style(this.props);
+    let fgProps = this.setProps(this.props);
 
-    let help_text = this.state.help_text;
-    if (fg_props.small_text != "") {
-        help_text = fg_props.small_text;
-    }
+    let label = React.createElement("label", 
+                                    null, 
+                                    fgProps.label);
 
-    let email_label = React.createElement(
-      "label", null, fg_props.label);
+    let input = React.createElement("input", {type: fgProps.type ,
+                                    onChange: this.onChangeHandler, 
+                                    class: "form-control",
+                                    placeholder: fgProps.placeholder},
+                                    null);
 
-    let email_input = React.createElement(
-      "input",
-      {type: fg_props.type ,
-       onChange: this.onChangeHandler,
-       class: "form-control",
-       placeholder: fg_props.placeholder},
-      null);
-    let email_small = React.createElement(
-      "small",
-      {class: "form-text text-muted"},
-       help_text);
+    let small = React.createElement("small",
+                                   {class: "form-text text-muted"},
+                                   fgProps.small_text);
 
-    let div_email = React.createElement(
-      "div", {class: "form-group"}, email_label, email_input, email_small);
+    let divFg = React.createElement("div", 
+                                    {class: "form-group"}, 
+                                    label, input, small);
 
-    return (div_email);
+    return (divFg);
   }
 }
 
@@ -405,7 +360,8 @@ class Signup extends React.Component {
     super(props);
     this.state = {
       email: "dummy",
-      password: ""
+      password: "",
+      password_help_text: ""
     }
   }
 
@@ -428,24 +384,24 @@ class Signup extends React.Component {
   {
     console.log("Ajax Error Handler: ", textStatus, "Error: ", errorThrown);
     console.log("Date: ", Date.now());
-
   }
 
-
   formGroupCallback = (data) => {
-    console.log("Callback Invoked!");
     if (data.type == "email") {
       this.setState({email: data.value});
     } else {
       this.setState({password: data.value});
+      if (data.value.length < 8) {
+        this.setState({password_help_text: "Password does not meet our standards"});
+      } else {
+        this.setState({password_help_text: "Password is Good!"});
+      }
     }
   }
 
-  handleSubmit = (event) => {
+  handleonSubmit = (event) => {
     event.preventDefault();
     console.log("Handle Submit:  " + JSON.stringify(this.state));
-    alert("Submit " + JSON.stringify(this.state));
-    console.log("Handle Submit!");
     let url = "/signup"
     ajaxCall(url,
             this.ajax_success_handler,
@@ -456,36 +412,39 @@ class Signup extends React.Component {
 
   render () {
     let fg_email_props = {
-      label: "Email address",
-      type: "email",
+      label:       "Email address",
+      type:        "email",
       placeholder: "Email address",
-      small_text: "We will never share your email with anyone",
-      callback: this.formGroupCallback
+      small_text:  "We will never share your email with anyone",
+      callback:    this.formGroupCallback
     }
     let fg_email = React.createElement(FormGroup, fg_email_props, null);
 
     let fg_password_props = {
-      label: "Password",
-      type: "password",
+      label:       "Password",
+      type:        "password",
       placeholder: "password (min 8 chars)",
-      small_text: "",
-      callback: this.formGroupCallback
+      small_text:  this.state.password_help_text,
+      callback:    this.formGroupCallback
     }
     let fg_password = React.createElement(FormGroup, fg_password_props, null);
 
-    let submit_button = React.createElement(
-      "button", {type: "submit", value: "Submit", class: "btn btn-primary"}, "Submit");
+    let submit_button = React.createElement("button", 
+                                            {type: "submit", 
+                                            value: "Submit", 
+                                            class: "btn btn-primary"}, 
+                                            "Submit");
 
     let form_props = {
-      onSubmit: this.handleSubmit
+      onSubmit: this.handleonSubmit
     }
     if ("class" in this.props) {
       form_props['class'] = this.props.class;
     }
      
-
-    let form = React.createElement(
-      "form", form_props, fg_email, fg_password, submit_button)
+    let form = React.createElement("form", 
+                                   form_props, 
+                                   fg_email, fg_password, submit_button)
     return (form);
   }
 }
