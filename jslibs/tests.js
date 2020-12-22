@@ -54,7 +54,66 @@ function  InvokeTest(id) {
             setTestInfo(data);
             testJumbotron(null);
             break;
-    
+        case "fg1":
+            data['component'] = "FormGroup";
+            data['test'] = "A Formgroup example - input type email";
+            data['details'] = "props: ";
+            setTestInfo(data);
+
+            var fgProps = {
+                label:       "Email address",
+                type:        "email",
+                placeholder: "Email address",
+                small_text:  "We will never share your email with anyone"
+            }
+            testFormgroup(fgProps);
+            break;
+        case "fg2":
+            data['component'] = "FormGroup";
+            data['test'] = "A Formgroup example - input type password";
+            data['details'] = "props: ";
+            setTestInfo(data);
+
+            var fgProps = {
+                label:       "password",
+                type:        "password",
+                placeholder: "password",
+                small_text:  "A password",
+                class: "form-control-sm"
+            }
+            testFormgroup(fgProps);
+            break;
+        case "fg3":
+            console.log("Execute testcase fg3");
+            data['component'] = "FormGroup";
+            data['test'] = "A Formgroup example - input type file";
+            data['details'] = "props: ";
+            setTestInfo(data);
+
+            var fgProps = {
+                label:       "File",
+                type:        "file",
+                placeholder: "File",
+                small_text:  "Local file"
+            }
+            testFormgroup(fgProps);
+            break;
+        case "sg1":
+            console.log("Execute testcase sg3");
+            data['component'] = "SelectFormGroup";
+            data['test'] = "A Select Formgroup example - input type file";
+            data['details'] = "props: ";
+            setTestInfo(data);
+
+            var fgProps = {
+                label:       "File",
+                type:        "file",
+                placeholder: "File",
+                small_text:  "Local file",
+                select_options: ["one", "two", "three"]
+            }
+            testSelectFormgroup(fgProps);
+            break;
         default:
             console.log("Default switch, No test case defined: " + id);
             break;
@@ -106,6 +165,35 @@ function testJumbotron(jtprops) {
     ReactDOM.render(jt, testContainer);
 }
 
+/***************************************************************
+ * Test function: Test Formgroup component.
+ ****************************************************************/
+function testFormgroup(fgProps) {
+    let testContainer = document.getElementById("testsetup");
+
+    testCallback = (data) => {
+        console.log("Callback: " + JSON.stringify(data));
+    }
+    fgProps['callback'] = this.testCallback
+
+    let fgObj = React.createElement(FormGroup, fgProps, null);
+    ReactDOM.render(fgObj, testContainer);
+}
+
+/***************************************************************
+ * Test function: Test SelectFormgroup component.
+ ****************************************************************/
+function testSelectFormgroup(fgProps) {
+    let testContainer = document.getElementById("testsetup");
+
+    testCallback = (data) => {
+        console.log("Callback: " + JSON.stringify(data));
+    }
+    fgProps['callback'] = this.testCallback
+
+    let fgObj = React.createElement(SelectFormGroup, fgProps, null);
+    ReactDOM.render(fgObj, testContainer);
+}
 
 
 // user_input = {
