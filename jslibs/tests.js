@@ -99,20 +99,86 @@ function  InvokeTest(id) {
             testFormgroup(fgProps);
             break;
         case "sg1":
-            console.log("Execute testcase sg3");
+            console.log("Execute testcase sg1");
             data['component'] = "SelectFormGroup";
             data['test'] = "A Select Formgroup example - input type file";
             data['details'] = "props: ";
             setTestInfo(data);
 
             var fgProps = {
-                label:       "File",
-                type:        "file",
-                placeholder: "File",
+                label:       "Numbers",
+                placeholder: "Numbers",
                 small_text:  "Local file",
                 select_options: ["one", "two", "three"]
             }
             testSelectFormgroup(fgProps);
+            break;
+        case "sg2":
+            console.log("Execute testcase sg2");
+            data['component'] = "SelectFormGroup";
+            data['test'] = "A Select Formgroup example - input type file";
+            data['details'] = "props: ";
+            setTestInfo(data);
+
+            var fgProps = {
+                label:       "Numbers",
+                placeholder: "File",
+                small_text:  "Local file",
+                class: "form-control-sm",
+                select_options: ["one", "two", "three"]
+            }
+            testSelectFormgroup(fgProps);
+            break;
+        case "fc1":
+            console.log("Execute testcase fc1");
+            data['component'] = "FormCheck";
+            data['test'] = "A FormCheck example - input type checkbox";
+            data['details'] = "props: ";
+            setTestInfo(data);
+
+            var fgProps = {
+                label:       "Numbers",
+                type: "checkbox",
+                placeholder: "File",
+                small_text:  "Local file",
+                class: "form-control-sm",
+                select_options: ["one", "two", "three"]
+            }
+            testFormCheck(fgProps);
+            break;
+        case "fc2":
+            console.log("Execute testcase fc2");
+            data['component'] = "FormCheck";
+            data['test'] = "A FormCheck example - input type radio";
+            data['details'] = "props: ";
+            setTestInfo(data);
+
+            var fgProps = {
+                label:       "Verbose",
+                type: "radio",
+                placeholder: "File",
+                small_text:  "Local file",
+                class: "form-control-sm",
+                select_options: ["one", "two", "three"]
+            }
+            testFormCheck(fgProps);
+            break;
+        case "col1":
+            console.log("Execute testcase col1");
+            data['component'] = "Collapse";
+            data['test'] = "A FormCheck example - input type radio";
+            data['details'] = "props: ";
+            setTestInfo(data);
+
+            var fgProps = {
+                label:       "Verbose",
+                type: "radio",
+                placeholder: "File",
+                small_text:  "Local file",
+                class: "form-control-sm",
+                select_options: ["one", "two", "three"]
+            }
+            testCollapse(fgProps);
             break;
         default:
             console.log("Default switch, No test case defined: " + id);
@@ -176,7 +242,7 @@ function testFormgroup(fgProps) {
     }
     fgProps['callback'] = this.testCallback
 
-    let fgObj = React.createElement(FormGroup, fgProps, null);
+    let fgObj = React.createElement(InputFormGroup, fgProps, null);
     ReactDOM.render(fgObj, testContainer);
 }
 
@@ -193,6 +259,38 @@ function testSelectFormgroup(fgProps) {
 
     let fgObj = React.createElement(SelectFormGroup, fgProps, null);
     ReactDOM.render(fgObj, testContainer);
+}
+
+
+/***************************************************************
+ * Test function: Test FormCheck component.
+ ****************************************************************/
+function testFormCheck(fgProps) {
+    let testContainer = document.getElementById("testsetup");
+
+    testCallback = (data) => {
+        console.log("Callback: " + JSON.stringify(data));
+    }
+    fgProps['callback'] = this.testCallback
+
+    let fcObj = React.createElement(FormCheck, fgProps, null);
+    ReactDOM.render(fcObj, testContainer);
+}
+
+
+/***************************************************************
+ * Test function: Test Collapse component.
+ ****************************************************************/
+function testCollapse(fgProps) {
+    let testContainer = document.getElementById("testsetup");
+
+    testCallback = (data) => {
+        console.log("Callback: " + JSON.stringify(data));
+    }
+    fgProps['callback'] = this.testCallback
+
+    let fcObj = React.createElement(Collapse, fgProps, null);
+    ReactDOM.render(fcObj, testContainer);
 }
 
 

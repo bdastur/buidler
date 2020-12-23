@@ -279,7 +279,7 @@ class Form extends React.Component {
 
 /*
  * Category: Content
- * Component: FormGroup.
+ * Component: InputFormGroup.
  * 
  * A FormGroup has the following elements:
  *  - A label (describing what the input should be)
@@ -299,7 +299,7 @@ class Form extends React.Component {
  * in the parent.
  */
 
-class FormGroup extends React.Component {
+class InputFormGroup extends React.Component {
   constructor (props) {
     super(props);
   }
@@ -324,7 +324,6 @@ class FormGroup extends React.Component {
   onChangeHandler = (event) => {
     console.log("Value: " + event.target.value);
 
-    console.log("file: " + event.target.input);
     let data = {
       type: this.props.type,
       value: event.target.value
@@ -362,7 +361,7 @@ class FormGroup extends React.Component {
 
 /*
  * Category: Content
- * Component: Select FormGroup.
+ * Component: SelectFormGroup.
  * 
  * A FormGroup has the following elements:
  *  - A label (describing what the input should be)
@@ -375,13 +374,13 @@ class FormGroup extends React.Component {
  *   class: "form-control-lg", "form-control-sm" (Default always added "form-control")
  *   placeholder: The placeholder text for input
  *   small_text: The helper text underneath the input.
+ *   select_options: A list of values for select options.
  * 
  * NOTE: 
  * This is a generic component, so it should not have specifics of
  * what data the caller uses. All specific logic should be set
  * in the parent.
  */
-
 class SelectFormGroup extends React.Component {
   constructor (props) {
     super(props);
@@ -391,7 +390,6 @@ class SelectFormGroup extends React.Component {
     
     let fgProps = {
       label: props.label,
-      type: props.type,
       placeholder: props.placeholder,
       small_text: props.small_text,
       options: props.select_options
@@ -408,7 +406,6 @@ class SelectFormGroup extends React.Component {
   onChangeHandler = (event) => {
     console.log("Value: " + event.target.value);
 
-    console.log("file: " + event.target.input);
     let data = {
       type: this.props.type,
       value: event.target.value
@@ -446,6 +443,86 @@ class SelectFormGroup extends React.Component {
                                     label, select, small);
 
     return (divFg);
+  }
+}
+
+
+/*
+ * Category: Content
+ * Component: FormCheck.
+ * 
+ * A FormCheck has the following elements:
+ *  - A label (describing what the input should be)
+ *  - A Select field.
+ *  - A help text
+ * 
+ *  PROPS:
+ *   label: <label text>
+ *   type:  <input type>
+ *   class: "form-control-lg", "form-control-sm" (Default always added "form-control")
+ *   placeholder: The placeholder text for input
+ *   small_text: The helper text underneath the input.
+ *   select_options: A list of values for select options.
+ * 
+ * NOTE: 
+ * This is a generic component, so it should not have specifics of
+ * what data the caller uses. All specific logic should be set
+ * in the parent.
+ */
+class FormCheck extends React.Component {
+  constructor (props) {
+    super(props);
+  }
+
+  setProps (props) {
+    let fgProps = {
+      label: props.label,
+      type: props.type,
+      placeholder: props.placeholder,
+      small_text: props.small_text,
+      options: props.select_options
+    }
+
+    fgProps['class'] = "form-check-input ";
+    if (this.props.hasOwnProperty("class") && this.props.class != undefined) {
+      fgProps['class'] +=  props.class;
+    }
+
+    return (fgProps);
+  }
+
+  onChangeHandler = (event) => {
+    console.log("Value: " + event.target.value);
+    console.log("Checked: " + event.target.checked);
+    let data = {
+      type: this.props.type,
+      value: event.target.checked
+    }
+  
+    // Invoke the provided callback.
+    this.props.callback(data);
+  }
+
+  render () {
+    let fgProps = this.setProps(this.props);
+
+    let label = React.createElement("label",
+                                    {class: "form-check-label"},
+                                    fgProps.label);
+   
+    let checkInput = React.createElement("input",
+                                         {type: fgProps.type, class: fgProps.class,
+                                          onChange: this.onChangeHandler, }, null);
+
+    // let small = React.createElement("small",
+    //                                {class: "form-text text-muted"},
+    //                                fgProps.small_text);
+
+    let divFc = React.createElement("div", 
+                                    {class: "form-check"}, 
+                                     checkInput, label);
+
+    return (divFc);
   }
 }
 
@@ -520,7 +597,7 @@ class Signup extends React.Component {
       small_text:  "We will never share your email with anyone",
       callback:    this.formGroupCallback
     }
-    let fg_email = React.createElement(FormGroup, fg_email_props, null);
+    let fg_email = React.createElement(InputFormGroup, fg_email_props, null);
 
     let fg_password_props = {
       label:       "Password",
@@ -529,7 +606,7 @@ class Signup extends React.Component {
       small_text:  this.state.password_help_text,
       callback:    this.formGroupCallback
     }
-    let fg_password = React.createElement(FormGroup, fg_password_props, null);
+    let fg_password = React.createElement(InputFormGroup, fg_password_props, null);
 
     let submit_button = React.createElement("button", 
                                             {type: "submit", 
@@ -551,6 +628,10 @@ class Signup extends React.Component {
   }
 }
 
+
+/******************************************************************
+ * Category: Containers
+ ******************************************************************/
 
 
 /*
@@ -607,11 +688,98 @@ class Card extends React.Component {
 }
 
 
+class CollapseCard extends React.Component {
+  constructor (props) {
+    super(props);
+  }
 
+  render () {
+    let cardProps = {
+      header_text: "Card One",
+      card_body_text: "This is a header body",
+      card_id: "cardOne",
+    }
+    let button = React.createElement("button",
+                                    {class: "btn btn-link", 
+                                    'data-toggle': "collapse",
+                                    'data-target': "#" + cardProps.card_id,
+                                    'aria-expanded': "true",
+                                    'aria-controls': cardProps.card_id}, 
+                                    cardProps.header_text);
+    let header = React.createElement("h5", 
+                                    {class: "mb-0"}, 
+                                    button);
+    let card_header = React.createElement("div",
+                                          {class: "card-header"}, header);
+
+    let card_body = React.createElement("div",
+                                        {class: "card-body"}, 
+                                        cardProps.card_body_text);
+    let card_collapse_body = React.createElement("div",
+                                                 {id: cardProps.card_id,
+                                                 'aria-labelledby': "headingOne",
+                                                 'data-parent': '#accordian',
+                                                 class: "collapse"}, 
+                                                 card_body);
+
+    let card = React.createElement("div",
+                                   {class: "card"}, 
+                                   card_header, card_collapse_body);
+    return(card);
+  }
+}
+/*
+ * Category: Container
+ * Component: Collapse
+ */
+class Collapse extends React.Component {
+  constructor (props) {
+    super(props);
+  }
+
+  render () {
+
+    let cards = [];
+
+    let button = React.createElement("button",
+                                     {class: "btn btn-link", 
+                                     'data-toggle': "collapse",
+                                     'data-target': "#collapseOne",
+                                     'aria-expanded': "true",
+                                     'aria-controls': "collapseOne"}, 
+                                     "Group One");
+    let header = React.createElement("h5", 
+                                     {class: "mb-0"}, 
+                                     button);
+    let card_header = React.createElement("div",
+                                         {class: "card-header"}, header);
+    
+    let card_body = React.createElement("div",
+                                         {class: "card-body"}, 
+                                        "This is the body of a collapse card");
+    let card_collapse_body = React.createElement("div",
+                                                 {id: "collapseOne",
+                                                  'aria-labelledby': "headingOne",
+                                                  'data-parent': '#accordian',
+                                                  class: "collapse"}, 
+                                                 card_body);
+
+    let card = React.createElement("div",
+                                   {class: "card"}, 
+                                   card_header, card_collapse_body);
+    let cardObj = React.createElement(CollapseCard, null, null);
+
+    let collapse = React.createElement("div", 
+                                       {id: "accordian"}, 
+                                       cardObj);
+
+    return(collapse);
+  }
+}
 
 
 /*
- * Category: Containner.
+ * Category: Container.
  * Component: Grid
  * Grid Layout.
  * This is a encompassing component.
