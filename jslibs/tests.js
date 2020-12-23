@@ -180,6 +180,15 @@ function  InvokeTest(id) {
             }
             testCollapse(fgProps);
             break;
+        case "chart1":
+            console.log("Execute testcase chart1");
+            data['component'] = "ChartJS";
+            data['test'] = "A Chart example - Bar chart";
+            data['details'] = "props: ";
+            setTestInfo(data);
+
+            testBarChart();
+
         default:
             console.log("Default switch, No test case defined: " + id);
             break;
@@ -299,9 +308,6 @@ function testCollapse(fgProps) {
             }
         ]
     };
-    
-
-
     testCallback = (data) => {
         console.log("Callback: " + JSON.stringify(data));
     }
@@ -311,6 +317,16 @@ function testCollapse(fgProps) {
     let fcObj = React.createElement(Collapse, collapseProps, null);
     ReactDOM.render(fcObj, testContainer);
 }
+
+/***************************************************************
+ * Test function: Test Bar chart component.
+ ****************************************************************/
+function testBarChart(fgProps) {
+    let testContainer = document.getElementById("testsetup");
+    let fcObj = React.createElement(BarChart, null, null);
+    ReactDOM.render(fcObj, testContainer);
+}
+
 
 
 // user_input = {

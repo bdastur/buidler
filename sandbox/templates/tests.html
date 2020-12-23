@@ -15,6 +15,9 @@
          integrity='sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN'
          crossorigin='anonymous'>
         <!-- bs-stylesheets end -->
+        <!-- Thirdy party (ChartJs) style sheets -->
+        <link rel='stylesheet' type='text/css' href="{{ url_for('static',
+            filename='thirdparty/Chartjs/Chart.min.css') }}">
         <!-- custom-stylesheets -->
         <link rel='stylesheet' type='text/css' href="{{ url_for('static',
             filename='css/shared.css') }}">
@@ -98,7 +101,12 @@
                         Collapse - 1</button>
                     <!-- bs-button end -->
                 </div>
-                <div class="gelem ">Twelve</div>
+                <div class="gelem ">
+                    <!-- bs-button -->
+                    <button type='button' class='btn btn-dark btn-lg' onclick="InvokeTest('chart1')">
+                        BarChart - 1</button>
+                    <!-- bs-button end -->
+                </div>
                 <div class="gelem ">Thirteen</div>
                 <div class="gelem ">Fourteen</div>
                 <div class="gelem ">Fifteen</div>
@@ -138,6 +146,10 @@
         <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js' integrity='sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q' crossorigin='anonymous'></script>
         <script src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js' integrity='sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl' crossorigin='anonymous'></script>
         <!-- bs-src end -->
+        <!-- ChartJS-->
+        <script type='text/javascript'
+            src="{{ url_for('static', filename='thirdparty/Chartjs/Chart.min.js') }}"></script>
+
         <script type='text/javascript'
             src="{{ url_for('static', filename='js/builder/utils.js') }}"></script>
         <script type='text/javascript'
