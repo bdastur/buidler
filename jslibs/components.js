@@ -693,12 +693,18 @@ class CollapseCard extends React.Component {
     super(props);
   }
 
-  render () {
+  setProps(props) {
     let cardProps = {
-      header_text: "Card One",
-      card_body_text: "This is a header body",
-      card_id: "cardOne",
-    }
+          header_text: props.header_text,
+          card_body_text: props.card_body_text,
+          card_id: props.card_id
+        }  
+    return(cardProps);
+  }
+
+  render () {
+    let cardProps = this.setProps(this.props);
+     
     let button = React.createElement("button",
                                     {class: "btn btn-link", 
                                     'data-toggle': "collapse",
@@ -709,7 +715,7 @@ class CollapseCard extends React.Component {
     let header = React.createElement("h5", 
                                     {class: "mb-0"}, 
                                     button);
-    let card_header = React.createElement("div",
+    let cardHeader = React.createElement("div",
                                           {class: "card-header"}, header);
 
     let card_body = React.createElement("div",
@@ -724,7 +730,7 @@ class CollapseCard extends React.Component {
 
     let card = React.createElement("div",
                                    {class: "card"}, 
-                                   card_header, card_collapse_body);
+                                   cardHeader, card_collapse_body);
     return(card);
   }
 }
@@ -737,41 +743,45 @@ class Collapse extends React.Component {
     super(props);
   }
 
+  setProps(props) {
+    for (let x in props.card_info) {
+      console.log(props.card_info[x]);
+    }
+  }
+
   render () {
-
-    let cards = [];
-
-    let button = React.createElement("button",
-                                     {class: "btn btn-link", 
-                                     'data-toggle': "collapse",
-                                     'data-target': "#collapseOne",
-                                     'aria-expanded': "true",
-                                     'aria-controls': "collapseOne"}, 
-                                     "Group One");
-    let header = React.createElement("h5", 
-                                     {class: "mb-0"}, 
-                                     button);
-    let card_header = React.createElement("div",
-                                         {class: "card-header"}, header);
     
-    let card_body = React.createElement("div",
-                                         {class: "card-body"}, 
-                                        "This is the body of a collapse card");
-    let card_collapse_body = React.createElement("div",
-                                                 {id: "collapseOne",
-                                                  'aria-labelledby': "headingOne",
-                                                  'data-parent': '#accordian',
-                                                  class: "collapse"}, 
-                                                 card_body);
+    let cards = [];
+    let collapseProps = this.setProps(this.props);
 
-    let card = React.createElement("div",
-                                   {class: "card"}, 
-                                   card_header, card_collapse_body);
-    let cardObj = React.createElement(CollapseCard, null, null);
+    // let cardProps = {
+    //   header_text: "Card One",
+    //   card_body_text: "This is a body of the card",
+    //   card_id: "cardOne",
+    // };
+    // cards.push(React.createElement(CollapseCard, cardProps, null));
+
+    let cardProps = {};
+    for (let x in this.props.card_info) {
+      cardProps = {
+        header_text: this.props.card_info[x]['header_text'],
+        card_body_text: this.props.card_info[x]['card_body_text'],
+        card_id: this.props.card_info[x]['card_id'],
+        key: x
+      }
+      cards.push(React.createElement(CollapseCard, cardProps, null));
+    }
+
+    // cardProps = {
+    //   header_text: "Card Two",
+    //   card_body_text: "This is a body of the card",
+    //   card_id: "cardTwo",
+    // };
+    // cards.push(React.createElement(CollapseCard, cardProps, null));
 
     let collapse = React.createElement("div", 
                                        {id: "accordian"}, 
-                                       cardObj);
+                                       cards);
 
     return(collapse);
   }
