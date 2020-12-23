@@ -284,12 +284,31 @@ function testFormCheck(fgProps) {
 function testCollapse(fgProps) {
     let testContainer = document.getElementById("testsetup");
 
+    let collapseProps = {
+        id: "collapseOne",
+        card_info: [
+            {
+                header_text: "Card One",
+                card_body_text: "This is a body of the card",
+                card_id: "cardOne"
+            },
+            {
+                header_text: "Card Two",
+                card_body_text: "This is a second body",
+                card_id: "cardTwo"
+            }
+        ]
+    };
+    
+
+
     testCallback = (data) => {
         console.log("Callback: " + JSON.stringify(data));
     }
     fgProps['callback'] = this.testCallback
+    collapseProps['callback'] = this.testCallback
 
-    let fcObj = React.createElement(Collapse, fgProps, null);
+    let fcObj = React.createElement(Collapse, collapseProps, null);
     ReactDOM.render(fcObj, testContainer);
 }
 
