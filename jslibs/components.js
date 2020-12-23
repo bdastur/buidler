@@ -71,6 +71,11 @@
 ***************************************************************************/
 
 
+
+/******************************************************************
+ * Category: Content
+ ******************************************************************/
+
 /*
  * Category:  Content.
  * Component: Jumbotron
@@ -734,6 +739,7 @@ class CollapseCard extends React.Component {
     return(card);
   }
 }
+
 /*
  * Category: Container
  * Component: Collapse
@@ -754,13 +760,6 @@ class Collapse extends React.Component {
     let cards = [];
     let collapseProps = this.setProps(this.props);
 
-    // let cardProps = {
-    //   header_text: "Card One",
-    //   card_body_text: "This is a body of the card",
-    //   card_id: "cardOne",
-    // };
-    // cards.push(React.createElement(CollapseCard, cardProps, null));
-
     let cardProps = {};
     for (let x in this.props.card_info) {
       cardProps = {
@@ -768,16 +767,9 @@ class Collapse extends React.Component {
         card_body_text: this.props.card_info[x]['card_body_text'],
         card_id: this.props.card_info[x]['card_id'],
         key: x
-      }
+      };
       cards.push(React.createElement(CollapseCard, cardProps, null));
     }
-
-    // cardProps = {
-    //   header_text: "Card Two",
-    //   card_body_text: "This is a body of the card",
-    //   card_id: "cardTwo",
-    // };
-    // cards.push(React.createElement(CollapseCard, cardProps, null));
 
     let collapse = React.createElement("div", 
                                        {id: "accordian"}, 
@@ -871,3 +863,69 @@ ReactDOM.render(main_grid, document.getElementById("main-grid"));
 
 
 
+/******************************************************************
+ * Category: Charts
+ ******************************************************************/
+
+class  BarChart extends React.Component {
+  constructor (props) {
+    super(props);
+    this.chartRef = React.createRef();
+  }
+
+  createChart (ctx) {
+    var myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+          labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+          datasets: [{
+              label: '# of Votes',
+              data: [12, 19, 3, 5, 2, 3],
+              backgroundColor: [
+                  'rgba(255, 99, 132, 0.2)',
+                  'rgba(54, 162, 235, 0.2)',
+                  'rgba(255, 206, 86, 0.2)',
+                  'rgba(75, 192, 192, 0.2)',
+                  'rgba(153, 102, 255, 0.2)',
+                  'rgba(255, 159, 64, 0.2)'
+              ],
+              borderColor: [
+                  'rgba(255, 99, 132, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 206, 86, 1)',
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(153, 102, 255, 1)',
+                  'rgba(255, 159, 64, 1)'
+              ],
+              borderWidth: 1
+          }]
+      },
+      options: {
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero: true
+                  }
+              }]
+          }
+      }
+    });
+  }
+
+  componentDidMount() {
+    let ctx = document.getElementById("canvas").getContext('2d');
+    this.myChart = this.createChart(ctx);
+  }
+
+  render () {
+    let canvas = React.createElement("canvas", 
+                                  {id: "canvas", width: "400", height: "200",
+                                   ref: this.chartRef}, 
+                                  null);
+
+    //let myChart = this.createChart(ctx);
+   
+    return(canvas);
+  }
+
+}
