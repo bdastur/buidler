@@ -122,12 +122,18 @@ class Jumbotron extends React.Component {
         };
         //Overrides.
         if (prop_style != undefined) {
-          for (let idx in this.style_overrides) {
-            let override = this.style_overrides[idx];
-            if (override in prop_style) {
-              header_style[override] = prop_style[override];
-            }
+          
+          // for (let idx in this.style_overrides) {
+          //   let override = this.style_overrides[idx];
+          //   if (override in prop_style) {
+          //     header_style[override] = prop_style[override];
+          //   }
+          // }
+          for (let [key, value] of Object.entries(prop_style)) {
+            console.log( "Key: " + key + ", val: " + value);
+            header_style[key] = value
           }
+
         }
         return(header_style);
     }
@@ -519,10 +525,6 @@ class FormCheck extends React.Component {
                                          {type: fgProps.type, class: fgProps.class,
                                           onChange: this.onChangeHandler, }, null);
 
-    // let small = React.createElement("small",
-    //                                {class: "form-text text-muted"},
-    //                                fgProps.small_text);
-
     let divFc = React.createElement("div", 
                                     {class: "form-check"}, 
                                      checkInput, label);
@@ -642,6 +644,8 @@ class Signup extends React.Component {
 /*
  * Category: Container.
  * Component: Card
+ * A Card has the following components:
+ *  - A card header
  * 
  * 
  */
@@ -653,8 +657,10 @@ class Card extends React.Component {
   setStyle (props) {
     let cardStyle = {
       width: "22rem",
-      boxShadow: "5px 10px #c1d1bc"
+      boxShadow: "5px 10px #c1d1bc",
+      borderRadius: "25px"
     };
+
     return (cardStyle)
   }
   
@@ -668,14 +674,21 @@ class Card extends React.Component {
       class: "display-4",
       text: "Card Header",
       style: {
-        color: "black",
+        color: "white",
         fontFamily: "Roboto, sans-serif",
-        backgroundColor: "#fffff"
+        backgroundColor: "#473dff",
+        borderRadius: "25px"
       }
     };
 
-    let hCardTitle = React.createElement("h5", {class: "card-title"}, "Card Title");
-    let jumboCardTitle = React.createElement(Jumbotron,jumboProps, null);
+    let hCardTitle = React.createElement("h5", 
+                                         {class: "card-title"}, "Card Title");
+    let jumboCardTitle = React.createElement(Jumbotron,
+                                             jumboProps, null);
+
+    let cardHeader = React.createElement("div",
+                                         {class: "card-header"}, 
+                                         jumboCardTitle);
 
     let signup_props = {
       class: "gelem c2c4 r2r4"
@@ -683,10 +696,10 @@ class Card extends React.Component {
     let signup = React.createElement(Signup, signup_props, null); 
 
     let divCardBody = React.createElement(
-      "div", {class: "card-body"}, hCardTitle, signup, "Card Body");
+      "div", {class: "card-body"}, hCardTitle, signup);
 
     let divCard = React.createElement(
-      "div", {class: "card", style: cardStyle}, jumboCardTitle, divCardBody);
+      "div", {class: "card", style: cardStyle}, cardHeader, divCardBody);
     
     return (divCard);
   }
@@ -873,33 +886,28 @@ class  BarChart extends React.Component {
     this.chartRef = React.createRef();
   }
 
+  generateRandomColors(transparency) {
+    let rRandom = Math.floor(Math.random() * 255);
+    let gRandom = Math.floor(Math.random() * 255);
+    let bRandom = Math.floor(Math.random() * 255);
+
+    let rgbStrin = "rgba(" + rRandom + ", " + gRandom + ", " + bRandom + ", "  + transparency + ")"
+  }
+
+  setProps(props) {
+    let chartProps = {
+      'data': props.data
+    }
+    return(chartProps);
+  }
+
   createChart (ctx) {
+    let chartProps = this.setProps(this.props);
+    Chart.defaults.global.hover.mode = 'nearest';
+    
     var myChart = new Chart(ctx, {
       type: 'bar',
-      data: {
-          labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-          datasets: [{
-              label: '# of Votes',
-              data: [12, 19, 3, 5, 2, 3],
-              backgroundColor: [
-                  'rgba(255, 99, 132, 0.2)',
-                  'rgba(54, 162, 235, 0.2)',
-                  'rgba(255, 206, 86, 0.2)',
-                  'rgba(75, 192, 192, 0.2)',
-                  'rgba(153, 102, 255, 0.2)',
-                  'rgba(255, 159, 64, 0.2)'
-              ],
-              borderColor: [
-                  'rgba(255, 99, 132, 1)',
-                  'rgba(54, 162, 235, 1)',
-                  'rgba(255, 206, 86, 1)',
-                  'rgba(75, 192, 192, 1)',
-                  'rgba(153, 102, 255, 1)',
-                  'rgba(255, 159, 64, 1)'
-              ],
-              borderWidth: 1
-          }]
-      },
+      data: chartProps.data,
       options: {
           scales: {
               yAxes: [{

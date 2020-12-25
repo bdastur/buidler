@@ -188,6 +188,14 @@ function  InvokeTest(id) {
             setTestInfo(data);
 
             testBarChart();
+        case "card1":
+            console.log("Execute testcase card1");
+            data['component'] = "Card";
+            data['test'] = "A Card example - Simple card";
+            data['details'] = "props: ";
+            setTestInfo(data);
+
+            testCard();
 
         default:
             console.log("Default switch, No test case defined: " + id);
@@ -286,6 +294,21 @@ function testFormCheck(fgProps) {
     ReactDOM.render(fcObj, testContainer);
 }
 
+/***************************************************************
+ * Test function: Test SelectFormgroup component.
+ ****************************************************************/
+function testCard() {
+    let testContainer = document.getElementById("testsetup");
+    let fgProps = {};
+    
+    testCallback = (data) => {
+        console.log("Callback: " + JSON.stringify(data));
+    }
+    fgProps['callback'] = this.testCallback
+
+    let fgObj = React.createElement(Card, null, null);
+    ReactDOM.render(fgObj, testContainer);
+}
 
 /***************************************************************
  * Test function: Test Collapse component.
@@ -323,7 +346,57 @@ function testCollapse(fgProps) {
  ****************************************************************/
 function testBarChart(fgProps) {
     let testContainer = document.getElementById("testsetup");
-    let fcObj = React.createElement(BarChart, null, null);
+    let chartProps = {};
+
+    let data = {
+        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        datasets: [{
+            label: '# of Votes',
+            data: [2, 29, 31, 5, 22, 3],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        },
+        {
+          label: '# of People',
+          data: [21, 22, 13, 5, 2, 23],
+          backgroundColor: [
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(255, 206, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+              'rgba(153, 102, 255, 0.2)',
+              'rgba(255, 159, 64, 0.2)'
+          ],
+          borderColor: [
+              'rgba(255, 99, 132, 1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)',
+              'rgba(75, 192, 192, 1)',
+              'rgba(153, 102, 255, 1)',
+              'rgba(255, 159, 64, 1)'
+          ],
+          borderWidth: 1
+      }]
+    };
+    chartProps['data'] = data
+
+
+    let fcObj = React.createElement(BarChart, chartProps, null);
     ReactDOM.render(fcObj, testContainer);
 }
 
