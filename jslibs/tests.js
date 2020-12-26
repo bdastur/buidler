@@ -299,14 +299,29 @@ function testFormCheck(fgProps) {
  ****************************************************************/
 function testCard() {
     let testContainer = document.getElementById("testsetup");
-    let fgProps = {};
-    
+    let fgProps = {
+        width: "22rem",
+        boxShadow: "3px 5px #6f70d1",
+        cardHeader: {
+            backgroundColor: "green",
+            text: "Yahoo",
+            text_size: 4
+        }
+    };
+
     testCallback = (data) => {
         console.log("Callback: " + JSON.stringify(data));
     }
     fgProps['callback'] = this.testCallback
 
-    let fgObj = React.createElement(Card, null, null);
+    // Create children to pass to card.
+    let hCardTitle = React.createElement("h5", 
+                                         {class: "card-title"}, "Card Title");
+
+    let signup = React.createElement(Signup, null, null); 
+
+
+    let fgObj = React.createElement(Card, fgProps, hCardTitle, signup);
     ReactDOM.render(fgObj, testContainer);
 }
 
