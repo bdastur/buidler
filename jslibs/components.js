@@ -645,58 +645,96 @@ class Signup extends React.Component {
  * Category: Container.
  * Component: Card
  * A Card has the following components:
- *  - A card header
+ *  - A card header (div)
+ *      - Card title
+ *  - A card body  (div)
+ *    - element
+ * 
+ * PROPS:
+ *  borderRadius
+ *  cardWidth
+ *  boxShadow
+ *  cardHeader:
+ *   backgroundColor
+ *   cardHeaderText
+ *   size: [1...6]
  * 
  * 
  */
 class Card extends React.Component {
   constructor (props) {
     super(props);
+    this.borderRadius = "10px";
   }
 
-  setStyle (props) {
-    let cardStyle = {
-      width: "22rem",
-      boxShadow: "5px 10px #c1d1bc",
-      borderRadius: "25px"
-    };
+  setProps (props) {    
+    //Set Default.
+    let cardProps = {
+      style: {
+        width: "25rem",
+        boxShadow: "3px 5px #dbdbdb",
+        borderTopLeftRadius: this.borderRadius,
+        borderTopRightRadius: this.borderRadius
+      },
+      cardHeader: {
+        text: "Sample Text",
+        text_size: 4,
+        style: {
+          backgroundColor: "#473dff",
+          borderTopLeftRadius: this.borderRadius,
+          borderTopRightRadius: this.borderRadius
+        }
+      }
+    }
 
-    return (cardStyle)
+    if (props.hasOwnProperty("width") && props.width != undefined) {
+      cardProps.style.width = props.width;
+    }
+    if (props.hasOwnProperty("cardHeader") && props.cardHeader != undefined) {
+      let obj = props.cardHeader;
+      if (obj.hasOwnProperty("backgroundColor") && obj.backgroundColor != undefined) {
+        cardProps.cardHeader.style.backgroundColor = obj.backgroundColor;
+      }
+      if (obj.hasOwnProperty("text") && obj.text != undefined) {
+        cardProps.cardHeader.text = obj.text;
+      }
+      if (obj.hasOwnProperty("text_size") && obj.text_size != undefined) {
+        cardProps.cardHeader.text_size = obj.text_size;
+      }
+    }
+
+    return (cardProps);
   }
   
   render () {
-    console.log("Card - render");
-    let cardStyle = this.setStyle(this.props);
-    
+    console.log("Card - render " + this.props.children);
+    let cardProps  = this.setProps(this.props);
+    let cardHeaderStyle = cardProps.cardHeader.style;
+    let cardStyle = cardProps.style;
+
     let jumboProps = {
       id: "j1",
-      element_type: "h4",
-      class: "display-4",
-      text: "Card Header",
+      element_type: "h" + cardProps.cardHeader.text_size,
+      class: "display-" + cardProps.cardHeader.text_size,
+      text: cardProps.cardHeader.text,
       style: {
         color: "white",
         fontFamily: "Roboto, sans-serif",
-        backgroundColor: "#473dff",
-        borderRadius: "25px"
+        backgroundColor: cardHeaderStyle.background,
+        borderTopLeftRadius: this.borderRadius,
+        borderTopRightRadius: this.borderRadius
       }
     };
 
-    let hCardTitle = React.createElement("h5", 
-                                         {class: "card-title"}, "Card Title");
     let jumboCardTitle = React.createElement(Jumbotron,
                                              jumboProps, null);
 
     let cardHeader = React.createElement("div",
-                                         {class: "card-header"}, 
+                                         {class: "card-header", style: cardHeaderStyle}, 
                                          jumboCardTitle);
 
-    let signup_props = {
-      class: "gelem c2c4 r2r4"
-    };
-    let signup = React.createElement(Signup, signup_props, null); 
-
     let divCardBody = React.createElement(
-      "div", {class: "card-body"}, hCardTitle, signup);
+      "div", {class: "card-body"}, this.props.children);
 
     let divCard = React.createElement(
       "div", {class: "card", style: cardStyle}, cardHeader, divCardBody);
