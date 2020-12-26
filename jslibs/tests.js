@@ -23,9 +23,8 @@ function  InvokeTest(id) {
             setTestInfo(data);
             var jtprops = {
                 id: "h5-1",
-                element_type: "h3",
-                class: "display-3",
                 text: "This is a  test Jumbotron",
+                text_size: 3,
                 style: {
                     color: "blue",
                     fontFamily: "Times New Roman",
@@ -40,8 +39,8 @@ function  InvokeTest(id) {
             data['test'] = "A Jumbotron example - using default props";
             data['details'] = "props: ";
             var jtprops = {
-                element_type: "h3",
-                text: "Test 2"
+                text: "Test 2",
+                text_size: 3
             }
             setTestInfo(data);
             testJumbotron(jtprops);
@@ -188,6 +187,7 @@ function  InvokeTest(id) {
             setTestInfo(data);
 
             testBarChart();
+            break;
         case "card1":
             console.log("Execute testcase card1");
             data['component'] = "Card";
@@ -195,8 +195,17 @@ function  InvokeTest(id) {
             data['details'] = "props: ";
             setTestInfo(data);
 
-            testCard();
+            testCard1();
+            break;
+        case "card2":
+            console.log("Execute testcase card2");
+            data['component'] = "Card";
+            data['test'] = "A Card example - Simple card";
+            data['details'] = "props: ";
+            setTestInfo(data);
 
+            testCard2();
+            break;
         default:
             console.log("Default switch, No test case defined: " + id);
             break;
@@ -219,9 +228,8 @@ function setTestInfo (data) {
      */
     let jtprops = {
         id: "h6-1",
-        element_type: "h6",
-        class: "display-6",
         text: message,
+        text_size: 6,
         style: {
             color: "black",
             fontFamily: "Times New Roman",
@@ -295,13 +303,13 @@ function testFormCheck(fgProps) {
 }
 
 /***************************************************************
- * Test function: Test SelectFormgroup component.
+ * Test function: Test Card component.
  ****************************************************************/
-function testCard() {
+function testCard1() {
+    console.log("Test Card 1...");
     let testContainer = document.getElementById("testsetup");
     let fgProps = {
         width: "22rem",
-        boxShadow: "3px 5px #6f70d1",
         cardHeader: {
             backgroundColor: "green",
             text: "Yahoo",
@@ -324,6 +332,52 @@ function testCard() {
     let fgObj = React.createElement(Card, fgProps, hCardTitle, signup);
     ReactDOM.render(fgObj, testContainer);
 }
+
+
+/***************************************************************
+ * Test function: Test Card component.
+ ****************************************************************/
+function testCard2() {
+    let testContainer = document.getElementById("testsetup");
+    
+    let cardProps = {
+        width: "22rem",
+        cardHeader: {
+            backgroundColor: "green",
+            text: "Yahoo",
+            text_size: 4
+        }
+    };
+    
+    testFgCallback = (data) => {
+        console.log("Callback: " + JSON.stringify(data));
+    }
+
+    let fgProps = {
+        label:       "Name",
+        type:        "text",
+        placeholder: "Enter your name",
+        small_text:  "A simple name input"
+    }
+    fgProps['callback'] = this.testFgCallback
+
+    let fgObj = React.createElement(InputFormGroup, fgProps, null);
+
+
+    testCallback = (data) => {
+        console.log("Callback: " + JSON.stringify(data));
+    }
+    cardProps['callback'] = this.testCallback
+
+    // Create children to pass to card.
+    let hCardTitle = React.createElement("h5", 
+                                         {class: "card-title"}, "Card Title");
+
+
+    let cardObj = React.createElement(Card, fgProps, hCardTitle, fgObj);
+    ReactDOM.render(cardObj, testContainer);
+}
+
 
 /***************************************************************
  * Test function: Test Collapse component.

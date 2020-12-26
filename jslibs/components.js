@@ -71,194 +71,6 @@
 ***************************************************************************/
 
 
-
-/******************************************************************
- * Category: Content
- ******************************************************************/
-
-/*
- * Category:  Content.
- * Component: Jumbotron
- * State: Stateless.
- *
- * PROPS Definitions:
- *  id:  <DOM ID>
- *  element_type: ["h1".. "h6"]
- *  class:  [Add "display-1".. "display-6" for BS4 display header]
- *  text: "This is the text to display"
- *  style:
- *    color: Font color
- *    fontFamily: 
- *    backgroundColor
- * 
- */
-class Jumbotron extends React.Component {
-    constructor (props) {
-        super(props);
-        console.log("Jumbotron - Constructor invoked!");
-        this.state = {
-            data: "Sample",
-            color: "black",
-            fontFamily: "Sans Serif"
-        };
-
-        this.style_overrides = [
-            "color", "backgroundColor", "fontFamily"
-        ];
-    }
-
-    componentDidMount () {
-        console.log("componentDidMount. Text: " + this.props.text);
-        this.setState({data: this.props.text});
-    }
-
-    setStyle (prop_style) {
-        //Set default style
-        let header_style = {
-            color: "black",
-            backgroundColor: "White",
-            padding: "10px",
-            fontFamily: "Sans Serif"
-        };
-        //Overrides.
-        if (prop_style != undefined) {
-          
-          // for (let idx in this.style_overrides) {
-          //   let override = this.style_overrides[idx];
-          //   if (override in prop_style) {
-          //     header_style[override] = prop_style[override];
-          //   }
-          // }
-          for (let [key, value] of Object.entries(prop_style)) {
-            console.log( "Key: " + key + ", val: " + value);
-            header_style[key] = value
-          }
-
-        }
-        return(header_style);
-    }
-
-    setProps () {
-      let props = {}
-      props['id'] = "jumbo-" + Math.ceil(Math.random() * 100000);
-      
-      if (this.props.hasOwnProperty("id") && this.props.id != undefined) {
-        props['id'] = this.props.id;
-      }
-      props['element_type'] = "h2";
-      if (this.props.hasOwnProperty("element_type") && this.props.element_type != undefined) {
-        props['element_type'] = this.props.element_type;
-      }
-      props['class'] = "display-2";
-      if (this.props.hasOwnProperty("class") && this.props.class != undefined) {
-        props['class'] = this.props.class;
-      }
-      props['text'] = "No text";
-      if (this.props.hasOwnProperty("text") && this.props.text != undefined) {
-        props['text'] = this.props.text;
-      }
-      return props;
-    }
-
-    clickHandler = (event, data) => {
-      console.log("clicked " + event.target.value);
-    }
-
-    render () {
-        console.log("Jumbotron - render: " + JSON.stringify(this.state));
-        const header_style = this.setStyle(this.props.style);
-        let props = this.setProps();
-
-        props['style'] = header_style;
-        props['onClick'] = this.clickHandler;
-        console.log("State: " + this.state.data);
-
-        let elem =  React.createElement(
-            props.element_type, props, props.text);
-
-        return(elem);
-    }
-}
-
-
-
-/*
- * Category: Content
- * Table
- * A Table has the following sub components:
- *   . Table Header thead
- *     . header row
- *   . Table Body
- *     . Table rows
- */
-class Table extends React.Component {
-    constructor (props) {
-        super(props);
-        this.state = {
-            data: {}
-        };
-    }
-    componentDidMount () {
-        console.log("componentDidMount");
-        this.setState({data: this.props.data});
-        console.log(this.state.data);
-        console.log("end -- componentDidMount");
-    }
-
-    render () {
-        console.log("Table - render");
-        // Table Header
-        let columns = this.state.data.headers;
-        //let columns = this.props.data.headers;
-        let scope = "col";
-        let th_list = [];
-        for (let idx in columns) {
-            let obj = React.createElement(
-                "th", {scope: scope, id: idx }, columns[idx]);
-            th_list.push(obj);
-        }
-        let tr = React.createElement("tr", null, th_list);
-        let thead = React.createElement("thead", null, tr)
-
-        // Table Body.
-        //let data = this.props.data.rows;
-        let data = this.state.data.rows;
-        let tr_list = [];
-        for (let row_idx in data) {
-            let th_ro = React.createElement("th", null, row_idx);
-            let cols = [];
-            for (let col_idx in data[row_idx]) {
-                cols.push(React.createElement(
-                    "td", null, data[row_idx][col_idx]));
-            }
-            let obj = React.createElement("tr", null, th_ro, cols);
-            tr_list.push(obj);
-        }
-        let tbody = React.createElement("tbody", null, tr_list)
-
-        // Table
-        let table = React.createElement(
-          "table", {class: "table table-bordered"}, thead, tbody);
-        return (table);
-    }
-}
-
-
-create_table = () => {
-  let table_props = {
-      data: {
-          headers: ["#", "First", "Last", "Hanndle"],
-          rows: [
-              ["Larry", "Bird", "@bird"],
-              ["Justin", "Donahue", "@donahue"],
-              ["John", "Johnson", "@jj"]
-          ]
-      }
-  }
-  let tb = React.createElement(Table, table_props, null);
-  ReactDOM.render(tb, document.getElementById("table1"));
-}
-
 class Form extends React.Component {
     constructor (props) {
         super(props);
@@ -651,14 +463,29 @@ class Signup extends React.Component {
  *    - element
  * 
  * PROPS:
- *  borderRadius
- *  cardWidth
- *  boxShadow
- *  cardHeader:
- *   backgroundColor
- *   cardHeaderText
- *   size: [1...6]
+ *   {
+ *     width:                  Width of the card (Default: 22rem)
+ *     cardHeader: {
+ *       backroundColor:       Card header background color
+ *       text:                 Header text
+ *       text_size:            Size [1...6]
+ *     }
+ *   }
  * 
+ * Example Usage:
+ *  ------------
+ * let fgProps = {
+ *       width: "22rem",
+ *       cardHeader: {
+ *           backgroundColor: "green",
+ *           text: "Yahoo",
+ *           text_size: 4
+ *       }
+ *   };
+ * let fgObj = React.createElement(Card, fgProps, <child 1>, <child 2>);
+ *  NOTE:
+ *  -----
+ *  You can pass additional React and non react children to this container.
  * 
  */
 class Card extends React.Component {
@@ -714,9 +541,8 @@ class Card extends React.Component {
 
     let jumboProps = {
       id: "j1",
-      element_type: "h" + cardProps.cardHeader.text_size,
-      class: "display-" + cardProps.cardHeader.text_size,
       text: cardProps.cardHeader.text,
+      text_size: cardProps.cardHeader.text_size,
       style: {
         color: "white",
         fontFamily: "Roboto, sans-serif",
@@ -869,9 +695,9 @@ class Grid extends React.Component {
   render () {
     let jumbo_props = {
       id: "test-1",
-      element_type: "h3",
-      class: "display-3 gelem  c1c4  r1r2  colored",
+      class: "gelem  c1c4  r1r2  colored",
       text: "Signup now!!",
+      text_size: 3,
       style: {
           color: "black",
           fontFamily: "Roboto, sans-serif",

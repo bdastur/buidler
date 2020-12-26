@@ -113,7 +113,12 @@
                         Card - 1</button>
                     <!-- bs-button end -->
                 </div>
-                <div class="gelem ">Fourteen</div>
+                <div class="gelem ">
+                    <!-- bs-button -->
+                    <button type='button' class='btn btn-dark btn-lg' onclick="InvokeTest('card2')">
+                        Card - 2</button>
+                    <!-- bs-button end -->
+                </div>
                 <div class="gelem ">Fifteen</div>
                 <div class="gelem ">
                     <!-- bs-button -->
@@ -157,6 +162,8 @@
 
         <script type='text/javascript'
             src="{{ url_for('static', filename='js/builder/utils.js') }}"></script>
+        <script type='text/javascript'
+            src="{{ url_for('static', filename='js/builder/content_components.js') }}"></script>    
         <script type='text/javascript'
             src="{{ url_for('static', filename='js/builder/components.js') }}"></script>
         <script type='text/javascript'
