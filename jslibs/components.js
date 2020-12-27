@@ -474,7 +474,7 @@ class Signup extends React.Component {
  * 
  * Example Usage:
  *  ------------
- * let fgProps = {
+ * let cardProps = {
  *       width: "22rem",
  *       cardHeader: {
  *           backgroundColor: "green",
@@ -482,7 +482,7 @@ class Signup extends React.Component {
  *           text_size: 4
  *       }
  *   };
- * let fgObj = React.createElement(Card, fgProps, <child 1>, <child 2>);
+ * let cardObj = React.createElement(Card, fgProps, <child 1>, <child 2>);
  *  NOTE:
  *  -----
  *  You can pass additional React and non react children to this container.
@@ -514,11 +514,11 @@ class Card extends React.Component {
       }
     }
 
-    if (props.hasOwnProperty("width") && props.width != undefined) {
-      cardProps.style.width = props.width;
+    if (this.props.hasOwnProperty("width") && this.props.width != undefined) {
+      cardProps.style.width = this.props.width;
     }
-    if (props.hasOwnProperty("cardHeader") && props.cardHeader != undefined) {
-      let obj = props.cardHeader;
+    if (this.props.hasOwnProperty("cardHeader") && this.props.cardHeader != undefined) {
+      let obj = this.props.cardHeader;
       if (obj.hasOwnProperty("backgroundColor") && obj.backgroundColor != undefined) {
         cardProps.cardHeader.style.backgroundColor = obj.backgroundColor;
       }
@@ -568,6 +568,84 @@ class Card extends React.Component {
     return (divCard);
   }
 }
+
+
+class CardImage extends React.Component {
+  constructor (props) {
+    super(props);
+    this.borderRadius = "10px";
+  }
+
+  setProps () {
+    let cardProps = {
+      style: {
+        width: "40rem",
+        boxShadow: "3px 5px #dbdbdb",
+        borderTopLeftRadius: this.borderRadius,
+        borderTopRightRadius: this.borderRadius
+      },
+      cardHeader: {
+        image_source: "https://itsvit.com/wp-content/uploads/2019/05/ItSvit_DevOps-business-value-and-advantages_Cover_1-1.png",
+        style: {
+          opacity: "0.90",
+          padding: 0,
+          height: "140px",
+          borderTopLeftRadius: this.borderRadius,
+          borderTopRightRadius: this.borderRadius
+        }
+      }
+    }
+    if (this.props.hasOwnProperty("width") && this.props.width != undefined) {
+      cardProps.style.width = this.props.width;
+    }
+    if (this.props.hasOwnProperty("cardHeader") && this.props.cardHeader != undefined) {
+      let obj = this.props.cardHeader;
+
+      if (obj.hasOwnProperty("image_source") && obj.image_source != undefined) {
+        cardProps.cardHeader.image_source = obj.image_source;
+        console.log("Image source: " + cardProps.cardHeader.image_source);
+      }
+      if (obj.hasOwnProperty("opacity") && obj.opacity != undefined) {
+        cardProps.cardHeader.style.opacity = obj.opacity;
+      }
+      if (obj.hasOwnProperty("padding") && obj.padding != undefined) {
+        cardProps.cardHeader.style.padding = obj.padding;
+      }
+    }
+
+    return(cardProps);
+  }
+
+  render () {
+    let cardProps  = this.setProps(this.props);
+    let cardHeaderProp = cardProps.cardHeader;
+    let cardHeaderStyle = cardProps.cardHeader.style;
+    let cardStyle = cardProps.style;
+    
+    let image = React.createElement("img",
+                                    {class: 'card-img-top', 
+                                    alt: 'Card Image',
+                                    style: cardHeaderStyle,
+                                    src: cardHeaderProp.image_source},
+                                    null);
+
+    let cardHeader = React.createElement("div",
+                                         {class: "card-header",
+                                         style: cardHeaderStyle}, 
+                                         image);
+
+
+    let divCardBody = React.createElement(
+        "div", {class: "card-body"}, this.props.children);
+
+    let divCard = React.createElement(
+      "div", {class: "card", style: cardStyle}, cardHeader, divCardBody);
+
+    return(divCard);
+  }
+}
+
+
 
 
 class CollapseCard extends React.Component {
