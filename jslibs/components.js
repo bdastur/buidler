@@ -497,8 +497,10 @@ class Card extends React.Component {
   setProps (props) {    
     //Set Default.
     let cardProps = {
+      id: "jumbo-" + Math.ceil(Math.random() * 100000),
+      class: "card",
       style: {
-        width: "25rem",
+        width: "55rem",
         boxShadow: "3px 5px #dbdbdb",
         borderTopLeftRadius: this.borderRadius,
         borderTopRightRadius: this.borderRadius
@@ -511,33 +513,73 @@ class Card extends React.Component {
           borderTopLeftRadius: this.borderRadius,
           borderTopRightRadius: this.borderRadius
         }
+      },
+      cardBody: {
+        class: "card-body"
       }
     }
 
-    if (this.props.hasOwnProperty("width") && this.props.width != undefined) {
-      cardProps.style.width = this.props.width;
+    // Override from Props.
+    if (this.props.hasOwnProperty("id") && this.props.id != undefined) {
+      cardProps.id = this.props.id;
     }
+    if (this.props.hasOwnProperty("class") && this.props.class != undefined) {
+      cardProps.class +=  " " + this.props.class;
+    }
+    if (this.props.hasOwnProperty("style") && this.props.style != undefined) {
+      for (let [key, value] of Object.entries(this.props.style)) {
+        console.log( "Key: " + key + ", val: " + value);
+        cardProps.style[key] = value
+      }
+    }
+    
+
+    // Override cardHeader.
     if (this.props.hasOwnProperty("cardHeader") && this.props.cardHeader != undefined) {
       let obj = this.props.cardHeader;
-      if (obj.hasOwnProperty("backgroundColor") && obj.backgroundColor != undefined) {
-        cardProps.cardHeader.style.backgroundColor = obj.backgroundColor;
-      }
+    
       if (obj.hasOwnProperty("text") && obj.text != undefined) {
         cardProps.cardHeader.text = obj.text;
       }
       if (obj.hasOwnProperty("text_size") && obj.text_size != undefined) {
         cardProps.cardHeader.text_size = obj.text_size;
       }
+
+      if (obj.hasOwnProperty("style") && obj.style != undefined) {
+        for (let [key, value] of Object.entries(obj.style)) {
+          console.log( "Key: " + key + ", val: " + value);
+          cardProps.cardHeader.style[key] = value
+        }
+      }
     }
 
+    // Override cardBody.
+    if (this.props.hasOwnProperty("cardBody") && this.props.cardBody != undefined) {
+      let obj = this.props.cardBody;
+
+      if (obj.hasOwnProperty("class") && obj.class != undefined) {
+        cardProps.cardBody.class += " " + obj.class
+      }
+
+      if (obj.hasOwnProperty("style") && obj.style != undefined) {
+        for (let [key, value] of Object.entries(obj.style)) {
+          console.log( "Key: " + key + ", val: " + value);
+          cardProps.cardBody.style[key] = value
+        }
+      }
+    }
+
+    console.log("BRD >>>>>>>>> " + cardProps.cardBody);
     return (cardProps);
   }
   
   render () {
     console.log("Card - render " + this.props.children);
     let cardProps  = this.setProps(this.props);
+    
     let cardHeaderStyle = cardProps.cardHeader.style;
     let cardStyle = cardProps.style;
+    let cardBody = cardProps.cardBody;
 
     let jumboProps = {
       id: "j1",
@@ -560,10 +602,10 @@ class Card extends React.Component {
                                          jumboCardTitle);
 
     let divCardBody = React.createElement(
-      "div", {class: "card-body"}, this.props.children);
+      "div", {class: cardBody.class}, this.props.children);
 
     let divCard = React.createElement(
-      "div", {class: "card", style: cardStyle}, cardHeader, divCardBody);
+      "div", {class: cardProps.class, style: cardStyle}, cardHeader, divCardBody);
     
     return (divCard);
   }
