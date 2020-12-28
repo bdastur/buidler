@@ -456,37 +456,59 @@ class Signup extends React.Component {
 /*
  * Category: Container.
  * Component: Card
- * A Card has the following components:
+ * This  Card  has the following components:
  *  - A card header (div)
- *      - Card title
+ *      - Card title (A jumbotorn)
  *  - A card body  (div)
- *    - element
+ *    - element (elements are passed by the caller as props.children)
  * 
  * PROPS:
- *   {
- *     width:                  Width of the card (Default: 22rem)
- *     cardHeader: {
- *       backroundColor:       Card header background color
- *       text:                 Header text
- *       text_size:            Size [1...6]
+ * 
+ * {
+ *     id:                    DOM ID
+ *     class:                 Class (Default "card") Any props will be appended
+ *     style: {               CSS Styles applied to main 'card' div.
+ *       width:                 Width of card (Default: "25rem"),
+ *       boxShadow:             Box Shadow (Default "3px 5px #dbdbdb",
+ *       borderTopLeftRadius:   Border Radius topleft (Default 10px),
+ *       borderTopRightRadius:  Border Radius top right (Default 10px)
+ *     },
+ *     cardHeader: {            
+ *       text: "Sample Text",   Header text
+ *       text_size: 4,          Text size. Size refers to h1...6 elems (Default 4)
+ *       style: {               CSS Style applied to card-header div
+ *         backgroundColor:       Background color
+ *         borderTopLeftRadius:   Border Radius topleft (Default 10px)
+ *         borderTopRightRadius:  Border Radius top right (Default 10px)
+ *       }
+ *     },
+ *     cardBody: {
+ *       class: "card-body"
  *     }
  *   }
  * 
  * Example Usage:
  *  ------------
  * let cardProps = {
- *       width: "22rem",
+ *       id: "card-1",
+ *       style: {
+ *           width: "22rem"
+ *       },
  *       cardHeader: {
- *           backgroundColor: "green",
  *           text: "Yahoo",
- *           text_size: 4
+ *           text_size: 4,
+ *           style: {
+ *               backgroundColor: "red"
+ *           }
  *       }
- *   };
+ *    };
+ * l
  * let cardObj = React.createElement(Card, fgProps, <child 1>, <child 2>);
+ * 
  *  NOTE:
  *  -----
  *  You can pass additional React and non react children to this container.
- * 
+ *  The child elements will be added to Card body.
  */
 class Card extends React.Component {
   constructor (props) {
@@ -500,12 +522,13 @@ class Card extends React.Component {
       id: "jumbo-" + Math.ceil(Math.random() * 100000),
       class: "card",
       style: {
-        width: "55rem",
+        width: "25rem",
         boxShadow: "3px 5px #dbdbdb",
         borderTopLeftRadius: this.borderRadius,
         borderTopRightRadius: this.borderRadius
       },
       cardHeader: {
+        class: "card-header",
         text: "Sample Text",
         text_size: 4,
         style: {
@@ -569,7 +592,6 @@ class Card extends React.Component {
       }
     }
 
-    console.log("BRD >>>>>>>>> " + cardProps.cardBody);
     return (cardProps);
   }
   
@@ -580,6 +602,7 @@ class Card extends React.Component {
     let cardHeaderStyle = cardProps.cardHeader.style;
     let cardStyle = cardProps.style;
     let cardBody = cardProps.cardBody;
+
 
     let jumboProps = {
       id: "j1",
@@ -598,21 +621,201 @@ class Card extends React.Component {
                                              jumboProps, null);
 
     let cardHeader = React.createElement("div",
-                                         {class: "card-header", style: cardHeaderStyle}, 
+                                         {class: cardProps.cardHeader.class, 
+                                          style: cardHeaderStyle}, 
                                          jumboCardTitle);
 
-    let divCardBody = React.createElement(
-      "div", {class: cardBody.class}, this.props.children);
+    let divCardBody = React.createElement("div",
+                                          {class: cardBody.class}, 
+                                          this.props.children);
 
-    let divCard = React.createElement(
-      "div", {class: cardProps.class, style: cardStyle}, cardHeader, divCardBody);
+    let divCard = React.createElement("div",
+                                      {class: cardProps.class, style: cardStyle}, 
+                                      cardHeader, divCardBody);
     
     return (divCard);
   }
 }
 
 
-class CardImage extends React.Component {
+/*
+ * Category: Container.
+ * Component: Card
+ * This  ImageCard  has the following components:
+ *  - A card header (div)
+ *      - An image
+ *  - A card body  (div)
+ *    - element (elements are passed by the caller as props.children)
+ * 
+ * PROPS:
+ * 
+ * {
+ *     id:                    DOM ID
+ *     class:                 Class (Default "card") Any props will be appended
+ *     style: {               CSS Styles applied to main 'card' div.
+ *       width:                 Width of card (Default: "25rem"),
+ *       boxShadow:             Box Shadow (Default "3px 5px #dbdbdb",
+ *       borderTopLeftRadius:   Border Radius topleft (Default 10px),
+ *       borderTopRightRadius:  Border Radius top right (Default 10px)
+ *     },
+ *     cardHeader: {            
+ *       text: "Sample Text",   Header text
+ *       text_size: 4,          Text size. Size refers to h1...6 elems (Default 4)
+ *       style: {               CSS Style applied to card-header div
+ *         backgroundColor:       Background color
+ *         borderTopLeftRadius:   Border Radius topleft (Default 10px)
+ *         borderTopRightRadius:  Border Radius top right (Default 10px)
+ *       }
+ *     },
+ *     cardBody: {
+ *       class: "card-body"
+ *     }
+ *   }
+ * 
+ * Example Usage:
+ *  ------------
+ * let cardProps = {
+ *       id: "card-1",
+ *       style: {
+ *           width: "22rem"
+ *       },
+ *       cardHeader: {
+ *           text: "Yahoo",
+ *           text_size: 4,
+ *           style: {
+ *               backgroundColor: "red"
+ *           }
+ *       }
+ *    };
+ * l
+ * let cardObj = React.createElement(Card, fgProps, <child 1>, <child 2>);
+ * 
+ *  NOTE:
+ *  -----
+ *  You can pass additional React and non react children to this container.
+ *  The child elements will be added to Card body.
+ */
+class ImageCard extends React.Component {
+  constructor (props) {
+    super(props);
+    this.borderRadius = "10px";
+  }
+
+  setProps (props) {    
+    //Set Default.
+    let cardProps = {
+      id: "jumbo-" + Math.ceil(Math.random() * 100000),
+      class: "card",
+      style: {
+        width: "25rem",
+        boxShadow: "3px 5px #dbdbdb",
+        borderTopLeftRadius: this.borderRadius,
+        borderTopRightRadius: this.borderRadius
+      },
+      cardHeader: {
+        class: "card-header",
+        image_src: "https://itsvit.com/wp-content/uploads/2019/05/ItSvit_DevOps-business-value-and-advantages_Cover_1-1.png",
+        style: {
+          opacity: "0.90",
+          padding: 0,
+          height: "140px",
+          borderTopLeftRadius: this.borderRadius,
+          borderTopRightRadius: this.borderRadius
+        }
+      },
+      cardBody: {
+        class: "card-body"
+      }
+    }
+
+    // Override from Props.
+    if (this.props.hasOwnProperty("id") && this.props.id != undefined) {
+      cardProps.id = this.props.id;
+    }
+    if (this.props.hasOwnProperty("class") && this.props.class != undefined) {
+      cardProps.class +=  " " + this.props.class;
+    }
+    if (this.props.hasOwnProperty("style") && this.props.style != undefined) {
+      for (let [key, value] of Object.entries(this.props.style)) {
+        console.log( "Key: " + key + ", val: " + value);
+        cardProps.style[key] = value
+      }
+    }
+    
+
+    // Override cardHeader.
+    if (this.props.hasOwnProperty("cardHeader") && this.props.cardHeader != undefined) {
+      let obj = this.props.cardHeader;
+    
+      if (obj.hasOwnProperty("text") && obj.text != undefined) {
+        cardProps.cardHeader.text = obj.text;
+      }
+      if (obj.hasOwnProperty("text_size") && obj.text_size != undefined) {
+        cardProps.cardHeader.text_size = obj.text_size;
+      }
+
+      if (obj.hasOwnProperty("style") && obj.style != undefined) {
+        for (let [key, value] of Object.entries(obj.style)) {
+          console.log( "Key: " + key + ", val: " + value);
+          cardProps.cardHeader.style[key] = value
+        }
+      }
+    }
+
+    // Override cardBody.
+    if (this.props.hasOwnProperty("cardBody") && this.props.cardBody != undefined) {
+      let obj = this.props.cardBody;
+
+      if (obj.hasOwnProperty("class") && obj.class != undefined) {
+        cardProps.cardBody.class += " " + obj.class
+      }
+
+      if (obj.hasOwnProperty("style") && obj.style != undefined) {
+        for (let [key, value] of Object.entries(obj.style)) {
+          console.log( "Key: " + key + ", val: " + value);
+          cardProps.cardBody.style[key] = value
+        }
+      }
+    }
+
+    return (cardProps);
+  }
+  
+  render () {
+    console.log("Card - render " + this.props.children);
+    let cardProps  = this.setProps(this.props);
+    
+    let cardHeaderStyle = cardProps.cardHeader.style;
+    let cardStyle = cardProps.style;
+    let cardBody = cardProps.cardBody;
+
+    let image = React.createElement("img",
+                                    {class: 'card-img-top', 
+                                    alt: 'Card Image',
+                                    style: cardHeaderStyle,
+                                    src: cardProps.cardHeader.image_src},
+                                    null);
+
+    let cardHeader = React.createElement("div",
+                                         {class: "card-header",
+                                         style: cardHeaderStyle}, 
+                                         image);   
+
+    let divCardBody = React.createElement("div",
+                                          {class: cardBody.class}, 
+                                          this.props.children);
+
+    let divCard = React.createElement("div",
+                                      {class: cardProps.class, style: cardStyle}, 
+                                      cardHeader, divCardBody);
+    
+    return (divCard);
+  }
+}
+
+
+
+class BkupImageCard extends React.Component {
   constructor (props) {
     super(props);
     this.borderRadius = "10px";
