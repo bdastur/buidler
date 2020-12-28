@@ -403,23 +403,30 @@ function testCard3() {
     let testContainer = document.getElementById("testsetup");
     
     let cardProps = {
-        width: "50rem",
+        style: {
+            width: "34rem"
+        },
         cardHeader: {
             image_source: "https://itsvit.com/wp-content/uploads/2019/05/ItSvit_DevOps-business-value-and-advantages_Cover_1-1.png",
-            opacity: "0.6"
+            style: {
+                opacity: "0.6"
+            }
         }
     };
+
+   
     JumbotronProps = {
         id: "jjt1",
         text: "Signup now to access free",
         text_size: 4,
         style: {
-          color:      "blue"
+          color:      "blue",
+          fontFamily: "Roboto, sans-serif"
         }
     }
     let jtObj = React.createElement(Jumbotron, JumbotronProps, null);
 
-    let cardObj = React.createElement(CardImage, cardProps, jtObj);
+    let cardObj = React.createElement(ImageCard, cardProps, jtObj);
     ReactDOM.render(cardObj, testContainer);
 }
 
