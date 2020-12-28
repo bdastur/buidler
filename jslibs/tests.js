@@ -318,11 +318,16 @@ function testCard1() {
     console.log("Test Card 1...");
     let testContainer = document.getElementById("testsetup");
     let fgProps = {
-        width: "22rem",
+        id: "card-1",
+        style: {
+            width: "22rem"
+        },
         cardHeader: {
-            backgroundColor: "green",
             text: "Yahoo",
-            text_size: 4
+            text_size: 4,
+            style: {
+                backgroundColor: "red"
+            }
         }
     };
 
@@ -350,11 +355,15 @@ function testCard2() {
     let testContainer = document.getElementById("testsetup");
     
     let cardProps = {
-        width: "22rem",
+        style: {
+            width: "22rem"
+        },
         cardHeader: {
-            backgroundColor: "green",
-            text: "Yahoo",
-            text_size: 4
+            text: "Second Card",
+            text_size: 4,
+            style: {
+                backgroundColor: "green"
+            }
         }
     };
     
@@ -383,7 +392,7 @@ function testCard2() {
                                          {class: "card-title"}, "Card Title");
 
 
-    let cardObj = React.createElement(Card, fgProps, hCardTitle, fgObj);
+    let cardObj = React.createElement(Card, cardProps, hCardTitle, fgObj);
     ReactDOM.render(cardObj, testContainer);
 }
 
