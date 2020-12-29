@@ -215,6 +215,15 @@ function  InvokeTest(id) {
 
             testCard3();
             break;
+        case "grid1":
+            console.log("Execute testcase grid1");
+            data['component'] = "Grid Container";
+            data['test'] = "A Grid example";
+            data['details'] = "props: ";
+            setTestInfo(data);
+
+            testGrid1();
+            break;
         default:
             console.log("Default switch, No test case defined: " + id);
             break;
@@ -520,6 +529,58 @@ function testBarChart(fgProps) {
     ReactDOM.render(fcObj, testContainer);
 }
 
+
+/***************************************************************
+ * Test function: Test Bar chart component.
+ ****************************************************************/
+function testGrid1(fgProps) {
+    let testContainer = document.getElementById("testsetup");
+
+    let gridProps = {
+        grid: {
+            columns: 5,
+            style: {
+                display: "grid",
+                gridAutoRows: 'minmax(20px, auto)',
+                gridGap: '5px'
+            }
+        },
+        children: {
+            "jumbotext1": {
+              id: "test-1",
+              class: "gelem c1c2 r1r2 colored",
+              text: "column 2",
+              text_size: 3,
+              style: {
+                color: "black",
+                fontFamily: "Roboto, sans-serif",
+                backgroundColor: "#d6edd5"
+              }
+            },
+            "jumbotext2": {
+                id: "test-2",
+                class: "gelem c2c3 r1r2 colored",
+                text: "column 2",
+                text_size: 3,
+                style: {
+                  color: "black",
+                  fontFamily: "Roboto, sans-serif",
+                  backgroundColor: "#d6edd5"
+                }
+            },
+            "signup": {
+                class: "gelem c3c6 r1r3"
+            }
+        }
+    }
+
+    let jt1 = React.createElement(Jumbotron, gridProps.children['jumbotext1']);
+    let jt2 = React.createElement(Jumbotron, gridProps.children['jumbotext2']);
+    let signup = React.createElement(Signup, gridProps.children['signup'], null);
+   
+    let grid = React.createElement(Grid, gridProps.grid, jt1, jt2, signup);
+     ReactDOM.render(grid, testContainer);
+}
 
 
 // user_input = {

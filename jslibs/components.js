@@ -436,10 +436,11 @@ class Signup extends React.Component {
     let form_props = {
       onSubmit: this.handleonSubmit
     }
-    if ("class" in this.props) {
-      form_props['class'] = this.props.class;
+    if (this.props.hasOwnProperty("class") && this.props.class != undefined) {
+      form_props.class = this.props.class
     }
-     
+
+     console.log("BRD >>>> Form props: " + JSON.stringify(form_props));
     let form = React.createElement("form", 
                                    form_props, 
                                    fg_email, fg_password, submit_button)
@@ -815,82 +816,6 @@ class ImageCard extends React.Component {
 
 
 
-class BkupImageCard extends React.Component {
-  constructor (props) {
-    super(props);
-    this.borderRadius = "10px";
-  }
-
-  setProps () {
-    let cardProps = {
-      style: {
-        width: "40rem",
-        boxShadow: "3px 5px #dbdbdb",
-        borderTopLeftRadius: this.borderRadius,
-        borderTopRightRadius: this.borderRadius
-      },
-      cardHeader: {
-        image_source: "https://itsvit.com/wp-content/uploads/2019/05/ItSvit_DevOps-business-value-and-advantages_Cover_1-1.png",
-        style: {
-          opacity: "0.90",
-          padding: 0,
-          height: "140px",
-          borderTopLeftRadius: this.borderRadius,
-          borderTopRightRadius: this.borderRadius
-        }
-      }
-    }
-    if (this.props.hasOwnProperty("width") && this.props.width != undefined) {
-      cardProps.style.width = this.props.width;
-    }
-    if (this.props.hasOwnProperty("cardHeader") && this.props.cardHeader != undefined) {
-      let obj = this.props.cardHeader;
-
-      if (obj.hasOwnProperty("image_source") && obj.image_source != undefined) {
-        cardProps.cardHeader.image_source = obj.image_source;
-        console.log("Image source: " + cardProps.cardHeader.image_source);
-      }
-      if (obj.hasOwnProperty("opacity") && obj.opacity != undefined) {
-        cardProps.cardHeader.style.opacity = obj.opacity;
-      }
-      if (obj.hasOwnProperty("padding") && obj.padding != undefined) {
-        cardProps.cardHeader.style.padding = obj.padding;
-      }
-    }
-
-    return(cardProps);
-  }
-
-  render () {
-    let cardProps  = this.setProps(this.props);
-    let cardHeaderProp = cardProps.cardHeader;
-    let cardHeaderStyle = cardProps.cardHeader.style;
-    let cardStyle = cardProps.style;
-    
-    let image = React.createElement("img",
-                                    {class: 'card-img-top', 
-                                    alt: 'Card Image',
-                                    style: cardHeaderStyle,
-                                    src: cardHeaderProp.image_source},
-                                    null);
-
-    let cardHeader = React.createElement("div",
-                                         {class: "card-header",
-                                         style: cardHeaderStyle}, 
-                                         image);
-
-
-    let divCardBody = React.createElement(
-        "div", {class: "card-body"}, this.props.children);
-
-    let divCard = React.createElement(
-      "div", {class: "card", style: cardStyle}, cardHeader, divCardBody);
-
-    return(divCard);
-  }
-}
-
-
 
 
 class CollapseCard extends React.Component {
@@ -985,11 +910,27 @@ class Collapse extends React.Component {
  * Component: Grid
  * Grid Layout.
  * This is a encompassing component.
- * Available props:
- * {
- *     columns: <no of columns>
- * }
+ * PROPS:
+ * 
+ * 
+ *     let gridProps = {
+ *       columns: 5,             //Dummy, just keeping it for consistency.
+ *       style: {
+ *         display: "grid",
+ *         gridAutoRows: 'minmax(20px, auto)',
+ *         gridGap: '5px',
+ *         gridTemplateColumns: grid_template_columns
+ *       }
+ *     }
+ * 
+ *  NOTE: The Component takes a list of elements in the grid.
+ *  The class field of the prop should have additional classes as below:
  *
+ *  class: "gelem c1c2 r1r2 colored" (Required: gelem) (Optional c1c2 r1r2 colored)
+ *  
+ *  c<n>c<y>  : set grid-column: n / y;
+ *  r<n>r<y>  : grid-row: n / y;
+ *  colored: optional (sets a default background color of rgba(204, 219, 180, 0.5))
  */
 
 class Grid extends React.Component {
@@ -997,69 +938,49 @@ class Grid extends React.Component {
         super(props);
     }
 
-    setStyle (columns) {
-        let grid_template_columns = "repeat(" + columns + ", 1fr)";
+    setProps () {
+      let grid_template_columns = "repeat( 5, 1fr)";
+      
+      let gridProps = {
+        columns: 5,             //Dummy, just keeping it for consistency.
+        style: {
+          display: "grid",
+          gridAutoRows: 'minmax(20px, auto)',
+          gridGap: '5px',
+          gridTemplateColumns: grid_template_columns
+        }
+      }
+      console.log("Props:   >>>> " + JSON.stringify(this.props));
 
-        let grid_style = {
-            display: 'grid',
-            gridAutoRows: 'minmax(20px, auto)',
-            gridGap: '5px',
-            boxShadow: "5px 10px #c1d1bc",
-            gridTemplateColumns: grid_template_columns
-        };
+      //Override grid props.
+      if (this.props.hasOwnProperty("columns") && this.props.columns != undefined) {
+        let grid_template_columns = "repeat(" + this.props.columns + ", 1fr)";
+        gridProps.style.gridTemplateColumns = grid_template_columns
+        console.log("BRD >>>> override columns.")
+      }
 
-        return (grid_style);
+      if (this.props.hasOwnProperty("style") && this.props.style != undefined) {
+        for (let [key, value] of Object.entries(this.props.style)) {
+          gridProps.style[key] = value
+        }
+      }
+
+      return(gridProps);
     }
 
-    prepare_grid () {
-        console.log("Prepare grid");
-    }
+    
 
   render () {
-    let jumbo_props = {
-      id: "test-1",
-      class: "gelem  c1c4  r1r2  colored",
-      text: "Signup now!!",
-      text_size: 3,
-      style: {
-          color: "black",
-          fontFamily: "Roboto, sans-serif",
-          backgroundColor: "#d6edd5"
-      }
-    }
+    let gridProps = this.setProps();
+    let gridStyle = gridProps.style;
 
-      let jumbotron = React.createElement(Jumbotron,
-          jumbo_props, null);
-      // let gelem1 = React.createElement(
-      //     "div", {class: "gelem  c1c4  r1r2  colored" }, "One");
-      let gelem2 = React.createElement(
-          "div", {class: "gelem  c1c2 r2r4 " }, "Signup to try");
+    let grid = React.createElement(
+        "div", {style: gridStyle}, this.props.children);
 
-      let signup_props = {
-        class: "gelem c2c4 r2r4"
-      };
-      let signup = React.createElement(Signup, signup_props, null);          
-      // let gelem3 = React.createElement(
-      //     "div", {class: "gelem c2c4 r2r4 colored" }, "three");
-
-      let grid_style = this.setStyle(this.props.columns);
-
-      console.log(grid_style);
-      let elem = React.createElement(
-          "div", {style: grid_style}, jumbotron, gelem2, signup);
-
-          return elem
+    return(grid)
   }
 }
 
-let gridprops = {
-  columns: 3,
-  style: {
-      color: "yellow"
-  }
-}
-let main_grid = React.createElement(Grid, gridprops, null);
-ReactDOM.render(main_grid, document.getElementById("main-grid"));
 
 
 
