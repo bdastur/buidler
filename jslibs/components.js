@@ -988,19 +988,27 @@ class Grid extends React.Component {
  * Category: Charts
  ******************************************************************/
 
+ /*
+  * BarChart
+  * PROPS:
+  * -------
+  * 
+  * 
+  * 
+ */
 class  BarChart extends React.Component {
   constructor (props) {
     super(props);
     this.chartRef = React.createRef();
   }
 
-  generateRandomColors(transparency) {
-    let rRandom = Math.floor(Math.random() * 255);
-    let gRandom = Math.floor(Math.random() * 255);
-    let bRandom = Math.floor(Math.random() * 255);
+  // generateRandomColors(transparency) {
+  //   let rRandom = Math.floor(Math.random() * 255);
+  //   let gRandom = Math.floor(Math.random() * 255);
+  //   let bRandom = Math.floor(Math.random() * 255);
 
-    let rgbStrin = "rgba(" + rRandom + ", " + gRandom + ", " + bRandom + ", "  + transparency + ")"
-  }
+  //   let rgbStrin = "rgba(" + rRandom + ", " + gRandom + ", " + bRandom + ", "  + transparency + ")"
+  // }
 
   setProps(props) {
     let chartProps = {
@@ -1038,10 +1046,78 @@ class  BarChart extends React.Component {
                                   {id: "canvas", width: "400", height: "200",
                                    ref: this.chartRef}, 
                                   null);
+   
+    return(canvas);
+  }
+}
 
-    //let myChart = this.createChart(ctx);
+
+
+
+/*
+  * LineChart
+  * PROPS:
+  * -------
+  * 
+  * 
+  * 
+ */
+class  LineChart extends React.Component {
+  constructor (props) {
+    super(props);
+    this.chartRef = React.createRef();
+  }
+
+  setProps() {
+    let chartProps = {
+      data: this.props.data,
+      class: "none"
+    }
+    // Overrides
+    if (this.props.hasOwnProperty("class") && this.props.class != undefined) {
+      chartProps.class += " " + this.props.class
+    }
+
+    return(chartProps);
+  }
+
+  createChart (ctx) {
+    let chartProps = this.setProps(this.props);
+    Chart.defaults.global.hover.mode = 'nearest';
+    
+    var myChart = new Chart(ctx, {
+      type: 'line',
+      data: chartProps.data,
+      options: {
+          scales: {
+              yAxes: [{
+                stacked: false,
+                ticks: {
+                  beginAtZero: true
+                }
+              }]
+          }
+      }
+    });
+  }
+
+  componentDidMount() {
+    let ctx = document.getElementById("canvas").getContext('2d');
+    this.myChart = this.createChart(ctx);
+  }
+
+  render () {
+    let chartProps = this.setProps(this.props);
+    let canvas = React.createElement("canvas", 
+                                  {id: "canvas", width: "400", height: "200",
+                                   ref: this.chartRef,
+                                   class: chartProps.class}, 
+                                  null);
    
     return(canvas);
   }
 
 }
+
+
+

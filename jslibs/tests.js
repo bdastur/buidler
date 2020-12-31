@@ -188,6 +188,15 @@ function  InvokeTest(id) {
 
             testBarChart();
             break;
+        case "linechart1":
+            console.log("Execute testcase Line chart1");
+            data['component'] = "ChartJS";
+            data['test'] = "A Chart example - Bar chart";
+            data['details'] = "props: ";
+            setTestInfo(data);
+
+            testLineChart();
+            break;
         case "card1":
             console.log("Execute testcase card1");
             data['component'] = "Card";
@@ -529,9 +538,42 @@ function testBarChart(fgProps) {
     ReactDOM.render(fcObj, testContainer);
 }
 
+/***************************************************************
+ * Test function: Test Line chart component.
+ ****************************************************************/
+function testLineChart(fgProps) {
+    let testContainer = document.getElementById("testsetup");
+    let chartProps = {};
+
+    let data = {
+        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange', 'Hazel'],
+        datasets: [{
+            label: '# of Votes',
+            data: [2, 29, 31, 5, 22, 3],
+            backgroundColor: 'rgba(129, 7, 29, 0.2)',
+            borderColor:'rgba(255, 99, 132, 1)',
+            borderWidth: 2
+        },
+        {
+          label: '# of People',
+          data: [21, 22, 13, 5, 2, 23],
+          backgroundColor: 'rgba(19, 7, 237, 0.2)',
+          borderColor: 'rgba(255, 99, 132, 1)',
+          borderWidth: 2
+      }]
+    };
+    chartProps['data'] = data
+
+
+    let fcObj = React.createElement(LineChart, chartProps, null);
+    ReactDOM.render(fcObj, testContainer);
+}
+
+
+
 
 /***************************************************************
- * Test function: Test Bar chart component.
+ * Test function: Test Grid component.
  ****************************************************************/
 function testGrid1(fgProps) {
     let testContainer = document.getElementById("testsetup");

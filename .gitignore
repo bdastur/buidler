@@ -104,3 +104,8 @@ venv.bak/
 .mypy_cache/
 
 **sandbox/static/**
+**invest_app/static/thirdparty/**
+**invest_app/static/css/** 
+**invest_app/static/js/builder/**
+
+

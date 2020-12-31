@@ -18,8 +18,19 @@ interval=${3:-5}
 css_path="${destination_path}/static/css/."
 js_path="${destination_path}/static/js/builder/."
 thirdparty_path="${destination_path}/static/thirdparty"
+ 
+if [[ ! -d $css_path ]]; then
+    mkdir -p $css_path
+fi
 
-#for x in {1..${iter_count}}
+if [[ ! -d $js_path ]]; then
+    mkdir -p $js_path
+fi
+
+if [[ ! -d $thirdparty_path ]]; then
+    mkdir -p $thirdparty_path
+fi
+
 for (( c=0; c<=${iter_count}; c++ ))
 do
     cp csslibs/*.css ${css_path}
