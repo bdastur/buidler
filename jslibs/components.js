@@ -1055,36 +1055,6 @@ class  BarChart extends React.Component {
   * 
   * 
  */
-
-// function chartInvoker (data)  {
-//    console.log("Chart Invoker: " + JSON.stringify(data))
-//    let ctx = document.getElementById("canvas").getContext('2d');
-
-//    let chartData = {
-//     labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange', 'Hazel'],
-//     datasets: [{
-//         label: '# of Votes',
-//         data: [4, 44, 23, 88, 43, 44],
-//         backgroundColor: 'rgba(129, 7, 29, 0.2)',
-//         borderColor:'rgba(255, 99, 132, 1)',
-//         borderWidth: 2
-//       },
-//       {
-//         label: '# of People',
-//         data: [21, 11, 13, 5, 2, 75],
-//         backgroundColor: 'rgba(19, 7, 237, 0.2)',
-//         borderColor: 'rgba(255, 99, 132, 1)',
-//         borderWidth: 2
-//     }]
-//    }
-//    console.log("ChartInvoker PROPS: " + JSON.stringify(this.props));
-
-//    this.myChart = this.createChart(this.props);
-//    console.log("Invoked createChart!");
-//    console.dir(this);
-// }
-
-
 class  LineChart extends React.Component {
   constructor (props) {
     super(props);
@@ -1137,6 +1107,9 @@ class  LineChart extends React.Component {
   }
 
   componentDidUpdate() {
+    /*
+     * This method should be added if we want to handle updates to chart data 
+     */
     console.log("Linechart componentDidUpdate: " + JSON.stringify(this.props.data));
     this.myChart = this.createChart(this.props);
   }
