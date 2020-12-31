@@ -440,7 +440,7 @@ class Signup extends React.Component {
       form_props.class = this.props.class
     }
 
-     console.log("BRD >>>> Form props: " + JSON.stringify(form_props));
+    console.log("BRD >>>> Form props: " + JSON.stringify(form_props));
     let form = React.createElement("form", 
                                    form_props, 
                                    fg_email, fg_password, submit_button)
@@ -1002,13 +1002,6 @@ class  BarChart extends React.Component {
     this.chartRef = React.createRef();
   }
 
-  // generateRandomColors(transparency) {
-  //   let rRandom = Math.floor(Math.random() * 255);
-  //   let gRandom = Math.floor(Math.random() * 255);
-  //   let bRandom = Math.floor(Math.random() * 255);
-
-  //   let rgbStrin = "rgba(" + rRandom + ", " + gRandom + ", " + bRandom + ", "  + transparency + ")"
-  // }
 
   setProps(props) {
     let chartProps = {
@@ -1062,15 +1055,45 @@ class  BarChart extends React.Component {
   * 
   * 
  */
+
+// function chartInvoker (data)  {
+//    console.log("Chart Invoker: " + JSON.stringify(data))
+//    let ctx = document.getElementById("canvas").getContext('2d');
+
+//    let chartData = {
+//     labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange', 'Hazel'],
+//     datasets: [{
+//         label: '# of Votes',
+//         data: [4, 44, 23, 88, 43, 44],
+//         backgroundColor: 'rgba(129, 7, 29, 0.2)',
+//         borderColor:'rgba(255, 99, 132, 1)',
+//         borderWidth: 2
+//       },
+//       {
+//         label: '# of People',
+//         data: [21, 11, 13, 5, 2, 75],
+//         backgroundColor: 'rgba(19, 7, 237, 0.2)',
+//         borderColor: 'rgba(255, 99, 132, 1)',
+//         borderWidth: 2
+//     }]
+//    }
+//    console.log("ChartInvoker PROPS: " + JSON.stringify(this.props));
+
+//    this.myChart = this.createChart(this.props);
+//    console.log("Invoked createChart!");
+//    console.dir(this);
+// }
+
+
 class  LineChart extends React.Component {
   constructor (props) {
     super(props);
     this.chartRef = React.createRef();
   }
 
-  setProps() {
+  setProps(props) {
     let chartProps = {
-      data: this.props.data,
+      data: props.data,
       class: "none"
     }
     // Overrides
@@ -1081,10 +1104,17 @@ class  LineChart extends React.Component {
     return(chartProps);
   }
 
-  createChart (ctx) {
-    let chartProps = this.setProps(this.props);
+  createChart = (props) => {
+    let ctx = document.getElementById("canvas").getContext('2d');
+    let chartProps = this.setProps(props);
     Chart.defaults.global.hover.mode = 'nearest';
-    
+    console.log("CreateChart");
+
+    if (typeof myChart !== "undefined") {
+      console.log("BRD >>>> Destroy myChart");
+      myChart.destroy();
+    } 
+
     var myChart = new Chart(ctx, {
       type: 'line',
       data: chartProps.data,
@@ -1102,12 +1132,18 @@ class  LineChart extends React.Component {
   }
 
   componentDidMount() {
-    let ctx = document.getElementById("canvas").getContext('2d');
-    this.myChart = this.createChart(ctx);
+    console.log("Linechart componentDidMount: " + JSON.stringify(this.props.data));
+    this.myChart = this.createChart(this.props);
+  }
+
+  componentDidUpdate() {
+    console.log("Linechart componentDidUpdate: " + JSON.stringify(this.props.data));
+    this.myChart = this.createChart(this.props);
   }
 
   render () {
     let chartProps = this.setProps(this.props);
+    console.log("Render -- LineChart");
     let canvas = React.createElement("canvas", 
                                   {id: "canvas", width: "400", height: "200",
                                    ref: this.chartRef,
