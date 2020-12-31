@@ -1,30 +1,4 @@
 
-function createChart(chartProps, datapoints) {
-    let data = {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange', 'Hazel'],
-        datasets: [{
-            label: '# of Votes',
-            data: datapoints,
-            backgroundColor: 'rgba(129, 7, 29, 0.2)',
-            borderColor:'rgba(255, 99, 132, 1)',
-            borderWidth: 2
-        },
-        {
-          label: '# of People',
-          data: [21, 22, 13, 5, 2, 23],
-          backgroundColor: 'rgba(19, 7, 237, 0.2)',
-          borderColor: 'rgba(255, 99, 132, 1)',
-          borderWidth: 2
-      }]
-    };
-    chartProps['data'] = data
-
-
-    let chartObj = React.createElement(LineChart, chartProps, null);
-    return(chartObj)
-}
-
-
 
 function creatBalanceFormGroup (updateCallback, name) {
     // Define Form group.
@@ -42,7 +16,7 @@ function creatBalanceFormGroup (updateCallback, name) {
         type:        "number",
         placeholder: "1000",
         small_text:  "Initial starting balance (USD)",
-        class: "form-control-sm col-md-4"
+        class: "form-control-sm"
     }
     fgProps['callback'] = this.FgCallback
 
@@ -418,82 +392,3 @@ function setupInvestGrid () {
 
 setupInvestGrid();
 
-
-
-// function setupGrid () {
-//     let mainContainer = document.getElementById("main");
-//     let chartDataPoints = [4, 5, 2, 22, 44, 2];
-
-//     // Callback .
-//     setChartValue = (data) => {
-//         console.log("SetValue Callback: " + JSON.stringify(data));
-//         let datapoints = data['values'];
-
-//         let chartProps = {
-//             class: "gelem c1c3 r3r4"
-//         }
-//         let chartObj = createChart(chartProps, datapoints);
-//     }
-   
-//     // Define Form group.
-//     let formProps = {
-//         callback: chartInvoker,
-//         class: "foobar"
-//     }
-//     let form = React.createElement(InputForm, formProps, null);
-
-//     let gridProps = {
-//         grid: {
-//             columns: 2,
-//             style: {
-//                 display: "grid",
-//                 gridAutoRows: 'minmax(20px, auto)',
-//                 gridGap: '10px',
-//             }
-//         },
-//         children: {
-//             "jumbotext1": {
-//               id: "test-1",
-//               class: "gelem c1c3 r1r2 colored",
-//               text: "Investool",
-//               text_size: 4,
-//               style: {
-//                 color: "black",
-//                 fontFamily: "Roboto, sans-serif",
-//                 backgroundColor: "#d6edd5"
-//               }
-//             },
-//             "card1": {
-//                 class: "gelem c1c2 r2r3",
-//                 style: {
-//                     width: "32rem",
-//                     boxShadow: "none"
-//                 },
-//                 cardHeader: {
-//                     text: "Basic Input",
-//                     text_size: 5,
-//                     style: {
-//                         backgroundColor: "rgba(0, 5, 255, 0.70)"
-//                     }
-//                 }
-//             },
-//             "chart": {
-//                 class: "gelem c1c3 r3r4"
-//             }       
-//         }
-//     }
-
-//     let jt1 = React.createElement(Jumbotron, gridProps.children['jumbotext1']);
-
-//     let card1 = React.createElement(Card, 
-//                                     gridProps.children['card1'], 
-//                                     form);
-    
-//     let chartObj = createChart(gridProps.children['chart'], chartDataPoints);
-
-       
-//     let grid = React.createElement(Grid, gridProps.grid, jt1, card1, chartObj);
-//     ReactDOM.render(grid, mainContainer);
-// }
-
-//setupGrid()
