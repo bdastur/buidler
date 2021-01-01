@@ -46,6 +46,42 @@ def buy_stock(balance, stock_price, buy_quantity):
     balance = balance - cost_basis
     return (balance, buy_quantity)
 
+def make_buy_sell_recommendation(strategy, **kwargs):
+    operation = "na"
+    result = {}
+
+    if strategy == 'consequitive_price_movement':
+        percent_change = kwargs['percent_change']
+        cumulative_drop = kwargs['cumulative_drop']
+        cumulative_rise = kwargs['cumulative_rise']
+        buy_threshold = kwargs['buy_threshold']
+        sell_threshold = kwargs['sell_threshold']
+
+        if percent_change < 0:
+            cumulative_rise = 0
+            cumulative_drop += percent_change
+            if (percent_change < buy_threshold) or (cumulative_drop < buy_threshold):
+                operation = "buy"
+        else:
+            cumulative_drop = 0
+            cumulative_rise += percent_change
+            if (percent_change > sell_threshold) or (cumulative_rise > sell_threshold):
+                operation = "sell"
+
+        result['recommendation'] = operation
+        result['cumulative_drop'] = cumulative_drop
+        result['cumulative_rise'] = cumulative_rise
+
+    return result
+
+
+def calculate_avg_change(change_list):
+    sum = 0
+    for val in change_list:
+        sum += val
+
+    return float(sum)
+
 
 
 def run_stock_iterations(symbol, **kwargs):
@@ -59,12 +95,16 @@ def run_stock_iterations(symbol, **kwargs):
     sell_batch = int(kwargs['sell_batch'])
     shares_accumulated = 0
     transactions = int(kwargs['transactions'])
+    strategies = ['consequitive_price_movement',
+                  'five_day_moving_rate']
+
     cumulative_rise = 0
     cumulative_drop = 0
+    percent_gain_loss = 0
+    start_balance = balance
 
-    print("Symbol: %s, kwargs: %s" % (symbol, kwargs))
-
-    print("Start balance: ", kwargs['start_balance'])
+    five_day_avg = []
+    day_count = 0
 
     filename = "%s.csv" % symbol
     filepath = os.path.join("/tmp", filename)
@@ -73,7 +113,7 @@ def run_stock_iterations(symbol, **kwargs):
         print("File does not exist")
         return summary 
 
-    print("[Date]       Old Stock Price  New Stock Price  %Change  Operation    Balance  Shares")
+    print("[Date]       Old Stock Price  New Stock Price  %Change    Operation   Balance  Shares Current Value %_gain_loss  Avg change")
     initiate = True
     for line in open(filepath, 'r'):
         operation = "NA"
@@ -93,6 +133,19 @@ def run_stock_iterations(symbol, **kwargs):
 
         change = get_price_difference(old_price, stock_price)
         percent_change = float(float(change)/float(old_price) * 100)
+        if len(five_day_avg) > 4:
+            five_day_avg.pop(0)
+        five_day_avg.append(percent_change)
+        avg_change = calculate_avg_change(five_day_avg)
+
+        kwargs = {}
+        kwargs['percent_change'] = percent_change
+        kwargs['cumulative_rise'] = cumulative_rise
+        kwargs['cumulative_drop'] = cumulative_drop
+        kwargs['buy_threshold'] = buy_threshold
+        kwargs['sell_threshold'] = sell_threshold
+        recommendation = make_buy_sell_recommendation(strategies[0], **kwargs)
+
         if percent_change < 0:
             cumulative_rise = 0
             cumulative_drop += percent_change
@@ -114,8 +167,13 @@ def run_stock_iterations(symbol, **kwargs):
         else:
             current_value = balance
 
-        print("[%s] %10f %10f %22f %5s %14d %6d %5d" % \
-                (date, old_price, stock_price, percent_change, operation, balance, shares_accumulated, current_value))
+        balance_change = get_price_difference(start_balance, current_value)
+        percent_gain_loss = float(float(balance_change)/float(start_balance) * 100)
+
+
+        print("[%s] %12f %15f %15f %5s %10d %8d %11d %15f %10f %10s" % \
+                (date, old_price, stock_price, percent_change, operation, 
+                 balance, shares_accumulated, current_value, percent_gain_loss, avg_change, recommendation['recommendation']))
 
         obj = {
             'date': date,

@@ -297,21 +297,21 @@ class InvestGrid extends React.Component {
                   }
                 },
                 "card1": {
-                    class: "gelem c1c2 r2r3",
+                    class: "gelem c1c3 r1r2",
                     style: {
-                        width: "32rem",
+                        width: "100%",
                         boxShadow: "none"
                     },
                     cardHeader: {
-                        text: "Basic Input",
-                        text_size: 5,
+                        text: "Investool - strategize",
+                        text_size: 4,
                         style: {
                             backgroundColor: "rgba(0, 5, 255, 0.70)"
                         }
                     }
                 },
                 "chart": {
-                    class: "gelem c1c3 r3r4"
+                    class: "gelem c1c3 r2r3"
                 }       
             }
         }
@@ -344,7 +344,7 @@ class InvestGrid extends React.Component {
 
         let form = React.createElement(InputForm, formProps, null);
 
-        let jt1 = React.createElement(Jumbotron, gridProps.children['jumbotext1']);
+        //let jt1 = React.createElement(Jumbotron, gridProps.children['jumbotext1']);
 
         let card1 = React.createElement(Card, 
                                         gridProps.children['card1'], 
@@ -379,7 +379,7 @@ class InvestGrid extends React.Component {
         
         // let grid = React.createElement(Grid, gridProps.grid, jt1, card1, chartObj);
         let grid = React.createElement("div", 
-                                       {style: gridStyle}, jt1, card1, chartObj);
+                                       {style: gridStyle}, card1, chartObj);
         return(grid);
     }
 }
