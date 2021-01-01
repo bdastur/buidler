@@ -133,7 +133,10 @@ class InputFormGroup extends React.Component {
       label: props.label,
       type: props.type,
       placeholder: props.placeholder,
-      small_text: props.small_text
+      small_text: props.small_text,
+      style: {
+        paddingRight: "5px"
+      }
     }
 
     fgProps['class'] = "form-control ";
@@ -174,7 +177,7 @@ class InputFormGroup extends React.Component {
                                    fgProps.small_text);
 
     let divFg = React.createElement("div", 
-                                    {class: "form-group"}, 
+                                    {class: "form-group", style: fgProps.style}, 
                                     label, input, small);
 
     return (divFg);
