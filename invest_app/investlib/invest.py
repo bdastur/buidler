@@ -3,6 +3,7 @@
 
 import os
 import random
+from prettytable import PrettyTable
 
 
 def get_new_price(current_price):
@@ -113,7 +114,12 @@ def run_stock_iterations(symbol, **kwargs):
         print("File does not exist")
         return summary 
 
-    print("[Date]       Old Stock Price  New Stock Price  %Change    Operation   Balance  Shares Current Value %_gain_loss  Avg change")
+    output_table = PrettyTable()
+    output_table.field_names = [
+        "Date", "Old Stock Price", "New Stock Price", 
+        "%change", "Operation", "Balance", "Shares", 
+        "Current Value", "% gain/loss", "Avg change", "Recommendation"]
+    #print("[Date]       Old Stock Price  New Stock Price  %Change    Operation   Balance  Shares Current Value %_gain_loss  Avg change")
     initiate = True
     for line in open(filepath, 'r'):
         operation = "NA"
@@ -170,10 +176,14 @@ def run_stock_iterations(symbol, **kwargs):
         balance_change = get_price_difference(start_balance, current_value)
         percent_gain_loss = float(float(balance_change)/float(start_balance) * 100)
 
+        output_table.add_row([date, format(old_price, ".2f"), format(stock_price, ".2f"), 
+            format(percent_change, ".2f"),
+            operation, balance, shares_accumulated, current_value, 
+            format(percent_gain_loss, ".2f"), format(avg_change, ".2f"), recommendation['recommendation']])
 
-        print("[%s] %12f %15f %15f %5s %10d %8d %11d %15f %10f %10s" % \
-                (date, old_price, stock_price, percent_change, operation, 
-                 balance, shares_accumulated, current_value, percent_gain_loss, avg_change, recommendation['recommendation']))
+        #print("[%s] %12f %15f %15f %5s %10d %8d %11d %15f %10f %10s" % \
+        #        (date, old_price, stock_price, percent_change, operation, 
+        #         balance, shares_accumulated, current_value, percent_gain_loss, avg_change, recommendation['recommendation']))
 
         obj = {
             'date': date,
@@ -183,7 +193,7 @@ def run_stock_iterations(symbol, **kwargs):
         }
         summary.append(obj)
 
-
+    print(output_table)
     return summary
 
 

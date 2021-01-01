@@ -4,7 +4,7 @@
 from flask import (Flask, jsonify, render_template, request)
 from flask import render_template
 from flask_cors import CORS
-import invest
+import investlib.invest as invest
 
 app = Flask(__name__)
 CORS(app)
