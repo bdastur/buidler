@@ -13,16 +13,17 @@ import investlib.yfhelper as yfhelper
 def run_stock_iterations(symbol, **kwargs):
     summary = []
 
-    balance = int(kwargs['start_balance'])
-    buy_threshold = -float(kwargs['buy_threshold'])
-    sell_threshold = float(kwargs['sell_threshold'])
-    stock_price = int(kwargs['stock_price'])
-    buy_batch = int(kwargs['buy_batch'])
-    sell_batch = int(kwargs['sell_batch'])
+    balance =         int(kwargs['start_balance'])
+    buy_threshold =   -float(kwargs['buy_threshold'])
+    sell_threshold =  float(kwargs['sell_threshold'])
+    stock_price =     int(kwargs['stock_price'])
+    buy_batch =       int(kwargs['buy_batch'])
+    sell_batch =      int(kwargs['sell_batch'])
     shares_accumulated = 0
-    transactions = int(kwargs['transactions'])
-    strategies = ['consequitive_price_movement',
-                  'five_day_moving_rate']
+    transactions =    int(kwargs['transactions'])
+    strategies =      ['consequitive_price_movement',
+                       'five_day_moving_rate']
+    symbol = symbol.upper()
 
     cumulative_rise = 0
     cumulative_drop = 0
