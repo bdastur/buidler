@@ -6,6 +6,7 @@ import os
 import random
 from prettytable import PrettyTable
 import investlib.utils as utils
+import investlib.yfhelper as yfhelper
 
 
 
@@ -31,12 +32,15 @@ def run_stock_iterations(symbol, **kwargs):
     five_day_avg = []
     day_count = 0
 
-    filename = "%s.csv" % symbol
-    filepath = os.path.join("/tmp", filename)
+    # Get historical price data from YahooFinancials.
+    start_date = kwargs['start_date']
+    end_date = kwargs['end_date']
+    price_type = kwargs['price_type']
+    frequency = kwargs['frequency']
+    data = yfhelper.get_historical_price_data(symbol,
+           start_date, end_date, frequency=frequency)
+    prices = data[symbol]['prices']
 
-    if not os.path.exists(filepath):
-        print("File does not exist")
-        return summary
 
     output_table = PrettyTable()
     output_table.field_names = [
@@ -44,17 +48,17 @@ def run_stock_iterations(symbol, **kwargs):
         "%change", "Operation", "Balance", "Shares",
         "Current Value", "% gain/loss", "Avg change", "Recommendation"]
     initiate = True
-    for line in open(filepath, 'r'):
+
+    for price in prices:
         operation = "NA"
         old_price = stock_price
 
-        columns = line.split(",")
         # Get Closing price:
         try:
-            stock_price = float(columns[4])
+            stock_price = float(price[price_type])
         except ValueError:
             continue
-        date = columns[0]
+        date = price['formatted_date']
         if initiate:
             initiate = False
             old_price = stock_price
@@ -139,12 +143,16 @@ def stocksim():
 
 @stocksim.command()
 @click.option("-s", "--stock", type=str,         help="Stock ticker, eg: SPY", required=True)
+@click.option("--start-date", type=str,          help="Start date for historical price. (default: 2015-01-01)", default="2015-01-01")
+@click.option("--end-date", type =str,           help="End date for historical price. (default: 2020-12-31)", default="2020-12-31")
+@click.option("--price-type", type=click.Choice(["high", "low", "open", "close"]), help="Price type: 'high', 'low', 'open', 'close' (Default: close)", default="close")
+@click.option("--frequency", type=click.Choice(["daily", "weekly", "monthly"]), help="Frequency: 'daily', 'weekly', 'monthly' (Default: weekly)", default="weekly")
 @click.option("-b", "--start-balance", type=int, help="Start balance (default: 10000)", default=10000)
 @click.option("--buy-threshold", type=float,     help="%change that triggers a buy (default: 1.0)", default=1.0)
 @click.option("--sell-threshold", type=float,    help="%change that triggers a sell (default: 2.0)", default=2.0)
 @click.option("--buy-batch", type=int,           help="Max batch for buys (default: 10)", default=10)
 @click.option("--sell-batch", type=int,          help="Max batch for sell (default: 20)", default=20)
-def run(stock, start_balance, buy_threshold, sell_threshold, buy_batch, sell_batch):
+def run(stock, start_date, end_date, price_type, frequency, start_balance, buy_threshold, sell_threshold, buy_batch, sell_batch):
     user_input = {
         'start_balance': start_balance,
         'buy_threshold': buy_threshold,
@@ -153,10 +161,14 @@ def run(stock, start_balance, buy_threshold, sell_threshold, buy_batch, sell_bat
         'buy_batch': buy_batch,
         'sell_batch': sell_batch,
         'transactions': 1000,
-        'stock': stock
+        'stock': stock.upper(),
+        'start_date': start_date,
+        'end_date': end_date,
+        'price_type': price_type,
+        'frequency': frequency
     }
     print("User input: ", user_input)
-    obj = run_stock_iterations("spy", **user_input)
+    obj = run_stock_iterations(stock.upper(), **user_input)
 
 
 def main():
