@@ -21,12 +21,27 @@ def handle_chart_generate():
     print("Request data: ", request.args)
     user_data = request.args.to_dict(flat=True)
 
-    status = {}
-    status['status'] = "success"
-    status["msg"] = "this is a test"
-    status["values"] = [44, 433, 43, 44, 33, 433, 344]
+    user_input = {
+        'start_balance': 10000,
+        'buy_threshold': 1.0,
+        'sell_threshold': 1.0,
+        'stock_price': 100,
+        'buy_batch': 10,
+        'sell_batch': 10,
+        'transactions': 1000,
+        'stock': 'SPY',
+        'start_date': '2010-01-01',
+        'end_date': '2020-12-31',
+        'price_type': 'close',
+        'frequency': 'weekly'
+    }
+    for key,value in user_data.items():
+        user_input[key] = value
 
-    obj = invest.run_stock_iterations("spy", **user_data)
+
+    print("Final user innput to investlib: ", user_input)
+
+    obj = invest.run_stock_iterations(user_data['stock'], **user_input)
 
     return jsonify(obj)
 
