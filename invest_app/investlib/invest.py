@@ -19,19 +19,24 @@ def run_stock_iterations(symbol, **kwargs):
     stock_price =     int(kwargs['stock_price'])
     buy_batch =       int(kwargs['buy_batch'])
     sell_batch =      int(kwargs['sell_batch'])
-    shares_accumulated = 0
     transactions =    int(kwargs['transactions'])
+    strategy =        kwargs['strategy']
+
     strategies =      ['consequitive_price_movement',
                        'five_day_moving_rate']
     symbol = symbol.upper()
 
+    shares_accumulated = 0
     cumulative_rise = 0
     cumulative_drop = 0
     percent_gain_loss = 0
     start_balance = balance
 
-    five_day_avg = []
+    d5_avg = []
+    d10_avg = []
+    d20_avg = []
     day_count = 0
+    avg_cost_basis = 0
 
     # Get historical price data from YahooFinancials.
     start_date = kwargs['start_date']
@@ -47,7 +52,7 @@ def run_stock_iterations(symbol, **kwargs):
     output_table.field_names = [
         "Date", "Old Stock Price", "New Stock Price",
         "%change", "Operation", "Balance", "Shares",
-        "Current Value", "% gain/loss", "Avg change", "Recommendation"]
+        "Current Value", "% gain/loss", "d5 change", "d10 chng", "d20 chng", "Recommendation", "Avg cost basis"]
     initiate = True
 
     for price in prices:
@@ -67,39 +72,46 @@ def run_stock_iterations(symbol, **kwargs):
 
         change = utils.get_price_difference(old_price, stock_price)
         percent_change = float(float(change)/float(old_price) * 100)
-        if len(five_day_avg) > 4:
-            five_day_avg.pop(0)
-        five_day_avg.append(percent_change)
-        avg_change = utils.calculate_avg_change(five_day_avg)
+        if len(d5_avg) > 4:
+            d5_avg.pop(0)
+        d5_avg.append(percent_change)
+        d5_avg_change = utils.calculate_avg_change(d5_avg)
+
+        if len(d10_avg) > 9:
+            d10_avg.pop(0)
+        d10_avg.append(percent_change)
+        d10_avg_change = utils.calculate_avg_change(d10_avg)
+
+        if len(d20_avg) > 19:
+            d20_avg.pop(0)
+        d20_avg.append(percent_change)
+        d20_avg_change = utils.calculate_avg_change(d20_avg)
+
 
         kwargs = {}
         kwargs['percent_change'] = percent_change
         kwargs['cumulative_rise'] = cumulative_rise
         kwargs['cumulative_drop'] = cumulative_drop
+        kwargs['d5_avg_change'] = d5_avg_change
+        kwargs['d10_avg_change'] = d10_avg_change
+        kwargs['d20_avg_change'] = d20_avg_change
         kwargs['buy_threshold'] = buy_threshold
         kwargs['sell_threshold'] = sell_threshold
-        recommendation = utils.make_buy_sell_recommendation(strategies[0], **kwargs)
+        recommendation = utils.make_buy_sell_recommendation(strategy, **kwargs)
+        cumulative_rise = recommendation['cumulative_rise']
+        cumulative_drop = recommendation['cumulative_drop']
 
-        if percent_change < 0:
-            cumulative_rise = 0
-            cumulative_drop += percent_change
-            if (percent_change < buy_threshold) or (cumulative_drop < buy_threshold):
-                balance, bought = utils.buy_stock(balance, stock_price, buy_batch)
-                shares_accumulated += bought
-                operation = "buy"
-        else:
-            cumulative_drop = 0
-            cumulative_rise += percent_change
-            if (percent_change > sell_threshold) or (cumulative_rise > sell_threshold):
-                #print("%f is > %f, so we sell" % (percent_change, sell_threshold))
-                gain, shares_accumulated = utils.sell_stock(shares_accumulated, stock_price, sell_batch)
-                balance += gain
-                operation = "sell"
+        if recommendation['recommendation'] == "buy":
+            balance, bought = utils.buy_stock(balance, stock_price, buy_batch)
+            avg_cost_basis = ((avg_cost_basis * shares_accumulated) + (stock_price *  bought)) / (shares_accumulated + bought)
+            shares_accumulated += bought
+            operation = "buy"
+        elif recommendation['recommendation'] == "sell":
+            gain, shares_accumulated = utils.sell_stock(shares_accumulated, stock_price, sell_batch)
+            balance += gain
+            operation = "sell"
 
-        if shares_accumulated > 0:
-            current_value = balance + (int(stock_price) * int(shares_accumulated))
-        else:
-            current_value = balance
+        current_value = utils.get_current_value(balance, stock_price, shares_accumulated)
 
         balance_change = utils.get_price_difference(start_balance, current_value)
         percent_gain_loss = float(float(balance_change)/float(start_balance) * 100)
@@ -107,7 +119,9 @@ def run_stock_iterations(symbol, **kwargs):
         output_table.add_row([date, format(old_price, ".2f"), format(stock_price, ".2f"),
             format(percent_change, ".2f"),
             operation, balance, shares_accumulated, current_value,
-            format(percent_gain_loss, ".2f"), format(avg_change, ".2f"), recommendation['recommendation']])
+            format(percent_gain_loss, ".2f"), format(d5_avg_change, ".2f"), 
+            format(d10_avg_change, ".2f"), format(d20_avg_change, ".2f"), recommendation['recommendation'], 
+            format(avg_cost_basis, ".2f")])
 
 
         if day_count == 30:
@@ -115,10 +129,11 @@ def run_stock_iterations(symbol, **kwargs):
             output_table.add_row([
                 "Date", "Old Stock Price", "New Stock Price",
                 "%change", "Operation", "Balance", "Shares",
-                "Current Value", "% gain/loss", "Avg change", "Recommendation"])
+                "Current Value", "% gain/loss", "d5 change", 
+                "d10 change", "d20 change", "Recommendation", "Avg cost basis"])
             output_table.add_row([
                 "----", "----", "----", "----", "----", "----", "----", "----",
-                "----", "----", "----"])
+                "----", "----", "----", "----", "----", "-----"])
 
         day_count += 1
 
@@ -153,7 +168,9 @@ def stocksim():
 @click.option("--sell-threshold", type=float,    help="%change that triggers a sell (default: 2.0)", default=2.0)
 @click.option("--buy-batch", type=int,           help="Max batch for buys (default: 10)", default=10)
 @click.option("--sell-batch", type=int,          help="Max batch for sell (default: 20)", default=20)
-def run(stock, start_date, end_date, price_type, frequency, start_balance, buy_threshold, sell_threshold, buy_batch, sell_batch):
+@click.option("--strategy", 
+    type=click.Choice(["consequitive_price_movement", "5d_avg", "10d_avg", "20d_avg"]), help="Strategy (Default: consequitive_price_movement)", default="consequitive_price_movement")
+def run(stock, start_date, end_date, price_type, frequency, start_balance, buy_threshold, sell_threshold, buy_batch, sell_batch, strategy):
     user_input = {
         'start_balance': start_balance,
         'buy_threshold': buy_threshold,
@@ -166,7 +183,8 @@ def run(stock, start_date, end_date, price_type, frequency, start_balance, buy_t
         'start_date': start_date,
         'end_date': end_date,
         'price_type': price_type,
-        'frequency': frequency
+        'frequency': frequency,
+        'strategy': strategy
     }
     print("User input: ", user_input)
     obj = run_stock_iterations(stock.upper(), **user_input)
@@ -176,7 +194,6 @@ def main():
     cli.add_command(stocksim)
 
     cli()
-
 
 if __name__ == '__main__':
     main()
