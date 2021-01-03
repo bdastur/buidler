@@ -52,13 +52,16 @@ def make_buy_sell_recommendation(strategy, **kwargs):
     operation = "na"
     result = {}
 
-    if strategy == 'consequitive_price_movement':
-        percent_change = kwargs['percent_change']
-        cumulative_drop = kwargs['cumulative_drop']
-        cumulative_rise = kwargs['cumulative_rise']
-        buy_threshold = kwargs['buy_threshold']
-        sell_threshold = kwargs['sell_threshold']
+    percent_change = kwargs['percent_change']
+    cumulative_drop = kwargs['cumulative_drop']
+    cumulative_rise = kwargs['cumulative_rise']
+    d5_avg_change = kwargs['d5_avg_change'] 
+    d10_avg_change = kwargs['d10_avg_change']
+    d20_avg_change = kwargs['d20_avg_change']
+    buy_threshold = kwargs['buy_threshold']
+    sell_threshold = kwargs['sell_threshold']
 
+    if strategy == 'consequitive_price_movement':
         if percent_change < 0:
             cumulative_rise = 0
             cumulative_drop += percent_change
@@ -69,10 +72,31 @@ def make_buy_sell_recommendation(strategy, **kwargs):
             cumulative_rise += percent_change
             if (percent_change > sell_threshold) or (cumulative_rise > sell_threshold):
                 operation = "sell"
-
-        result['recommendation'] = operation
-        result['cumulative_drop'] = cumulative_drop
-        result['cumulative_rise'] = cumulative_rise
+    elif strategy == "5d_avg":
+        if d5_avg_change < 0:
+            if d5_avg_change < buy_threshold:
+                operation = "buy"
+        else:
+            if d5_avg_change > sell_threshold:
+                operation = "sell"
+    elif strategy == "10d_avg":
+        if d10_avg_change < 0:
+            if d10_avg_change < buy_threshold:
+                operation = "buy"
+        else:
+            if d10_avg_change > sell_threshold:
+                operation = "sell"
+    elif strategy == "20d_avg":
+        if d20_avg_change < 0:
+            if d20_avg_change < buy_threshold:
+                operation = "buy"
+        else:
+            if d20_avg_change > sell_threshold:
+                operation = "sell"
+    
+    result['recommendation'] = operation
+    result['cumulative_drop'] = cumulative_drop
+    result['cumulative_rise'] = cumulative_rise
 
     return result
 
@@ -83,3 +107,12 @@ def calculate_avg_change(change_list):
         sum += val
 
     return float(sum)
+
+
+def get_current_value(balance, stock_price, shares_accumulated):
+    if shares_accumulated > 0:
+        current_value = balance + (int(stock_price) * int(shares_accumulated))
+    else:
+        current_value = balance
+
+    return current_value
