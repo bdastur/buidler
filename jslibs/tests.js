@@ -233,6 +233,13 @@ function  InvokeTest(id) {
 
             testGrid1();
             break;
+        case "icon1":
+            console.log("Execute testcase icon 1");
+            data['component'] = "Grid Container";
+            data['test'] = "A Grid example";
+            data['details'] = "props: ";
+            testIcon(data);
+            break;
         default:
             console.log("Default switch, No test case defined: " + id);
             break;
@@ -624,6 +631,79 @@ function testGrid1(fgProps) {
      ReactDOM.render(grid, testContainer);
 }
 
+
+
+/***************************************************************
+ * Test function: Test Icon
+ ****************************************************************/
+
+ class TestIcon extends React.Component {
+     constructor (props) {
+         super(props);
+         this.state = {
+             name: "home"
+         }
+     }
+
+    selectCallback = (data) => {
+        console.log("Select Callback: " + JSON.stringify(data));
+        this.setState({name: data['value']});
+    }
+
+    iconCallback = (data) => {
+        console.log("Icon Callback: " + JSON.stringify(data));
+    }
+
+     render () {
+        let cardProps = {
+            id: "card-1",
+            style: {
+                width: "22rem"
+            },
+            cardHeader: {
+                text: "Icons",
+                text_size: 4,
+                style: {
+                    backgroundColor: "white"
+                }
+            }
+        };
+       
+        // Create children to pass to card.
+        var fgProps = {
+            label:       "Icons",
+            placeholder: "home",
+            small_text:  "Icon list",
+            select_options: ["home", "sliders-h", "cogs", "hammer", "wrench", "tools",
+                             "user-cog", "toolbox", "bars", "ellipsis-h", "ellipsis-v",
+                             "tachometer-alt", "chart-line", "cloud", "cloud-upload-alt",
+                             "bullhorn", "database", "bell", "info", "asterisk", "user-circle",
+                            "user"]
+        };
+        fgProps['callback'] = this.selectCallback
+
+        let form = React.createElement(SelectFormGroup, fgProps, null);
+
+        let iconProps = {
+            name: "home",
+            class: "fa-home"
+        }; 
+        iconProps['name'] = this.state.name;
+        iconProps['class'] = "fa-" + this.state.name; 
+        iconProps['callback'] = this.iconCallback;
+
+        let iconObj = React.createElement(Icon, iconProps, null);
+        let cardObj = React.createElement(Card, fgProps, form, iconObj);
+        return(cardObj);
+     }
+ }
+
+function testIcon(test) {
+    let testContainer = document.getElementById("testsetup");
+   
+    let testIconObj = React.createElement(TestIcon, null, null);
+    ReactDOM.render(testIconObj, testContainer);
+}
 
 // user_input = {
 //     element_type: "h3",

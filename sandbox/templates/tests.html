@@ -14,7 +14,8 @@
          rel='stylesheet'
          integrity='sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN'
          crossorigin='anonymous'>
-        <!-- bs-stylesheets end -->
+         <script src="https://kit.fontawesome.com/ccf1e84da9.js" crossorigin="anonymous"></script>
+         <!-- bs-stylesheets end -->
         <!-- Thirdy party (ChartJs) style sheets -->
         <link rel='stylesheet' type='text/css' href="{{ url_for('static',
             filename='thirdparty/Chartjs/Chart.min.css') }}">
@@ -137,7 +138,12 @@
                         Line Chart 1</button>
                     <!-- bs-button end -->
                 </div>
-                <div class="gelem ">Eighteen</div>
+                <div class="gelem ">
+                    <!-- bs-button -->
+                    <button type='button' class='btn btn-dark btn-lg' onclick="InvokeTest('icon1')">
+                        Icon 1</button>
+                    <!-- bs-button end -->
+                </div>
                 <div class="gelem ">Nineteen</div>
                 <div class="gelem ">Twenty</div>
                 <div class="gelem ">
@@ -180,14 +186,14 @@
         <script type='text/javascript'
             src="{{ url_for('static', filename='thirdparty/Chartjs/Chart.min.js') }}"></script>
 
-       <script type='text/javascript'
-            src="{{ url_for('static', filename='js/builder/builderlib.min.js') }}"></script>
-        <!-- <script type='text/javascript'
+       <!-- <script type='text/javascript'
+            src="{{ url_for('static', filename='js/builder/builderlib.min.js') }}"></script> -->
+        <script type='text/javascript'
             src="{{ url_for('static', filename='js/builder/utils.js') }}"></script>
         <script type='text/javascript'
             src="{{ url_for('static', filename='js/builder/content_components.js') }}"></script>    
         <script type='text/javascript'
-            src="{{ url_for('static', filename='js/builder/components.js') }}"></script> -->
+            src="{{ url_for('static', filename='js/builder/components.js') }}"></script>
         <script type='text/javascript'
             src="{{ url_for('static', filename='js/builder/tests.js') }}"></script>
         

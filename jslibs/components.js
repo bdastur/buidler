@@ -1133,3 +1133,62 @@ class  LineChart extends React.Component {
 
 
 
+
+
+/******************************************************************
+ * Category: Icons
+ ******************************************************************/
+
+ class Icon extends React.Component {
+   constructor(props) {
+     super(props);
+     this.state = {
+       name: props.name
+     }
+   }
+
+   setProps () {
+     let iconProps = {
+       class: "fas",
+       style: {
+        color: "rgba(0, 2, 130, 1.0)"
+       }      
+     }
+
+     // Overrides
+    if (this.props.hasOwnProperty("callback") && this.props.callback != undefined) {
+      iconProps.callback = this.props.callback;
+    }
+
+    if (this.props.hasOwnProperty("class") && this.props.class != undefined) {
+      iconProps.class += " " + this.props.class
+    }
+
+    if (this.props.style != undefined) {
+      for (let [key, value] of Object.entries(this.props.style)) {
+        iconProps.style[key] = value
+      }
+    }
+    return(iconProps);
+
+   }
+
+   onClickHandler = (event) => {
+     console.log("Icon clicked " + event.target);
+     this.props.callback(event.target.id);
+   } 
+
+   render() {
+     console.log("Icon = Render");
+     let iconProps = this.setProps();
+
+     let icon =  React.createElement("i", 
+                                    {id: this.props.name,
+                                     class: iconProps.class, 
+                                     style: iconProps.style,
+                                     onClick: this.onClickHandler,
+                                     cursor: "pointer"}, 
+                                    null);
+     return(icon);
+   }
+ }
